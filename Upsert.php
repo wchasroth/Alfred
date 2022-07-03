@@ -9,9 +9,9 @@ class Upsert extends Insert {
     }
     
     function toSql() {
-        $comma = "";
-        $names = "";
-        $values = "";
+        $comma   = "";
+        $names   = "";
+        $values  = "";
         $updates = "";
         foreach ($this->fields as $name => $value) {
             $names   .=  $comma . $name;
@@ -19,7 +19,7 @@ class Upsert extends Insert {
             $updates .= "$comma $name = $value";
             $comma = ", ";
         }
-        return "INSERT INTO petitions ($names) VALUES ($values) "
+        return "INSERT INTO $this->tableName ($names) VALUES ($values) "
            .   " ON DUPLICATE KEY UPDATE $updates";
     }
 }

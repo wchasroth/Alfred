@@ -3,9 +3,9 @@
 namespace alfred;
 
 class Insert {
-    private $connection;   // MySQL db connection
-    private $tableName;    // name of MySQL table
-    private $logger;       // optional instance of alfred\Logger
+    private   $connection;   // MySQL db connection
+    protected $tableName;    // name of MySQL table
+    private   $logger;       // optional instance of alfred\Logger
     
     protected $fields;
     
