@@ -1,4 +1,5 @@
 <?php 
+// Copyright (C) 2022 Charles Roth.  See License.txt.
 
 namespace alfred;
 
