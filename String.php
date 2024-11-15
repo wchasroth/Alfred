@@ -1,9 +1,9 @@
 <?php
-// Copyright (C) 2022 Charles Roth.  See License.txt.
+// Copyright (C) 2024 Charles Roth.  See LICENSE.
 
-namespace alfred;
+namespace charlesroth_net\alfred;
 
-class StringUtils {
+class String {
    
    public static function substringAfter ($text, $delimiter) {
       $pos = strpos($text, $delimiter);
@@ -46,5 +46,3 @@ class StringUtils {
    }
    
 }
-
-?>
