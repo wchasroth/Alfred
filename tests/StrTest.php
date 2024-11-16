@@ -7,9 +7,11 @@
 
    use charlesroth_net\Alfred\Str;
 
+   define ('NULLSTR', (string) null);   // easier than typing '(string) null' every damn time.
+
    class StrTest extends TestCase {
 
-      //---substringAfter()
+      //---substringAfter() ----------------------------------------
       #[Test]
       public function shouldExtractSubstringAfter(): void {
          self::assertSame ("ef", Str::substringAfter("abcdef", "d"));
@@ -23,14 +25,14 @@
 
       #[Test] #[IgnoreDeprecations]  // ignore null warnings
       public function shouldHandleNullsForAfter(): void {
-         self::assertEmpty(Str::substringAfter(null, null));
-         self::assertEmpty(Str::substringAfter(null, "x"));
+         self::assertEmpty(Str::substringAfter(NULLSTR, NULLSTR));
+         self::assertEmpty(Str::substringAfter(NULLSTR, "x"));
 
-         self::assertSame("abc", Str::substringAfter("abc", null));
+         self::assertSame("abc", Str::substringAfter("abc", NULLSTR));
          self::assertSame("abc", Str::substringAfter("abc", ""));
       }
 
-      //---substringBefore()
+      //---substringBefore() ----------------------------------------
       #[Test]
       public function shouldExtractSubstringBefore(): void {
          self::assertSame ("ab",  Str::substringBefore("abcdef", "c"));
@@ -44,17 +46,73 @@
 
       #[Test] #[IgnoreDeprecations]  // ignore null warnings
       public function shouldHandleNullsForBefore(): void {
-         self::assertEmpty(Str::substringBefore(null, null));
-         self::assertEmpty(Str::substringBefore(null, "x"));
+         self::assertEmpty(Str::substringBefore(NULLSTR, NULLSTR));
+         self::assertEmpty(Str::substringBefore(NULLSTR, "x"));
 
-         self::assertEmpty(Str::substringBefore("abc", null));
+         self::assertEmpty(Str::substringBefore("abc", NULLSTR));
          self::assertEmpty(Str::substringBefore("abc", ""));
       }
 
-      //---substringBetween()
+      //---substringBetween() ----------------------------------------
       #[Test]
       public function shouldExtractSubstringBetween(): void {
          self::assertSame ("cd",  Str::substringBetween("abcdef", "b", "e"));
+         self::assertSame ("",    Str::substringBetween("abcdef", "ab", "cd"));
       }
 
+      #[Test]
+      public function shouldGetEmpty_onAnyNullArgument(): void {
+         self::assertEmpty(Str::substringBetween(NULLSTR, "a", "c"));
+         self::assertEmpty(Str::substringBetween("abc", NULLSTR, "c"));
+         self::assertEmpty(Str::substringBetween("abc", "a", NULLSTR));
+      }
+
+      #[Test]
+      public function shouldGetEmpty_whenBetweenBoundariesNotFound(): void {
+         self::assertEmpty(Str::substringBetween("abcd", "a", "e"));
+         self::assertEmpty(Str::substringBetween("abcd", "x", "d"));
+         self::assertEmpty(Str::substringBetween("abcd", "d", "a"));
+      }
+
+      //---contains() ----------------------------------------
+      #[Test]
+      public function shouldDetectContainedSubstring(): void {
+         self::assertTrue (Str::contains("abc", "b"));
+      }
+
+      #[Test]
+      public function shouldHandleNulls_forContains(): void {
+         self::assertFalse(Str::contains("abc", NULLSTR));
+         self::assertFalse(Str::contains(NULLSTR, "abc"));
+      }
+
+      #[Test]
+      public function shouldFailWhenSubstringNotContained(): void {
+         self::assertFalse(Str::contains("abc", "xyz"));
+      }
+
+      //---replace() ----------------------------------------
+      #[Test]
+      public function shouldReplaceAllInstancesofSubstring(): void {
+         self::assertSame ("Hallo, all thasa worlds!", Str::replace("Hello, all these worlds!", "e", "a"));
+         self::assertSame ("Hllo, all ths worlds!",    Str::replace("Hello, all these worlds!", "e", ""));
+         self::assertSame ("Hllo, all ths worlds!",    Str::replace("Hello, all these worlds!", "e", NULLSTR));
+      }
+
+      #[Test]
+      public function shouldDoNothingInReplace_givenNulls(): void {
+         self::assertEmpty(Str::replace(NULLSTR, "a", "b"));
+         self::assertSame ("Hello, all these worlds!", Str::replace("Hello, all these worlds!", NULLSTR, "a"));
+      }
+
+      //---firstNonEmpty() ----------------------------------------
+      #[Test]
+      public function shouldFindFirstNonEmpty(): void {
+         self::assertSame ("abc", Str::firstNonEmpty("abc"));
+         self::assertSame ("abc", Str::firstNonEmpty("abc", "def"));
+         self::assertSame ("abc", Str::firstNonEmpty(NULLSTR, "abc"));
+         self::assertSame ("abc", Str::firstNonEmpty("", "abc"));
+         self::assertSame ("",    Str::firstNonEmpty(""));
+         self::assertSame ("",    Str::firstNonEmpty());
+      }
    }
