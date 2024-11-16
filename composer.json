@@ -4,9 +4,9 @@
     },
 
     "autoload": {
-        "psr-4": {
-            "charlesroth_net\\Alfred\\": "src"
-        }
+        "classmap": [
+           "src"
+        ]
     }
 
 }
