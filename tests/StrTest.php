@@ -91,18 +91,18 @@
          self::assertFalse(Str::contains("abc", "xyz"));
       }
 
-      //---replace() ----------------------------------------
+      //---replaceAll() ----------------------------------------
       #[Test]
       public function shouldReplaceAllInstancesofSubstring(): void {
-         self::assertSame ("Hallo, all thasa worlds!", Str::replace("Hello, all these worlds!", "e", "a"));
-         self::assertSame ("Hllo, all ths worlds!",    Str::replace("Hello, all these worlds!", "e", ""));
-         self::assertSame ("Hllo, all ths worlds!",    Str::replace("Hello, all these worlds!", "e", NULLSTR));
+         self::assertSame ("Hallo, all thasa worlds!", Str::replaceAll("Hello, all these worlds!", "e", "a"));
+         self::assertSame ("Hllo, all ths worlds!",    Str::replaceAll("Hello, all these worlds!", "e", ""));
+         self::assertSame ("Hllo, all ths worlds!",    Str::replaceAll("Hello, all these worlds!", "e", NULLSTR));
       }
 
       #[Test]
       public function shouldDoNothingInReplace_givenNulls(): void {
-         self::assertEmpty(Str::replace(NULLSTR, "a", "b"));
-         self::assertSame ("Hello, all these worlds!", Str::replace("Hello, all these worlds!", NULLSTR, "a"));
+         self::assertEmpty(Str::replaceAll(NULLSTR, "a", "b"));
+         self::assertSame ("Hello, all these worlds!", Str::replaceAll("Hello, all these worlds!", NULLSTR, "a"));
       }
 
       //---firstNonEmpty() ----------------------------------------
@@ -115,4 +115,17 @@
          self::assertSame ("",    Str::firstNonEmpty(""));
          self::assertSame ("",    Str::firstNonEmpty());
       }
+
+      //---removeAll() ----------------------------------------
+      #[Test]
+      public function shouldRemoveAll_givenArrayOfChars(): void {
+         self::assertSame ("Hello,myworld", Str::removeAll("Hello, my world!", array(' ', '!')));
+      }
+
+      #[Test]
+      public function should(): void {
+         self::assertSame ("", Str::removeAll(NULLSTR, array(' ', '!')));
+         self::assertSame ("Hello", Str::removeAll("Hello", (array) null));
+      }
+
    }

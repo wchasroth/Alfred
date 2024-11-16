@@ -34,7 +34,7 @@ class Str {
       return strpos($text, $searchFor) !== false;
    }
    
-   public static function replace (string $text, string $find, string $replace) {
+   public static function replaceAll (string $text, string $find, string $replace) {
       if (empty($text))  return "";
       if (empty($find))  return $text;
       return str_replace($find, $replace, $text);
@@ -47,7 +47,7 @@ class Str {
        return "";
    }
    
-   public static function removeAll (string $text, $arrayOfChars) {
+   public static function removeAll (string $text, array $arrayOfChars) {
        return str_replace($arrayOfChars, "", $text);
    }
    
