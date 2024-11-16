@@ -3,7 +3,7 @@
 
 namespace charlesroth_net\alfred;
 
-class String {
+class Str {
    
    public static function substringAfter ($text, $delimiter) {
       $pos = strpos($text, $delimiter);
