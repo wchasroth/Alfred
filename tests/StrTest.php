@@ -7,7 +7,7 @@
 
    use charlesroth_net\Alfred\Str;
 
-   define ('NULLSTR', (string) null);   // easier than typing '(string) null' every damn time.
+   require_once('nullstr.php');
 
    class StrTest extends TestCase {
 
@@ -123,9 +123,25 @@
       }
 
       #[Test]
-      public function should(): void {
+      public function shouldHandleNulls_inRemoveAll(): void {
          self::assertSame ("", Str::removeAll(NULLSTR, array(' ', '!')));
          self::assertSame ("Hello", Str::removeAll("Hello", (array) null));
+      }
+
+      //---split() ----------------------------------------
+      #[Test]
+      public function shouldSplit(): void {
+         self::assertSame (array("Hello", " World"),     Str::split("Hello, World",  ","));
+         self::assertSame (array("Hello", " World", ""), Str::split("Hello, World,", ","));
+         self::assertSame (array("Hello, World"),        Str::split("Hello, World",  "x"));
+      }
+
+      #[Test]
+      public function shouldHandleNulls_inSplit(): void {
+         self::assertSame (array(),        Str::split(NULLSTR, "x"));
+         self::assertSame (array(),        Str::split("", "x"));
+         self::assertSame (array("hello"), Str::split("hello", NULLSTR));
+         self::assertSame (array("hello"), Str::split("hello", ""));
       }
 
    }

@@ -50,5 +50,11 @@ class Str {
    public static function removeAll (string $text, array $arrayOfChars) {
        return str_replace($arrayOfChars, "", $text);
    }
+
+   public static function split(string $text, string $delimiter): array {
+       if (empty($text))       return array();
+       if (empty($delimiter))  return array($text);
+       return explode($delimiter, $text);
+   }
    
 }
