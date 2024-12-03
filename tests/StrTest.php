@@ -35,8 +35,8 @@
       //---substringBefore() ----------------------------------------
       #[Test]
       public function shouldExtractSubstringBefore(): void {
-         self::assertSame ("ab",  Str::substringBefore("abcdef", "c"));
-         self::assertSame ("abc", Str::substringBefore("abcdef", "de"));
+         self::assertSame ("ab",  Str::substringBefore("abcdefc", "c"));
+         self::assertSame ("abc", Str::substringBefore("abcdefc", "de"));
       }
 
       #[Test]
@@ -51,6 +51,27 @@
 
          self::assertEmpty(Str::substringBefore("abc", NULLSTR));
          self::assertEmpty(Str::substringBefore("abc", ""));
+      }
+
+      //---substringBeforeLast() ----------------------------------------
+      #[Test]
+      public function shouldExtractSubstringBeforeLast(): void {
+         self::assertSame ("abcdef",  Str::substringBeforeLast("abcdefcx",   "c"));
+         self::assertSame ("abcdefx", Str::substringBeforeLast("abcdefxdey", "de"));
+      }
+
+      #[Test]
+      public function shouldGetOriginalString_forNonexistentBeforeLastString(): void {
+         self::assertSame ("abcdef", Str::substringBeforeLast("abcdef", "x"));
+      }
+
+      #[Test] #[IgnoreDeprecations]  // ignore null warnings
+      public function shouldHandleNullsForBeforeLast(): void {
+         self::assertEmpty(Str::substringBeforeLast(NULLSTR, NULLSTR));
+         self::assertEmpty(Str::substringBeforeLast(NULLSTR, "x"));
+
+         self::assertEmpty(Str::substringBeforeLast("abc", NULLSTR));
+         self::assertEmpty(Str::substringBeforeLast("abc", ""));
       }
 
       //---substringBetween() ----------------------------------------
@@ -144,4 +165,17 @@
          self::assertSame (array("hello"), Str::split("hello", ""));
       }
 
+      //---startsWith() ----------------------------------------
+      #[Test]
+      public function shouldExerciseStartsWith(): void {
+         self::assertTrue (Str::startsWith("#comment", "#"));
+         self::assertFalse(Str::startsWith("comment",  "#"));
+      }
+
+      #[Test]
+      public function shouldFailOnEmptyStartsWithCases(): void {
+         self::assertFalse (Str::startsWith(NULLSTR,    "#"));
+         self::assertFalse (Str::startsWith("",         "#"));
+         self::assertFalse (Str::startsWith("#comment", ""));
+      }
    }

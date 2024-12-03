@@ -18,6 +18,13 @@ class Str {
       if ($pos === false)  return $text;
       return substr($text, 0, $pos);
    }
+
+   public static function substringBeforeLast (string $text, string $delimiter): string {
+      if (empty($delimiter))  return "";
+      $pos = strrpos($text, $delimiter);
+      if ($pos === false)  return $text;
+      return substr($text, 0, $pos);
+   }
    
    public static function substringBetween (string $text, string $open, string $close): string {
       if (empty($text) || empty($open) || empty($close))   return "";
@@ -55,6 +62,11 @@ class Str {
        if (empty($text))       return array();
        if (empty($delimiter))  return array($text);
        return explode($delimiter, $text);
+   }
+
+   public static function startsWith(string $text, string $match): bool {
+      if (empty($text)  ||  empty($match))  return false;
+      return str_starts_with($text, $match);
    }
    
 }

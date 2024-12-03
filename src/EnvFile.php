@@ -11,31 +11,24 @@
          $this->dict  = array();
          $this->error = "";
 
-         $dir = str_replace("\\", "/", getcwd());
-   
-         while (true) {
+         //---Recurse upwards from the cwd, looking for file $filename
+         for ( $dir = str_replace("\\", "/", getcwd());
+               Str::contains($dir, "/");
+               $dir = Str::substringBeforeLast($dir, "/")) {
+
             $envFile = $dir . "/$filename";
             if (file_exists($envFile)) {
-               $fp = fopen($envFile, "r");
-               while ( ($line = fgets($fp, 4096)) !== false) {
+               foreach (file($envFile) as $line) {
                   $line = trim($line);
-                  if (! str_starts_with($line, "#")  &&  str_contains($line, "=")) {
+                  if (! Str::startsWith($line, "#")  &&  Str::contains($line, "=")) {
                      $key              = Str::substringBefore($line, "=");
                      $this->dict[$key] = Str::substringAfter ($line, "=");
                   }
                }
-               fclose ($fp);
-               break;
+               return;
             }
-   
-            $lastSlash = strrpos($dir, "/");
-            if ($lastSlash === false)  {
-               $this->error = "Could not find file $filename";
-               break;
-            }
-
-            $dir = substr($dir, 0, $lastSlash);
          }
+         $this->error = "Could not find file $filename";
       }
 
       public function get($key):  string {
