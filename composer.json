@@ -16,6 +16,5 @@
         "phpunit/phpunit": "^11.4"
    },
    "name": "charlesrothdotnet/alfred",
-   "description": "simple utility library for php work",
-   "version": "1.0.0"
+   "description": "simple utility library for php work"
 }
