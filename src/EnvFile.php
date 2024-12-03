@@ -1,6 +1,8 @@
 <?php
    namespace CharlesRothDotNet\Alfred;
 
+   use CharlesRothDotNet\Alfred\Str;
+
    class EnvFile {
       private array  $dict;
       private string $error;
@@ -18,8 +20,8 @@
                while ( ($line = fgets($fp, 4096)) !== false) {
                   $line = trim($line);
                   if (! str_starts_with($line, "#")  &&  str_contains($line, "=")) {
-                     $parts = explode("=", $line, 2);
-                     $this->dict[$parts[0]] = $parts[1];
+                     $key              = Str::substringBefore($line, "=");
+                     $this->dict[$key] = Str::substringAfter ($line, "=");
                   }
                }
                fclose ($fp);
