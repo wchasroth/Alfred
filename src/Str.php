@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace charlesroth_net\alfred;
+namespace CharlesRothDotNet\Alfred;
 
 class Str {
    

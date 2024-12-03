@@ -5,7 +5,7 @@
    use PHPUnit\Framework\Attributes\Test;
    use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 
-   use charlesroth_net\Alfred\Str;
+   use CharlesRothDotNet\Alfred\Str;
 
    require_once('nullstr.php');
 
