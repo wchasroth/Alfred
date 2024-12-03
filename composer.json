@@ -6,7 +6,8 @@
    },
    "license" : "MIT",
    "require" : {
-      "php" : ">=8.2"
+      "php" : ">=8.2",
+      "smarty/smarty": "^5.4"
    },
    "support" : {
       "email" : "wchasroth@gmail.com"
