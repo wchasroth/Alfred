@@ -178,4 +178,19 @@
          self::assertFalse (Str::startsWith("",         "#"));
          self::assertFalse (Str::startsWith("#comment", ""));
       }
+
+      //---removeCommas() ----------------------------------
+      #[Test]
+      public function shouldRemoveAllCommas(): void {
+         self::assertSame ("abcd", Str::removeCommas("abcd"));
+         self::assertSame ("1024", Str::removeCommas("1,024"));
+         self::assertSame ("",     Str::removeCommas(",,,"));
+      }
+
+      #[Test]
+      public function shouldHandleEmpty_inRemoveCommas(): void {
+         self::assertEmpty (Str::removeCommas(NULLSTR));
+         self::assertEmpty (Str::removeCommas(""));
+      }
+
    }
