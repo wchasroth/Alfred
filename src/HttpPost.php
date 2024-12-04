@@ -9,14 +9,14 @@ use       CharlesRothDotNet\Alfred\Str;
 
 class HttpPost {
     
-    public static function value(string $name): string {
-        if (empty($name))  return "";
-        return isset($_POST[$name])  ? trim($_POST[$name])  : "";
+    public static function value(string $name, string $default = ""): string {
+        if (empty($name))  return $default;
+        return isset($_POST[$name])  ? trim($_POST[$name])  : $default;
     }
     
-    public static function number(string $name): int {
-        if (empty($name))  return 0;
+    public static function number(string $name, int $default = 0): int {
+        if (empty($name))  return $default;
         $number = isset($_POST[$name])  ? trim(Str::removeCommas($_POST[$name]))  : "";
-        return empty($number) ? 0 : intval($number);
+        return empty($number) ? $default : intval($number);
     }
 }

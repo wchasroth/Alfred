@@ -19,19 +19,32 @@
       }
 
       #[Test]
+      public function shouldGetFormDefaultValue(): void {
+         unset($_GET['key']);
+         self::assertSame ('def', HttpGet::value('key', 'def'));
+      }
+
+      #[Test]
       public function shouldGetEmpty_fromNoOrNonexistentKey(): void {
          unset($_GET['key']);
          self::assertEmpty (HttpGet::value(NULLSTR));
          self::assertEmpty (HttpGet::value('key'));
       }
 
-      //---getPostNum() ----------------------------------------
+      //---number() ----------------------------------------
       #[Test]
       public function shouldGetFormNumberByKey(): void {
          $_GET['key1'] = '17';
          $_GET['key2'] = '18, ';
          self::assertSame (17, HttpGet::number('key1'));
          self::assertSame (18, HttpGet::number('key2'));
+      }
+
+      #[Test]
+      public function shouldGetDefaultFormNumber(): void {
+         unset($_GET['key']);
+         self::assertSame (17, HttpGet::number('key',   17));
+         self::assertSame (17, HttpGet::number(NULLSTR, 17));
       }
 
       #[Test]

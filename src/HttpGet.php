@@ -9,14 +9,14 @@ use       CharlesRothDotNet\Alfred\Str;
 
 class HttpGet {
     
-    public static function value(string $name): string {
-        if (empty($name))  return "";
-        return isset($_GET[$name])  ? trim($_GET[$name])  : "";
+    public static function value(string $name, string $default = ""): string {
+        if (empty($name))  return $default;
+        return isset($_GET[$name])  ? trim($_GET[$name])  : $default;
     }
     
-    public static function number(string $name): int {
-        if (empty($name))  return 0;
-        $value = isset($_GET[$name])  ? trim(Str::removeCommas($_GET[$name]))  : "";
-        return empty($value) ? 0 : intval($value);
+    public static function number(string $name, int $default = 0): int {
+        if (empty($name))  return $default;
+        $value = isset($_GET[$name])  ? trim(Str::removeCommas($_GET[$name]))  : "0";
+        return empty($value) ? $default : intval($value);
     }
 }
