@@ -69,6 +69,11 @@ class Str {
       return str_starts_with($text, $match);
    }
 
+   public static function endsWith(string $text, string $match): bool {
+      if (empty($text)  ||  empty($match))  return false;
+      return str_ends_with($text, $match);
+   }
+
    public static function removeCommas($text) {
       if (empty($text))  return "";
       return str_replace(",", "", $text);

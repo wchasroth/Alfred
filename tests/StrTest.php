@@ -179,6 +179,20 @@
          self::assertFalse (Str::startsWith("#comment", ""));
       }
 
+      //---endsWith() ----------------------------------------
+      #[Test]
+      public function shouldExerciseEndsWith(): void {
+         self::assertTrue (Str::endsWith("comment#", "#"));
+         self::assertFalse(Str::endsWith("comment",  "#"));
+      }
+
+      #[Test]
+      public function shouldFailOnEmptyEndsWithCases(): void {
+         self::assertFalse (Str::endsWith(NULLSTR,    "#"));
+         self::assertFalse (Str::endsWith("",         "#"));
+         self::assertFalse (Str::endsWith("#comment", ""));
+      }
+
       //---removeCommas() ----------------------------------
       #[Test]
       public function shouldRemoveAllCommas(): void {
