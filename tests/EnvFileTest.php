@@ -14,12 +14,20 @@
       #[Test]
       public function shouldReadEnvVars_fromTemporaryEnvFile(): void {
          $dir = str_replace("\\", "/", getcwd());
-         file_put_contents("$dir/.testenv", "hi=hello\n");
+         file_put_contents("$dir/.testenv", "hi=hello\ntest=true\nnum=37\n");
 
          $env = new EnvFile(".testenv");
          self::assertSame ("hello", $env->get('hi'));
-         self::assertSame (1, count($env->getKeys()));
+         self::assertSame (3, count($env->getKeys()));
          self::assertSame ("hi", $env->getKeys()[0]);
+
+         self::assertTrue ($env->bool('test'));
+         self::assertFalse($env->bool('hi'));
+         self::assertFalse($env->bool('noSuchKey'));
+
+         self::assertSame (37, $env->int('num'));
+         self::assertSame ( 0, $env->int('hi'));
+         self::assertSame ( 0, $env->int('noSuchKey'));
 
          unlink ("$dir/.testenv");
       }

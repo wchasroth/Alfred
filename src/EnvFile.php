@@ -36,6 +36,17 @@
          return $this->dict[$key];
       }
 
+      public function int($key):  int {
+         $text = $this->get($key);
+         return (empty($text) ? 0 : intval($text));
+      }
+
+      public function bool($key): bool {
+         $text = $this->get($key);
+         if (empty($text))   return false;
+         return strcasecmp($text, "true") == 0;
+      }
+
       public function getKeys(): array {
          return array_keys($this->dict);
       }
