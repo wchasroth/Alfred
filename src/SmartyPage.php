@@ -18,7 +18,7 @@
 
        function register1ArgModifiers(string ... $names) {
           foreach ($names as $name) {
-             $this->registerPlugin(PLUGIN_MODIFIER, $name, $name);
+             $this->registerPlugin(Smarty::PLUGIN_MODIFIER, $name, $name);
           }
        }
    }
