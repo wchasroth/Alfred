@@ -15,4 +15,10 @@
          $this->caching = Smarty::CACHING_LIFETIME_CURRENT;
          $this->debugging = $debug;
        }
+
+       function register1ArgModifiers(string ... $names) {
+          foreach ($names as $name) {
+             $this->registerPlugin(Smarty\Smarty::PLUGIN_MODIFIER, $name, $name);
+          }
+       }
    }
