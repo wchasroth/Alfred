@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace CharlesRothDotNet\Alfred;
 
 use \PDOStatement;
+use \PDO;
 use CharlesRothDotNet\Alfred\Str;
 
 class PdoHelper {
@@ -23,5 +24,10 @@ class PdoHelper {
       $text = Str::substringBetween ($text, "Sent SQL:", "\n");
       $text = Str::substringAfter   ($text, "] ");
       return $text;
+   }
+
+   public static function makeMySqlPDO (string $host, string $dbname, string $dbuser, string $dbpw): PDO {
+      $options = [PDO::ATTR_EMULATE_PREPARES => true];
+      return new PDO("mysql:host=$host;dbname=$dbname;port=3306;charset=utf8", $dbuser, $dbpw, $options);
    }
 }
