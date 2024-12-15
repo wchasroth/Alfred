@@ -18,6 +18,7 @@ class LocalMySqlPDOTest extends TestCase {
    public function shouldGetRawSql_withFilledInParameterValues_forMySQL(): void {
       $pdo = new LocalMySqlPDO("mivoterdm", "root", "");
       self::assertFalse ($pdo->failed());
+      self::assertTrue  ($pdo->succeeded());
       self::assertEmpty ($pdo->getError());
 
       $sql = "SELECT tid, miv_title, ballot_order FROM title WHERE tid LIKE :tid AND ballot_order = :order";
@@ -32,7 +33,8 @@ class LocalMySqlPDOTest extends TestCase {
 // #[Test]  // Uncomment to run manually
    public function shouldDetectMySqlConnectionFailure_toNonExistentDatabase(): void {
       $pdo = new LocalMySqlPDO("noSuchDatabase", "root", "");
-      self::assertTrue ($pdo->failed());
+      self::assertTrue  ($pdo->failed());
+      self::assertFalse ($pdo->succeeded());
       $expectedError = "DSN: mysql:host=localhost;dbname=noSuchDatabase;port=3306;charset=utf8, "
          .  "user=root, dbpw=, error = SQLSTATE[HY000] [1049] Unknown database 'nosuchdatabase'";
       self::assertSame ($expectedError, $pdo->getError());

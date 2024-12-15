@@ -35,6 +35,10 @@ class LocalMySqlPDO extends PDO {
       return ! empty($this->error);
    }
 
+   function succeeded(): bool {
+      return empty($this->error);
+   }
+
    function getError(): string {
       return $this->error;
    }
