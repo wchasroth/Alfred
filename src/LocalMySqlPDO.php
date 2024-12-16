@@ -19,7 +19,24 @@ use \PDOStatement;
 class LocalMySqlPDO extends PDO {
    private string $error;
  
-   function __construct(string $dbname, string $dbuser, string $dbpw) {
+   // Note: this can be called in a multiple-constructor-LIKE way:
+   //      new LocalMySqlPDO("name", "user", "password)
+   //  OR  new LocalMySqlPDO("name,user,password")
+   function __construct(string $dbname, string $dbuser = "", string $dbpw = "") {
+
+      if (empty($dbuser) && empty($dbpw)) {
+         $parts = Str::split($dbname, ",");
+         if (sizeof($parts) == 3) {
+            $dbname = $parts[0];
+            $dbuser = $parts[1];
+            $dpw    = $parts[2];
+         }
+         else {
+            $this->error = "Bad arguments: $dbname";
+            return;
+         }
+      }
+
       $this->error = "";
       $options = [PDO::ATTR_EMULATE_PREPARES => true];
       $dsn = "mysql:host=localhost;dbname=$dbname;port=3306;charset=utf8";
