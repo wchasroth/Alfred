@@ -29,6 +29,8 @@
          self::assertSame ( 0, $env->int('hi'));
          self::assertSame ( 0, $env->int('noSuchKey'));
 
+         self::assertSame ("hello,true,37", $env->getValues("hi,test,num"));
+
          unlink ("$dir/.testenv");
       }
 

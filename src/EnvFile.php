@@ -31,17 +31,23 @@
          $this->error = "Could not find file $filename";
       }
 
-      public function get($key):  string {
+      public function get(string $key):  string {
          if (! array_key_exists($key, $this->dict))  return "";
          return $this->dict[$key];
       }
 
-      public function int($key):  int {
+      public function getValues(string $keys): string {
+         $result = "";
+         foreach (Str::split($keys, ",") as $key)  $result = $result . $this->get($key) . ",";
+         return   Str::substringBeforeLast($result, ",");
+      }
+
+      public function int(string $key):  int {
          $text = $this->get($key);
          return (empty($text) ? 0 : intval($text));
       }
 
-      public function bool($key): bool {
+      public function bool(string $key): bool {
          $text = $this->get($key);
          if (empty($text))   return false;
          return strcasecmp($text, "true") == 0;
