@@ -19,14 +19,14 @@ class Str {
       return substr($text, 0, $pos);
    }
 
-   public static function substringBeforeLast (string $text, string $delimiter): string {
+   public static function substringBeforeLast (string $text, ?string $delimiter): string {
       if (empty($delimiter))  return "";
       $pos = strrpos($text, $delimiter);
       if ($pos === false)  return $text;
       return substr($text, 0, $pos);
    }
    
-   public static function substringBetween (string $text, string $open, string $close): string {
+   public static function substringBetween (?string $text, ?string $open, ?string $close): string {
       if (empty($text) || empty($open) || empty($close))   return "";
       $pos1 = strpos($text, $open);
       if ($pos1 === false)                                 return "";
@@ -36,12 +36,12 @@ class Str {
       return substr($text, $pos1, $pos2 - $pos1);
    }
    
-   public static function contains (string $text, string $searchFor): bool {
+   public static function contains (?string $text, ?string $searchFor): bool {
       if (empty($text) || empty($searchFor))   return false;
       return strpos($text, $searchFor) !== false;
    }
    
-   public static function replaceAll (string $text, string $find, string $replace) {
+   public static function replaceAll (?string $text, ?string $find, string $replace) {
       if (empty($text))  return "";
       if (empty($find))  return $text;
       return str_replace($find, $replace, $text);
@@ -58,23 +58,23 @@ class Str {
        return str_replace($arrayOfChars, "", $text);
    }
 
-   public static function split(string $text, string $delimiter): array {
+   public static function split(?string $text, ?string $delimiter): array {
        if (empty($text))       return array();
        if (empty($delimiter))  return array($text);
        return explode($delimiter, $text);
    }
 
-   public static function startsWith(string $text, string $match): bool {
+   public static function startsWith(?string $text, ?string $match): bool {
       if (empty($text)  ||  empty($match))  return false;
       return str_starts_with($text, $match);
    }
 
-   public static function endsWith(string $text, string $match): bool {
+   public static function endsWith(?string $text, ?string $match): bool {
       if (empty($text)  ||  empty($match))  return false;
       return str_ends_with($text, $match);
    }
 
-   public static function removeCommas($text) {
+   public static function removeCommas(?string $text) {
       if (empty($text))  return "";
       return str_replace(",", "", $text);
    }
