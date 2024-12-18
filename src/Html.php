@@ -18,4 +18,19 @@ class Html {
     public static function checked(int $value): string {
         return ($value == 1 ? " checked " : "");
     }
+
+    public static function removeHtmlTags ($text): string {
+        $result = [];
+        $state  = 0;
+        foreach (str_split($text) as $char) {
+            if ($state == 0) {
+                if ($char == '<')  $state = 1;
+                else $result[] = $char;
+            }
+            else {
+                if ($char == '>')  $state = 0;
+            }
+        }
+        return implode('', $result);
+    }
 }
