@@ -67,6 +67,7 @@ class AlfredPDOTest extends TestCase {
        $row = $result->getRows()[0];
        self::assertSame(1,      $row['id']);
        self::assertSame("Test", $row['name']);
+       self::assertSame("Test", $result->getSingleValue('name'));
 
        $pdo->run("DROP TABLE UnitTest");
    }

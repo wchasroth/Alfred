@@ -32,4 +32,9 @@ class PdoRunResult {
     public function getRawSql(): string {
         return $this->rawSql;
     }
+
+    public function getSingleValue(string $key) {
+        if (sizeof($this->rows) === 0)  return "";
+        return $this->rows[0][$key];
+    }
 }
