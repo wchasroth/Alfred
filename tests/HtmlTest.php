@@ -13,4 +13,10 @@ class HtmlTest extends TestCase
         self::assertFalse(Html::notEmpty(""));
         self::assertFalse(Html::notEmpty(null));
     }
+
+    #[Test]
+    public function shouldExerciseChecked(): void {
+        self::assertSame (" checked ", Html::checked(1));
+        self::assertEmpty(Html::checked(0));
+    }
 }

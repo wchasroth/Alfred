@@ -13,4 +13,9 @@ class Html {
     public static function notEmpty(?string $text): bool {
         return ! empty($text);
     }
+
+    // Trivial, but another useful plugin for handling checkboxes.
+    public static function checked(int $value): string {
+        return ($value == 1 ? " checked " : "");
+    }
 }
