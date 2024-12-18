@@ -2,7 +2,7 @@
 
 namespace CharlesRothDotNet\Alfred;
 class Html {
-    public static function redirect(string $url): void {
+    public static function redirectTo(string $url): void {
         header("Location: " . $url);
         exit(0);
     }
