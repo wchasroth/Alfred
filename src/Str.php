@@ -25,6 +25,13 @@ class Str {
       if ($pos === false)  return $text;
       return substr($text, 0, $pos);
    }
+
+   public static function substringAfterLast (string $text, ?string $delimiter): string {
+       if (empty($delimiter))  return "";
+       $pos = strrpos($text, $delimiter);
+       if ($pos === false)  return "";
+       return substr($text, $pos+strlen($delimiter));
+   }
    
    public static function substringBetween (?string $text, ?string $open, ?string $close): string {
       if (empty($text) || empty($open) || empty($close))   return "";

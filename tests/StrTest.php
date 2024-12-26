@@ -74,6 +74,22 @@
          self::assertEmpty(Str::substringBeforeLast("abc", ""));
       }
 
+      //---substringAfterLast() ----------------------------------
+      #[Test]
+      public function shouldExtractSubstringAfterLast(): void {
+          self::assertEquals("X", Str::substringAfterLast("abdef12X", "12"));
+          self::assertEquals("X", Str::substringAfterLast("abd12ef12X", "12"));
+      }
+
+      #[Test]
+      public function shouldGetEmpty_forNonexistentSubstringAfterLast(): void {
+          self::assertEmpty(Str::substringAfterLast("abcdef", "x"));
+          self::assertEmpty(Str::substringAfterLast("abcdef", ""));
+          self::assertEmpty(Str::substringAfterLast("abcdef", NULLSTR));
+          self::assertEmpty(Str::substringAfterLast("", "x"));
+      }
+
+
       //---substringBetween() ----------------------------------------
       #[Test]
       public function shouldExtractSubstringBetween(): void {
