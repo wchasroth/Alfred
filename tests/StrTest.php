@@ -115,17 +115,21 @@
       #[Test]
       public function shouldDetectContainedSubstring(): void {
          self::assertTrue (Str::contains("abc", "b"));
+         self::assertTrue (Str::contains("abc", "x", "b"));
       }
 
       #[Test]
       public function shouldHandleNulls_forContains(): void {
          self::assertFalse(Str::contains("abc", NULLSTR));
          self::assertFalse(Str::contains(NULLSTR, "abc"));
+         self::assertFalse(Str::contains(NULLSTR, "abc", "xyz"));
       }
 
       #[Test]
       public function shouldFailWhenSubstringNotContained(): void {
          self::assertFalse(Str::contains("abc", "xyz"));
+         self::assertFalse(Str::contains("abc", "xyz", "123"));
+         self::assertFalse(Str::contains("abc"));
       }
 
       //---replaceAll() ----------------------------------------

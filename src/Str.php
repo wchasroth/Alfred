@@ -43,9 +43,14 @@ class Str {
       return substr($text, $pos1, $pos2 - $pos1);
    }
    
-   public static function contains (?string $text, ?string $searchFor): bool {
-      if (empty($text) || empty($searchFor))   return false;
-      return strpos($text, $searchFor) !== false;
+   public static function contains (?string $text, ?string ... $searchFors): bool {
+      if (empty($text)) return false;
+      foreach ($searchFors as $searchFor) {
+         if (! empty($searchFor)) {
+             if (strpos($text, $searchFor))  return true;
+         }
+      }
+      return false;
    }
    
    public static function replaceAll (?string $text, ?string $find, string $replace) {
