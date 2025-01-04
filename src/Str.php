@@ -52,7 +52,17 @@ class Str {
       }
       return false;
    }
-   
+
+    public static function hasAnyOf (?string $text, ?array $searchFors): bool {
+        if (empty($text)) return false;
+        foreach ($searchFors as $searchFor) {
+            if (! empty($searchFor)) {
+                if (strpos($text, $searchFor))  return true;
+            }
+        }
+        return false;
+    }
+
    public static function replaceAll (?string $text, ?string $find, string $replace) {
       if (empty($text))  return "";
       if (empty($find))  return $text;

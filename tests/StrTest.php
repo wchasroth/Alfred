@@ -111,11 +111,32 @@
          self::assertEmpty(Str::substringBetween("abcd", "d", "a"));
       }
 
+      //---hasAnyOf() ----------------------------------------
+      #[Test]
+      public function shouldDetectHasAnyOfSubstring(): void {
+         self::assertTrue (Str::hasAnyOf("abc", ["b"]));
+         self::assertTrue (Str::hasAnyOf("abc", ["x", "b"]));
+      }
+
+       #[Test]
+       public function shouldHandleNulls_forHasAnyOf(): void {
+           self::assertFalse(Str::hasAnyOf("abc", [NULLSTR]));
+           self::assertFalse(Str::hasAnyOf(NULLSTR, ["abc"]));
+           self::assertFalse(Str::hasAnyOf(NULLSTR, ["abc", "xyz"]));
+       }
+
+       #[Test]
+       public function shouldFailWhenSubstringNotInHasAnyOf(): void {
+           self::assertFalse(Str::hasAnyOf("abc", ["xyz"]));
+           self::assertFalse(Str::hasAnyOf("abc", ["xyz", "123"]));
+           self::assertFalse(Str::hasAnyOf("abc", []));
+       }
+
       //---contains() ----------------------------------------
       #[Test]
       public function shouldDetectContainedSubstring(): void {
-         self::assertTrue (Str::contains("abc", "b"));
-         self::assertTrue (Str::contains("abc", "x", "b"));
+          self::assertTrue (Str::contains("abc", "b"));
+          self::assertTrue (Str::contains("abc", "x", "b"));
       }
 
       #[Test]
