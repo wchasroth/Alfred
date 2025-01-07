@@ -47,7 +47,7 @@ class Str {
       if (empty($text)) return false;
       foreach ($searchFors as $searchFor) {
          if (! empty($searchFor)) {
-             if (strpos($text, $searchFor))  return true;
+             if (strpos($text, $searchFor) !== false)  return true;
          }
       }
       return false;

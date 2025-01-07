@@ -137,6 +137,7 @@
       public function shouldDetectContainedSubstring(): void {
           self::assertTrue (Str::contains("abc", "b"));
           self::assertTrue (Str::contains("abc", "x", "b"));
+          self::assertTrue (Str::contains("  https://www.facebook.com", "http"));
       }
 
       #[Test]
