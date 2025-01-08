@@ -27,4 +27,12 @@
          self::assertSame("", Dict::value((array) null, "hi"));
       }
 
+       //--- getArray() ----------------------------------------
+       #[Test]
+       public function shouldExerciseGetArray() {
+           $dict = array("hi" => ['abc', 'def']);
+           self::assertSame(['abc', 'def'], Dict::getArray($dict, "hi"));
+           self::assertSame([], Dict::getArray($dict, "noSuchArray"));
+       }
+
    }

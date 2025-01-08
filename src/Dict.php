@@ -12,4 +12,10 @@ class Dict {
       if ($dict === null)  return "";
       return isset($dict[$key]) ? $dict[$key] : $defValue;
    }
+
+   public static function getArray(array $dict, string $key): array {
+       if ($dict === null)  return [];
+       if (empty($key))     return [];
+       return isset($dict[$key]) ? $dict[$key] : [];
+   }
 }
