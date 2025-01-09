@@ -37,11 +37,14 @@ class Str {
       if (empty($text) || empty($open) || empty($close))   return "";
       $pos1 = strpos($text, $open);
       if ($pos1 === false)                                 return "";
-      $pos2 = strpos($text, $close, $pos1);
+      $pos2 = strpos($text, $close, $pos1 + strlen($open));
       if ($pos2 === false)                                 return "";
       $pos1 = $pos1 + strlen($open);
       return substr($text, $pos1, $pos2 - $pos1);
    }
+
+   // "HTTP/1.1 403 Forbidden"
+   // "HTTP/1.1 "     pos1 = 0
    
    public static function contains (?string $text, ?string ... $searchFors): bool {
       if (empty($text)) return false;

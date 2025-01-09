@@ -111,6 +111,12 @@
          self::assertEmpty(Str::substringBetween("abcd", "d", "a"));
       }
 
+      #[Test]
+      public function shouldGetProperBetweenString_evenWhenCloseIsPartOfOpenString(): void {
+          $header = "HTTP/1.1 403 Forbidden";
+          self::assertEquals ("403", Str::substringBetween($header, "HTTP/1.1 ", " "));
+      }
+
       //---hasAnyOf() ----------------------------------------
       #[Test]
       public function shouldDetectHasAnyOfSubstring(): void {
