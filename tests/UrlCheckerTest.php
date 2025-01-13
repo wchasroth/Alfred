@@ -2,22 +2,19 @@
 
 namespace CharlesRothDotNet\Alfred;
 
-//use CharlesRothDotNet\Alfred\UrlChecker;
-//use CharlesRothDotNet\Alfred\Str;
-
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class UrlCheckerTest extends TestCase {
 
     #[Test]
-    public function shouldVerifyExistingSites() {
+    public function shouldVerifyExistingNormalWebsites() {
         self::assertEquals ("200:GOOD", UrlChecker::check("https://thedance.net"));
         self::assertEquals ("200:GOOD", UrlChecker::check("https://www.allegandems.com"));
     }
 
     #[Test]
-    public function shouldDetectFailingUrls() {
+    public function shouldDetectFailingNormalWebsites() {
         self::assertFailsWith ("000", "https://www.lapeerdems.com");
         self::assertFailsWith ("000", "https://www.ogemawdems.com");
         self::assertFailsWith ("000", "https://www.branchcountydemocrats.com");
@@ -34,25 +31,16 @@ class UrlCheckerTest extends TestCase {
     }
 
     #[Test]
-    public function shouldGetNothing_fromNonexistentUrl() {
-        $this->assertNoTextAtUrl("https://noSuchSite.xyz");
-        $this->assertNoTextAtUrl("https://facebook.com/NoSuchPageNorPerson");
+    public function shouldDetectNonexistentFacebookPage() {
+        self::assertFailsWith ("901", "https://facebook.com/NoSuchPageNorPerson");
     }
 
     #[Test]
-    public function shouldGetSomethingFromRealUrl() {
-        $this->assertHasTextAtUrl("https://thedance.net");
-        $this->assertHasTextAtUrl("https://www.facebook.com/charles.roth.1612/");
-    }
-
-    private function assertHasTextAtUrl($url): void {
-        $text = UrlChecker::getTextFromUrl($url);
-        self::assertTrue(strlen($text) > 1000);
-    }
-
-    private function assertNoTextAtUrl($url): void {
-        $text = UrlChecker::getTextFromUrl($url);
-        self::assertEquals(0, strlen($text));
+    public function shouldVerifyExistingFacebookPage() {
+        self::assertEquals ("200:GOOD", UrlChecker::check("https://www.facebook.com/charles.roth.1612/"));
+        self::assertEquals ("200:GOOD", UrlChecker::check("https://www.facebook.com/MiCalhounDems"));
+        self::assertEquals ("200:GOOD", UrlChecker::check("http://www.facebook.com/MiCalhounDems"));
+        self::assertEquals ("200:GOOD", UrlChecker::check("https://www.facebook.com/groups/crawfordcountymichdems"));
     }
 
 }

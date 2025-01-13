@@ -3,17 +3,35 @@
 namespace CharlesRothDotNet\Alfred;
 
 use CharlesRothDotNet\Alfred\Str;
+
+/**
+ * Generalized URL Checker -- does this URL exist?
+ *
+ * Contains various heuristics, depending on the context.  The key method, check(),
+ * returns NNN:text to indicate the results.  The NNN values are mostly HTTP codes,
+ * but additional values have been added for specific cases, e.g. Facebook pages.
+ *
+ * Handles
+ *    Generic websites
+ *    Facebook pages
+ */
 class UrlChecker {
 
     // Return values:
     //  200:GOOD
     //  000:nonExistent
     //  001:noInfo
-    //  002:parked
+    //  002:parked      (domain parked, but no content)
     //  403:httpError   (forbidden)
     //  436:httpError   (bad identity)
     //  NNN:httpError   (other http errors)
+    //  900:noFacebook  (Facebook page doesn't seem to exist)
+
     public static function check(string $url): string {
+        $urlLower = strtolower($url);
+        if (Str::contains($urlLower, "facebook.com/"))   return UrlChecker::checkFacebookPage($url);
+
+        // Generic website checking here, uses headers to determine existence.
         stream_context_set_default( [
             'ssl' => [
                 'verify_peer' => false,
@@ -35,6 +53,12 @@ class UrlChecker {
         return "$code:httpError";
     }
 
+    private static function checkFacebookPage(string $url): string {
+        $text = UrlChecker::getTextFromUrl($url);
+        if (strlen($text) == 0)  return "900:noFbPage";
+        return (Str::contains($text, "This content isn't available right now") ? "901:noFbContent" : "200:GOOD");
+    }
+
     private static function isParkedDomain(string $url): bool {
         $random = @get_headers($url . "/someRandomImpossiblePageUri123789");
         return UrlChecker::headersHas200($random);   // Almost always means entire domain is parked!
@@ -52,7 +76,7 @@ class UrlChecker {
             'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: en-us,en;q=0.5',
-            'Accept-Encoding: gzip,deflate',
+//            'Accept-Encoding: gzip,deflate',
             'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7',
             'Keep-Alive: 115',
             'Connection: keep-alive'
@@ -61,6 +85,7 @@ class UrlChecker {
         curl_setopt($handle, CURLOPT_HTTPHEADER, $header);
         curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
 
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($handle);
