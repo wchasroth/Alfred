@@ -35,8 +35,25 @@ class UrlCheckerTest extends TestCase {
 
     #[Test]
     public function shouldGetNothing_fromNonexistentUrl() {
-        $text = UrlChecker::getTextFromUrl("https://noSuchSite.xyz");
-        self::assertEmpty($text);
+        $this->assertNoTextAtUrl("https://noSuchSite.xyz");
+        $this->assertNoTextAtUrl("https://facebook.com/NoSuchPageNorPerson");
+    }
+
+    #[Test]
+    public function shouldGetSomethingFromRealUrl() {
+        $this->assertHasTextAtUrl("https://thedance.net");
+        $this->assertHasTextAtUrl("https://www.facebook.com/charles.roth.1612/");
+    }
+
+    private function assertHasTextAtUrl($url): void {
+        $text = UrlChecker::getTextFromUrl($url);
+        self::assertTrue(strlen($text) > 1000);
+    }
+
+    private function assertNoTextAtUrl($url): void {
+        $text = UrlChecker::getTextFromUrl($url);
+        self::assertEquals(0, strlen($text));
     }
 
 }
+

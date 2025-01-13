@@ -48,7 +48,17 @@ class UrlChecker {
     }
 
     public static function getTextFromUrl(string $url): string {
+        $header = [
+            'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: en-us,en;q=0.5',
+            'Accept-Encoding: gzip,deflate',
+            'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7',
+            'Keep-Alive: 115',
+            'Connection: keep-alive'
+        ];
         $handle = curl_init($url);
+        curl_setopt($handle, CURLOPT_HTTPHEADER, $header);
         curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);
 
