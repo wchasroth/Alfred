@@ -19,6 +19,7 @@ class UrlChecker {
 
     // Return values:
     //  200:GOOD
+    //  201:notPublic   Facebook page, not public, but probably(??!!) exists.
     //  000:nonExistent
     //  001:noInfo
     //  002:parked      (domain parked, but no content)
@@ -56,7 +57,7 @@ class UrlChecker {
     private static function checkFacebookPage(string $url): string {
         $text = UrlChecker::getTextFromUrl($url);
         if (strlen($text) == 0)  return "900:noFbPage";
-        return (Str::contains($text, "This content isn't available right now") ? "901:noFbContent" : "200:GOOD");
+        return (Str::contains($text, "This content isn't available right now") ? "201:notPublic" : "200:GOOD");
     }
 
     private static function isParkedDomain(string $url): bool {
@@ -71,7 +72,7 @@ class UrlChecker {
         return false;
     }
 
-    public static function getTextFromUrl(string $url): string {
+    private static function getTextFromUrl(string $url): string {
         $header = [
             'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -79,13 +80,14 @@ class UrlChecker {
 //            'Accept-Encoding: gzip,deflate',
             'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7',
             'Keep-Alive: 115',
-            'Connection: keep-alive'
+            'Connection: keep-alive',
         ];
         $handle = curl_init($url);
         curl_setopt($handle, CURLOPT_HTTPHEADER, $header);
         curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($handle, CURLOPT_COOKIESESSION, false);
 
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($handle);

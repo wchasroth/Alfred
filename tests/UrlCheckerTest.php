@@ -31,16 +31,20 @@ class UrlCheckerTest extends TestCase {
     }
 
     #[Test]
-    public function shouldDetectNonexistentFacebookPage() {
-        self::assertFailsWith ("901", "https://facebook.com/NoSuchPageNorPerson");
+    public function shouldConsiderNonexistentFacebookPage_asNotPublic() {  // Sigh!
+        self::assertFailsWith ("201", "https://facebook.com/NoSuchPageNorPerson");
     }
 
     #[Test]
-    public function shouldVerifyExistingFacebookPage() {
+    public function shouldVerifyExistingPublicFacebookPages() {
         self::assertEquals ("200:GOOD", UrlChecker::check("https://www.facebook.com/charles.roth.1612/"));
-        self::assertEquals ("200:GOOD", UrlChecker::check("https://www.facebook.com/MiCalhounDems"));
         self::assertEquals ("200:GOOD", UrlChecker::check("http://www.facebook.com/MiCalhounDems"));
         self::assertEquals ("200:GOOD", UrlChecker::check("https://www.facebook.com/groups/crawfordcountymichdems"));
+    }
+
+    #[Test]
+    public function shouldSeeKnownNonPublicFacebookPages_asNotPublic() {
+        self::assertEquals ("201:notPublic", UrlChecker::check("https://www.facebook.com/CheboyganCountyDemocrats"));
     }
 
 }
