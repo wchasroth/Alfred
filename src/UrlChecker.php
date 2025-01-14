@@ -28,6 +28,7 @@ class UrlChecker {
     //  436       http bad identity
     //  NNN       other http error
     //  900       Facebook page doesn't seem to exist
+    //  999       url and protocol incompatible (e.g. https://someone@gmail.com)
 
     public static function check(string $url):  string {
         $urlLower = strtolower($url);
@@ -42,6 +43,12 @@ class UrlChecker {
         ]);
         $headers = @get_headers($url);
         if ($headers === false)  return "001";
+
+        echo "\n";
+        echo "$url\n";
+        foreach ($headers as $header) {
+            echo "   $header\n";
+        }
 
         if (UrlChecker::headersHas200($headers)) {
             return ! UrlChecker::isParkedDomain($url, $headers) ? "200" : "003";
