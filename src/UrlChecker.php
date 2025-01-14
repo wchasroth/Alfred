@@ -18,17 +18,18 @@ use CharlesRothDotNet\Alfred\Str;
 class UrlChecker {
 
     // Return values:
-    //  200:GOOD
-    //  201:notPublic   Facebook page, not public, but probably(??!!) exists.
-    //  000:nonExistent
-    //  001:noInfo
-    //  002:parked      (domain parked, but no content)
-    //  403:httpError   (forbidden)
-    //  436:httpError   (bad identity)
-    //  NNN:httpError   (other http errors)
-    //  900:noFacebook  (Facebook page doesn't seem to exist)
+    //  200       Good
+    //  201       Facebook page, not public (could exist, can't tell for sure)
+    //  000       not checked
+    //  001       does not exist
+    //  002       no info available
+    //  003       parked      (domain parked, but no content)
+    //  403       http forbidden
+    //  436       http bad identity
+    //  NNN       other http error
+    //  900       Facebook page doesn't seem to exist
 
-    public static function check(string $url): string {
+    public static function check(string $url):  string {
         $urlLower = strtolower($url);
         if (Str::contains($urlLower, "facebook.com/"))   return UrlChecker::checkFacebookPage($url);
 
@@ -40,24 +41,24 @@ class UrlChecker {
             ],
         ]);
         $headers = @get_headers($url);
-        if ($headers === false)  return "000:nonExistent";
+        if ($headers === false)  return "001";
 
         if (UrlChecker::headersHas200($headers)) {
-            return ! UrlChecker::isParkedDomain($url, $headers) ? "200:GOOD" : "002:parked";
+            return ! UrlChecker::isParkedDomain($url, $headers) ? "200" : "003";
         }
 
-        $code = "001:noInfo";
+        $code = "002";
         foreach ($headers as $header) {
             if (Str::contains($header, 'HTTP/1.1 '))     $code = Str::substringBetween($header, "HTTP/1.1 ", " ");
         }
 
-        return "$code:httpError";
+        return $code;
     }
 
     private static function checkFacebookPage(string $url): string {
         $text = UrlChecker::getTextFromUrl($url);
         if (strlen($text) == 0)  return "900:noFbPage";
-        return (Str::contains($text, "This content isn't available right now") ? "201:notPublic" : "200:GOOD");
+        return (Str::contains($text, "This content isn't available right now") ? "201" : "200");
     }
 
     private static function isParkedDomain(string $url): bool {
@@ -77,7 +78,6 @@ class UrlChecker {
             'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: en-us,en;q=0.5',
-//            'Accept-Encoding: gzip,deflate',
             'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7',
             'Keep-Alive: 115',
             'Connection: keep-alive',
