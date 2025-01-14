@@ -49,7 +49,7 @@ class UrlChecker {
         return $code;
     }
 
-    private static function getHeadersOnly(string $url): array {
+    public static function getHeadersOnly(string $url): array {
         $handle = UrlChecker::makeCurlHandleFor($url);
         curl_setopt($handle, CURLOPT_NOBODY, true);
         $response = curl_exec($handle);
