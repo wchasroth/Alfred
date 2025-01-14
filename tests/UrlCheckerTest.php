@@ -11,18 +11,19 @@ class UrlCheckerTest extends TestCase {
     public function shouldVerifyExistingNormalWebsites() {
         self::assertEquals ("200", UrlChecker::check("https://thedance.net"));
         self::assertEquals ("200", UrlChecker::check("https://www.allegandems.com"));
+        self::assertEquals ("200", UrlChecker::check("https://www.ioscocountydems.org"));
     }
 
     #[Test]
     public function shouldDetectFailingNormalWebsites() {
-        self::assertFailsWith ("001", "https://www.lapeerdems.com");
-        self::assertFailsWith ("001", "https://www.ogemawdems.com");
-        self::assertFailsWith ("001", "https://www.branchcountydemocrats.com");
-        self::assertFailsWith ("001", "https://cheboygancountydemocraticparty.ruck.us");
-        self::assertFailsWith ("003", "https://www.casscountydems.com");
-        self::assertFailsWith ("001", "http://www.ioscodemocrats.org");
-        self::assertFailsWith ("001", "http://baycountdems.com");
-        self::assertFailsWith ("403", "http://bcdemocrats.org");
+        self::assertFailsWith ("002", "https://www.lapeerdems.com");
+        self::assertFailsWith ("002", "https://www.ogemawdems.com");
+        self::assertFailsWith ("002", "https://www.branchcountydemocrats.com");
+        self::assertFailsWith ("002", "https://cheboygancountydemocraticparty.ruck.us");
+        self::assertFailsWith ("405", "https://www.casscountydems.com");
+        self::assertFailsWith ("002", "http://www.ioscodemocrats.org");
+        self::assertFailsWith ("002", "http://baycountdems.com");
+        self::assertFailsWith ("405", "http://bcdemocrats.org");
     }
 
     private function assertFailsWith (string $expectedCode, string $url): void {
