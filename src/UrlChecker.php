@@ -40,6 +40,7 @@ class UrlChecker {
                 'verify_peer' => false,
                 'verify_peer_name' => false,
             ],
+            'http' => ['method' => 'HEAD']
         ]);
         $headers = @get_headers($url);
         if ($headers === false)  return "001";
