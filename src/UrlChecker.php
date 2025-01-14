@@ -40,7 +40,7 @@ class UrlChecker {
                 'verify_peer' => false,
                 'verify_peer_name' => false,
             ],
-            'http' => ['accept' => '', 'Accept-Encoding' => '']
+            'http' => ['Accept' => '', 'Accept-Encoding' => '']
         ]);
         $headers = @get_headers($url);
         if ($headers === false)  return "001";
