@@ -213,6 +213,15 @@
          self::assertSame (array("hello"), Str::split("hello", ""));
       }
 
+      //---join() ----------------------------------------
+      #[Test]
+      public function shouldJoin(): void {
+          self::assertEquals ("abc:def:xyz", Str::join(["abc", "def", "xyz"], ":"));
+          self::assertEquals ("abcdefxyz", Str::join(["abc", "def", "xyz"], null));
+          self::assertEquals ("", Str::join([], ":"));
+          self::assertEquals ("", Str::join(null, ":"));
+      }
+
       //---startsWith() ----------------------------------------
       #[Test]
       public function shouldExerciseStartsWith(): void {

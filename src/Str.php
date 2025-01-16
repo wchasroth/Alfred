@@ -89,6 +89,12 @@ class Str {
        return explode($delimiter, $text);
    }
 
+   public static function join(?array $values, ?string $separator): string {
+       if ($values    === null)  return "";
+       if ($separator === null)  $separator = "";
+       return implode($separator, $values);
+   }
+
    public static function startsWith(?string $text, ?string $match): bool {
       if (empty($text)  ||  empty($match))  return false;
       return str_starts_with($text, $match);
