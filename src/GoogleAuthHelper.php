@@ -17,7 +17,7 @@ class GoogleAuthHelper {
         return new GoogleUserProfile($email, "");
     }
 
-    private static function getAccessToken(string $client_id, string $redirect_uri, string $client_secret, string $code, $logger): array {
+    private static function getAccessToken(string $client_id, string $redirect_uri, string $client_secret, string $code, $logger) {
         $url = 'https://www.googleapis.com/oauth2/v4/token';
 
         $curlPost = 'client_id=' . $client_id . '&redirect_uri=' . $redirect_uri . '&client_secret=' . $client_secret . '&code='. $code . '&grant_type=authorization_code';
@@ -47,7 +47,7 @@ class GoogleAuthHelper {
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer '. $access_token));
         $data = json_decode(curl_exec($ch), true);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if($http_code != 200)
+        if ($http_code != 200)
             throw new Exception('Error : Failed to get user information');
 
         return $data;
