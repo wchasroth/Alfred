@@ -2,23 +2,22 @@
 
 namespace CharlesRothDotNet\Alfred;
 
-use CharlesRothDotNet\Alfred\Str;
-use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
+use \Exception;
 
-class GooglAuthHelper {
+class GoogleAuthHelper {
     public static function makeGoogleUserProfile($clientId, $clientRedirectUrl, $clientSecret, $code): GoogleUserProfile {
         $env  = new EnvFile("_env");
         $logger = new DumbFileLogger($env->get('logFile'));
-        $data = getAccessToken($clientId, $clientRedirectUrl, $clientSecret, $code, $logger);
+        $data = GoogleAuthHelper::getAccessToken($clientId, $clientRedirectUrl, $clientSecret, $code, $logger);
         $accessToken = $data['access_token'];
         if (Str::startsWith($accessToken, 'Error:'))  return new GoogleUserProfile("", $accessToken);
 
-        $user_info = getUserProfileInfo($accessToken);
+        $user_info = GoogleAuthHelper::getUserProfileInfo($accessToken);
         $email = $user_info['email'];
         return new GoogleUserProfile($email, "");
     }
 
-    private static function getAccessToken(string $client_id, string $redirect_uri, string $client_secret, string $code, $logger): string {
+    private static function getAccessToken(string $client_id, string $redirect_uri, string $client_secret, string $code, $logger): array {
         $url = 'https://www.googleapis.com/oauth2/v4/token';
 
         $curlPost = 'client_id=' . $client_id . '&redirect_uri=' . $redirect_uri . '&client_secret=' . $client_secret . '&code='. $code . '&grant_type=authorization_code';
