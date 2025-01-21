@@ -10,7 +10,7 @@ class GoogleAuthHelper {
         $logger = new DumbFileLogger($env->get('logFile'));
         $data = GoogleAuthHelper::getAccessToken($clientId, $clientRedirectUrl, $clientSecret, $code, $logger);
         $accessToken = $data['access_token'];
-        if (Str::startsWith($accessToken, 'Error:'))  return new GoogleUserProfile("", $accessToken);
+//        if (Str::startsWith($accessToken, 'Error:'))  return new GoogleUserProfile("", $accessToken);
 
         $user_info = GoogleAuthHelper::getUserProfileInfo($accessToken);
         $email = $user_info['email'];
