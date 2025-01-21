@@ -27,7 +27,7 @@ class GooglAuthHelper {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
         $data = json_decode(curl_exec($ch), true);
         $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        return ($http_code == 200 ? $data : 'Error : Failed to receive access token');
+        return ($http_code == 200 ? $data : ['access_token' => 'Error : Failed to receive access token']);
     }
 
     private static function getUserProfileInfo($access_token) {
