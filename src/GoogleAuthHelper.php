@@ -3,6 +3,7 @@
 namespace CharlesRothDotNet\Alfred;
 
 use CharlesRothDotNet\Alfred\Str;
+use CharlesRothDotNet\Alfred\Dict;
 use \Exception;
 
 class GoogleAuthHelper {
@@ -20,13 +21,13 @@ class GoogleAuthHelper {
    }
 
    public function makeGoogleUserProfile($clientId, $clientRedirectUrl, $clientSecret, $code, $logger): GoogleUserProfile {
-      $data = $this->getAccessToken($clientId, $clientRedirectUrl, $clientSecret, $code, $logger);
-      $accessToken = $data['access_token'];
+      $accessTokenWrapper = $this->getAccessToken($clientId, $clientRedirectUrl, $clientSecret, $code, $logger);
+      $accessToken = $accessTokenWrapper['access_token'];
       if (Str::startsWith($accessToken, 'Error:')) return new GoogleUserProfile("", $accessToken);
 
       $user_info = $this->getUserProfileInfo($accessToken);
-      $email = $user_info['email'];
-      return new GoogleUserProfile($email, "");
+      $email = Dict::value($user_info, 'email');
+      return (! empty($email) ? new GoogleUserProfile($email, "") : new GoogleUserProfile("", "Error: no email found"));
    }
 
    function getAccessToken(string $client_id, string $redirect_uri, string $client_secret, string $code, $logger) {

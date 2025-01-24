@@ -32,11 +32,14 @@ class GoogleAuthHelperTest extends TestCase {
       self::assertEquals ("wchasroth@gmail.com", $userProfile->getEmail());
    }
 
-//user_info: Array
-//(
-//[id] => 101790690783650220217
-//[email] => wchasroth@gmail.com
-//[verified_email] => 1
-//[name] => Charles Roth
-//[p
+   #[Test]
+   public function shouldSimulateFailureMakingUserProfile() {
+      $logger = new DumbFileLogger("C:/WAMP/www/Alfred/log");
+      $helper = new GoogleAuthHelper("http://localhost/Alfred/htdocs/simAccessToken.php",
+         "http://localhost/Alfred/htdocs/simUserProfileFail.php");
+      $userProfile = $helper->makeGoogleUserProfile("client_id", "redirect_uri", "client_secret", "code", $logger);
+      self::assertFalse($userProfile->succeeded());
+      self::assertTrue (Str::contains($userProfile->getError(), "Error"));
+   }
+
 }
