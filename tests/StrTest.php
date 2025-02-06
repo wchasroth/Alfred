@@ -187,8 +187,11 @@
 
       //---removeAll() ----------------------------------------
       #[Test]
-      public function shouldRemoveAll_givenArrayOfChars(): void {
+      public function shouldRemoveAll_givenArrayOfStrings(): void {
          self::assertSame ("Hello,myworld", Str::removeAll("Hello, my world!", array(' ', '!')));
+         self::assertSame ("1",  Str::removeALl("1st", ["st", "nd"]));
+         self::assertSame ("2",  Str::removeALl("2nd", ["st", "nd"]));
+         self::assertSame ("sd", Str::removeALl("sd", ["st", "nd"]));
       }
 
       #[Test]
