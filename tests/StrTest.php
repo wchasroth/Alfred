@@ -90,6 +90,34 @@
       }
 
 
+      //---substringsBetween() ----------------------------------------
+      #[Test]
+      public function shouldExtractSubstringsBetween(): void {
+         self::assertEquals (["cd"],          Str::substringsBetween("abcdef", "b", "e"));
+         self::assertEquals ([""],            Str::substringsBetween("abcdef", "ab", "cd"));
+         self::assertEquals (["cd", "ody "],  Str::substringsBetween("abcdef body edge", "b", "e"));
+      }
+
+      #[Test]
+      public function shouldGetEmptyArray_onAnyNullArgument(): void {
+         self::assertEquals([], Str::substringsBetween(NULLSTR, "a", "c"));
+         self::assertEquals([], Str::substringsBetween("abc", NULLSTR, "c"));
+         self::assertEquals([], Str::substringsBetween("abc", "a", NULLSTR));
+      }
+
+      #[Test]
+      public function shouldGetEmptyArray_whenBetweenBoundariesNotFound(): void {
+         self::assertEquals([], Str::substringsBetween("abcd", "a", "e"));
+         self::assertEquals([], Str::substringsBetween("abcd", "x", "d"));
+         self::assertEquals([], Str::substringsBetween("abcd", "d", "a"));
+      }
+
+      #[Test]
+      public function shouldGetProperBetweenStrings_evenWhenCloseIsPartOfOpenString(): void {
+         $header = "HTTP/1.1 403 Forbidden";
+         self::assertEquals (["403"], Str::substringsBetween($header, "HTTP/1.1 ", " "));
+      }
+
       //---substringBetween() ----------------------------------------
       #[Test]
       public function shouldExtractSubstringBetween(): void {

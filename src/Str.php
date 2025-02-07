@@ -43,6 +43,24 @@ class Str {
       return substr($text, $pos1, $pos2 - $pos1);
    }
 
+   public static function substringsBetween (?string $text, ?string $open, ?string $close): array {
+      if (empty($text) || empty($open) || empty($close))   return [];
+
+      $results = [];
+      $start = 0;
+      while (true) {
+         $pos1 = strpos($text, $open, $start);
+         if ($pos1 === false)                              return $results;
+         $pos2 = strpos($text, $close, $pos1 + strlen($open));
+         if ($pos2 === false)                              return $results;
+
+         $pos1  += strlen($open);
+         $results[] = substr($text, $pos1, $pos2 - $pos1);
+         $start = $pos2 + strlen($close);
+      }
+
+   }
+
    // "HTTP/1.1 403 Forbidden"
    // "HTTP/1.1 "     pos1 = 0
    
