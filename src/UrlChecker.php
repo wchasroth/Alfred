@@ -95,7 +95,7 @@ class UrlChecker {
         return false;
     }
 
-    private static function getTextFromUrl(string $url): string {
+    public static function getTextFromUrl(string $url): string {
         $handle = UrlChecker::makeCurlHandleFor($url);
         $response = curl_exec($handle);
         curl_close($handle);
