@@ -244,6 +244,21 @@
          self::assertSame (array("hello"), Str::split("hello", ""));
       }
 
+      //---splitIntoTokens() ----------------------------------------
+      #[Test]
+      public function shouldSplitTokens(): void {
+         self::assertEquals (["Hello,", "World"], Str::splitIntoTokens(" Hello,   World ",  " "));
+         self::assertEquals (["Hello, World"],    Str::splitIntoTokens("Hello, World",  "x"));
+      }
+
+      #[Test]
+      public function shouldHandleNulls_inSplitTokens(): void {
+         self::assertSame ([],        Str::splitIntoTokens(NULLSTR, "x"));
+         self::assertSame ([],        Str::splitIntoTokens("", "x"));
+         self::assertSame (["hello"], Str::splitIntoTokens("hello", NULLSTR));
+         self::assertSame (["hello"], Str::splitIntoTokens("hello", ""));
+      }
+
       //---join() ----------------------------------------
       #[Test]
       public function shouldJoin(): void {

@@ -107,6 +107,26 @@ class Str {
        return explode($delimiter, $text);
    }
 
+   /**
+    * Unlike split(), when multiple delimiters appear in sequence, they are treated
+    * as one delimiter.  And leading and trailing delimiters are skipped.
+    * E.g. " Hello,   world!" splits into ["Hello,"world!"].
+    */
+   public static function splitIntoTokens(?string $text, ?string $delimiter): array {
+      if (empty($text))       return array();
+      if (empty($delimiter))  return array($text);
+
+      $token = strtok($text, $delimiter);
+      if ($token === false)  return [];
+
+      $results = [$token];
+      while (true) {
+         $token = strtok($delimiter);
+         if ($token === false)  return $results;
+         $results[] = $token;
+      }
+   }
+
    public static function join(?array $values, ?string $separator): string {
        if ($values    === null)  return "";
        if ($separator === null)  $separator = "";
