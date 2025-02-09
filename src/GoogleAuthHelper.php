@@ -6,6 +6,23 @@ use CharlesRothDotNet\Alfred\Str;
 use CharlesRothDotNet\Alfred\Dict;
 use \Exception;
 
+/**
+ * GoogleAuthHelper is a one-stop-shop "wrapper" around authenticating a PHP web application,
+ * using Google email authentication.
+ *
+ * Once you have defined your application in your Google project dashboard, you will have
+ * (under APIs and Services, Credentials) a web client (with one or more URLs that your
+ * authentication process can redirect to), a client id, and a client secret.
+ *
+ * In your application:
+ * 1. Construct a GoogleAuthHelper with the desired redirect-to page, and the client id.
+ * 2. Use it to make the login link with makeGoogleLoginUrl.
+ * 3. On the redirected-to page, call getGoogleUserProfile() with the 'code' field you got
+ *    back in the query-string, and the client secret.
+ * 4. This gives you the authenticated email address -- or an error code.
+ *
+ * That's it!
+ */
 class GoogleAuthHelper {
    private string $googleLoginUrlBase;
    private string $googleAccessTokenUrl;
@@ -14,7 +31,7 @@ class GoogleAuthHelper {
    private string $clientId;
 
    // These are the default values for talking to the real Google Auth service.
-   // They can be overridden in the constructor, with values supplied inside unit-tests.
+   // They can be overridden in the constructor, with values supplied inside/for unit-tests.
    const DefaultGoogleLoginUrlBase = "https://accounts.google.com/o/oauth2/v2/auth?scope="
       . "https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email";  // note URL encoding.
    const DefaultGoogleAccessTokenUrl = "https://www.googleapis.com/oauth2/v4/token";

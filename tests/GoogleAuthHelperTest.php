@@ -6,10 +6,6 @@ use CharlesRothDotNet\Alfred\Str;
 use CharlesRothDotNet\Alfred\DumbFileLogger;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-
-use CharlesRothDotNet\Alfred\AlfredPDO;
-use CharlesRothDotNet\Alfred\PdoRunResult;
 
 class GoogleAuthHelperTest extends TestCase {
 
