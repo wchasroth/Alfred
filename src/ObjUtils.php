@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace CharlesRothDotNet\Alfred;
 
-use stdClass;
+use \stdClass;
 
 class ObjUtils {
 
