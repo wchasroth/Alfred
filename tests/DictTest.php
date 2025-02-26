@@ -15,7 +15,8 @@
       #[Test]
       public function shouldGetKeyValue_fromDictionary() {
          $dict = array("hi" => "hello");
-         self::assertSame("hello", Dict::value($dict, "hi"));
+         self::assertSame("hello",   Dict::value($dict, "hi"));
+         self::assertSame("hello, ", Dict::value($dict, "hi", "", ", "));
       }
 
       #[Test]
