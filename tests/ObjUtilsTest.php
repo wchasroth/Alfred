@@ -22,4 +22,18 @@ class ObjUtilsTest extends TestCase {
       self::assertEquals ("nothing", ObjUtils::value($x, "foo", "nothing"));
    }
 
+   #[Test]
+   public function shouldGetExistingArrayPropertyFromObject() {
+      $x = new stdClass();
+      $x->foo = ["a", "b"];
+      self::assertEquals(["a", "b"], ObjUtils::getArray($x, "foo"));
+   }
+
+   #[Test]
+   public function shouldGetDefaultArrayPropertyFromObject() {
+      $x = new stdClass();
+      self::assertEquals([""],  ObjUtils::getArray($x, "foo"));
+      self::assertEquals(["a"], ObjUtils::getArray($x, "foo", ["a"]));
+   }
+
 }

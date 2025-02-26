@@ -18,4 +18,9 @@ class ObjUtils {
       return (property_exists($obj, $key) ? ($obj->$key . $append) : $defaultValue);
    }
 
+   public static function getArray(stdClass $obj, string $key, array $defaultValue = [""]): array {
+      return (property_exists($obj, $key) ? $obj->$key : $defaultValue);
+
+   }
+
 }
