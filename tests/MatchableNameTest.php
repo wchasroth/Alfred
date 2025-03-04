@@ -22,6 +22,17 @@ class MatchableNameTest extends TestCase {
       self::assertFalse($this->match("anyone", ""));
    }
 
+   #[Test]
+   public function shouldGetSimplifiedName() {
+      self::assertEquals("charles roth", $this->makeSimplifiedName("Chuck Roth"));
+      self::assertEquals("bob henschel jr", $this->makeSimplifiedName("Robert D. Henschel, Jr."));
+   }
+
+   private function makeSimplifiedName(string $name): string {
+      $mn = new MatchableName($name);
+      return $mn->getSimplifiedName();
+   }
+
    private function match(string $name1, string $name2): bool {
       $match1 = new MatchableName($name1);
       $match2 = new MatchableName($name2);

@@ -29,6 +29,10 @@ class MatchableName {
       return false;
    }
 
+   public function getSimplifiedName(): string {
+      return Str::join($this->canonicalNameParts, " ");
+   }
+
    private function removePunctuation(string $name): string {
       return str_replace(self::$punctuation, " ", $name);
    }
