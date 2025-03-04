@@ -9,11 +9,24 @@ class MatchableName {
    public function __construct(string $name) {
       $simplifiedName = $this->removePunctuation(strtolower($name));
       $tokens = Str::splitIntoTokens($simplifiedName, " ");
-      $this->canonicalNameParts = [];
+      $parts = [];
       foreach ($tokens as $token) {
-         if (strlen($token) > 1)
-            $this->canonicalNameParts[] = $this->canonicalName($token);
+         if (strlen($token) > 1)   $parts[] = $this->canonicalName($token);
       }
+
+      $this->canonicalNameParts = $this->addNamePartsWithPrefixes($parts, "den");
+   }
+
+   // E.g. given "den" followed by "houten", add the name part "denhouten" to the array of name parts.
+   private function addNamePartsWithPrefixes(array $parts, string ... $prefixes): array {
+      $result = $parts;
+      $last = count($parts) - 1;
+      foreach ($prefixes as $prefix) {
+         for ($i=0;   $i <= $last;   $i++) {
+            if ($parts[$i] == $prefix   &&   $i < $last) $result[] = $prefix . $parts[$i + 1];
+         }
+      }
+      return $result;
    }
 
    public function matches(MatchableName $other, int $number): bool {
@@ -53,6 +66,7 @@ class MatchableName {
       "david"       => "dave",
       "donald"      => "don",
       "douglass"    => "doug",
+      "douglas"     => "doug",
       "drian"       => "brian",
       "edward"      => "ed",
       "jacqueline"  => "jackie",
@@ -84,6 +98,7 @@ class MatchableName {
       "stephenie"   => "stephanie",
       "stephen"     => "steve",
       "steven"      => "steve",
+      "terrence"    => "terry",
       "thomas"      => "tom",
       "timothy"     => "tim",
       "tommy"       => "tom",

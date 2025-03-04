@@ -14,6 +14,7 @@ class MatchableNameTest extends TestCase {
       self::assertTrue($this->match("lisaa mattila", "mattila james lisa"));
       self::assertTrue($this->match("Robert D. Henschel, Jr.", "rob hentschel"));
       self::assertTrue($this->match("robert orlando peña", "robert pena"));
+      self::assertTrue($this->match("dave den houten", "dave denhouten"));
    }
 
    #[Test]
