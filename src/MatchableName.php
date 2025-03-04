@@ -98,6 +98,7 @@ class MatchableName {
       "stephenie"   => "stephanie",
       "stephen"     => "steve",
       "steven"      => "steve",
+      "terence"     => "terry",
       "terrence"    => "terry",
       "thomas"      => "tom",
       "timothy"     => "tim",
