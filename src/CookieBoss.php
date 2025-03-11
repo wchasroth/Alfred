@@ -1,22 +1,28 @@
 <?php
+declare(strict_types=1);
 
 namespace CharlesRothDotNet\Alfred;
+
+use DateTimeZone;
+use DateTime;
 
 class CookieBoss {
     private string $domain;
     private string $path;
     private string $securekey;
     private bool   $isLocal;
+    private DateTimeZone $tz;
 
-    public function __construct($domain, $path, $securekey) {
+    public function __construct(string $domain, string $path, string $securekey, string $timezone='America/New_York') {
         $this->domain    = $domain;
         $this->path      = $path;
         $this->securekey = $securekey;
         $this->isLocal   = $domain == "localhost";
+        $this->tz        = new DateTimeZone($timezone);
     }
 
     public function setWithHash (string $name, string $value, int $expiryDays): void {
-        $hashedValue = $this->makeSecureHash($value, $expiryDays);
+        $hashedValue = $this->makeSecureHash($value);
         $this->set($name, "$value:$hashedValue", $expiryDays);
     }
 
@@ -38,7 +44,8 @@ class CookieBoss {
     }
 
     private function makeSecureHash($value): string {
-      $today = date("Y-m-d");
+      $date  = new DateTime("now", $this->tz);
+      $today = $date->format('Y-m-d');
       return hash("sha256", $value . $today . $this->securekey);
    }
 
