@@ -10,7 +10,9 @@ class StringArrayTest extends TestCase {
    #[Test]
    public function shouldFailToLoadNonexistentFile(): void {
       $sa = new StringArray();
-      self::assertFalse($sa->load("/noSuchFile"));
+      self::assertFalse ($sa->load("/noSuchFile"));
+      self::assertFalse ($sa->hasMore());
+      self::assertEquals("", $sa->getNext());
    }
 
    #[Test]

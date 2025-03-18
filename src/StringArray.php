@@ -11,7 +11,7 @@ class StringArray {
 
    function __construct() {
       $this->lines = [];
-      $this->index = -1;
+      $this->index =  0;
    }
 
    public function load(string $filename): bool {
