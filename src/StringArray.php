@@ -15,8 +15,12 @@ class StringArray {
    }
 
    public function load(string $filename): bool {
+
       if (empty($filename))   return false;
+      set_error_handler(function() { /* ignore errors */ }); // Turn off the damn warnings!
       $result = file($filename, FILE_IGNORE_NEW_LINES);
+      restore_error_handler();
+
       if ($result === false)  return false;
       $this->lines = $result;
       $this->index = 0;
