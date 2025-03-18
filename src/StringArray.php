@@ -8,9 +8,11 @@ use CharlesRothDotNet\Alfred\Str;
 class StringArray {
    private array $lines;
    private int   $index;
+   private int   $count;
 
    function __construct() {
       $this->lines = [];
+      $this->count =  0;
       $this->index =  0;
    }
 
@@ -24,11 +26,12 @@ class StringArray {
       if ($result === false)  return false;
       $this->lines = $result;
       $this->index = 0;
+      $this->count = count($result);
       return true;
    }
 
    public function hasMore(): bool {
-      return $this->index < count($this->lines);
+      return $this->index < $this->count;
    }
 
    public function getNext(): string {
@@ -36,11 +39,26 @@ class StringArray {
       return $this->lines[$this->index++];
    }
 
-   public function getNextMatch(string $match) {
+   public function getNextMatch(string $match): string {
       while ($this->hasMore()) {
          $text = $this->getNext();
          if (Str::contains($text, $match))  return $text;
       }
+      return "";
+   }
+
+   public function getNextMatchBefore(string $match, string $before): string {
+      if (! $this->hasMore())  return "";
+
+      for ($i = $this->index;   $i < $this->count;  ++$i) {
+         $line = $this->lines[$i];
+         if (Str::contains($line, $before))  return "";
+         if (Str::contains($line, $match)) {
+            $this->index = $i + 1;
+            return $line;
+         }
+      }
+
       return "";
    }
 
