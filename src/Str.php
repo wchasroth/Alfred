@@ -74,6 +74,16 @@ class Str {
       return false;
    }
 
+   public static function containsAll (?string $text, ?string ... $searchFors): bool {
+      if (empty($text)) return false;
+      foreach ($searchFors as $searchFor) {
+         if (! empty($searchFor)) {
+            if (strpos($text, $searchFor) === false)  return false;
+         }
+      }
+      return true;
+   }
+
     public static function hasAnyOf (?string $text, ?array $searchFors): bool {
         if (empty($text)) return false;
         foreach ($searchFors as $searchFor) {

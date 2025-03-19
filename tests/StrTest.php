@@ -188,6 +188,19 @@
          self::assertFalse(Str::contains("abc"));
       }
 
+      //---contains() ----------------------------------------
+      #[Test]
+      public function shouldDetectAllContainedSubstrings(): void {
+         self::assertTrue (Str::containsAll("abcdef", "b"));
+         self::assertTrue (Str::containsAll("abcdef", "b", "f"));
+         self::assertTrue (Str::containsAll("abcdef", "b", "a"));
+      }
+
+      #[Test]
+      public function shouldFailWhenAnyOneStringNotContained(): void {
+         self::assertFalse (Str::containsAll("abcdef", "c", "x"));
+      }
+
       //---replaceAll() ----------------------------------------
       #[Test]
       public function shouldReplaceAllInstancesofSubstring(): void {
