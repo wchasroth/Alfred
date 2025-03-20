@@ -167,5 +167,14 @@ class Str {
       if (empty($word))  return 0;
       return self::$ordinalsToInts[trim(strtolower($word))] ?? 0;
    }
+
+   public static function reorderName(string $name): string {
+      if (empty($name))                 return "";
+      foreach (["JR.", "Jr.", "jr."] as $jr)  $name = Str::replaceAll($name, ", $jr", " $jr");
+      if (! Str::contains($name, ","))  return $name;
+      $first = trim(Str::substringAfter ($name, ","));
+      $last  = trim(Str::substringBefore($name, ","));
+      return "$first $last";
+   }
    
 }

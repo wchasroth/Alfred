@@ -339,4 +339,16 @@
          self::assertEquals (0, Str::ordinalValue("xyz"));
       }
 
+      //---reorderName() ----------------------------------
+      #[Test]
+      public function shouldReorderBackwardsName() {
+         self::assertEquals("ROBERT F. KENNEDY JR.", Str::reorderName(" KENNEDY, JR., ROBERT F."));
+         self::assertEquals("ELISSA SLOTKIN", Str::reorderName("SLOTKIN, ELISSA "));
+      }
+
+      #[Test]
+      public function shouldLeaveNormalNameIntact() {
+         self::assertEquals("ELISSA SLOTKIN", Str::reorderName("ELISSA SLOTKIN"));
+      }
+
    }
