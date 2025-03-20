@@ -165,7 +165,10 @@ class Str {
 
    public static function ordinalValue(string $word): int {
       if (empty($word))  return 0;
-      return self::$ordinalsToInts[trim(strtolower($word))] ?? 0;
+      $word  = trim ($word);
+      $value = (int) $word;
+      if ($value > 0)    return $value;
+      return self::$ordinalsToInts[strtolower($word)] ?? 0;
    }
 
    public static function reorderName(string $name): string {

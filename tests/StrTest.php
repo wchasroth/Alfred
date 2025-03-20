@@ -327,9 +327,11 @@
       #[Test]
       public function shouldConvertSpelledOutOrdinalsToInts() {
          self::assertEquals ( 1, Str::ordinalValue("First"));
+         self::assertEquals ( 1, Str::ordinalValue("1st"));
          self::assertEquals ( 2, Str::ordinalValue("SECOND"));
          self::assertEquals ( 3, Str::ordinalValue("third "));
          self::assertEquals (10, Str::ordinalValue(" TENTH "));
+         self::assertEquals (10, Str::ordinalValue(" 10th "));
       }
 
       #[Test]
