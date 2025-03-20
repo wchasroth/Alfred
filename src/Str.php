@@ -157,5 +157,15 @@ class Str {
       if (empty($text))  return "";
       return str_replace(",", "", $text);
    }
+
+   private static array $ordinalsToInts = [
+      "first" => 1, "second" => 2, "third" => 3, "fourth" => 4, "fifth" => 5, "sixth" => 6,
+      "seventh" => 7, "eighth" => 8, "ninth" => 9, "tenth" => 10
+   ];
+
+   public static function ordinalValue(string $word): int {
+      if (empty($word))  return 0;
+      return self::$ordinalsToInts[trim(strtolower($word))] ?? 0;
+   }
    
 }

@@ -323,4 +323,20 @@
          self::assertEmpty (Str::removeCommas(""));
       }
 
+      //---ordinalValue() ----------------------------------
+      #[Test]
+      public function shouldConvertSpelledOutOrdinalsToInts() {
+         self::assertEquals ( 1, Str::ordinalValue("First"));
+         self::assertEquals ( 2, Str::ordinalValue("SECOND"));
+         self::assertEquals ( 3, Str::ordinalValue("third "));
+         self::assertEquals (10, Str::ordinalValue(" TENTH "));
+      }
+
+      #[Test]
+      public function shouldFailToConvertNonOrdinals() {
+         self::assertEquals (0, Str::ordinalValue(""));
+         self::assertEquals (0, Str::ordinalValue("eleventh"));  // only handles 1-10 so far
+         self::assertEquals (0, Str::ordinalValue("xyz"));
+      }
+
    }
