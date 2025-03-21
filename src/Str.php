@@ -179,5 +179,18 @@ class Str {
       $last  = trim(Str::substringBefore($name, ","));
       return "$first $last";
    }
-   
+
+   public static function jsonify (string $name, $value, bool $comma=true): string {
+      $value  = is_int($value) ? strval($value) : self::quoted($value);
+      return self::quoted($name) . ": " . $value . ($comma ? ", " : "");
+   }
+
+   public static function quoted(string $text): string {
+      return '"' . $text . '"';
+   }
+
+   public static function jsonifyLast (string $name, $value): string {
+      return self::jsonify($name, $value, false);
+   }
+
 }

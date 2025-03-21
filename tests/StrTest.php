@@ -353,4 +353,17 @@
          self::assertEquals("ELISSA SLOTKIN", Str::reorderName("ELISSA SLOTKIN"));
       }
 
+      //---jsonify() ----------------------------------
+      #[Test]
+      public function shouldJsonifyNameValueWithComma() {
+         self::assertEquals ('"name": "charles", ', Str::jsonify("name", "charles"));
+         self::assertEquals ('"number": 37, ',      Str::jsonify("number", 37));
+      }
+
+      #[Test]
+      public function shouldJsonifyNameValueWithoutComma() {
+         self::assertEquals ('"name": "charles"', Str::jsonifyLast("name", "charles"));
+         self::assertEquals ('"number": 37',      Str::jsonifyLast("number", 37));
+      }
+
    }
