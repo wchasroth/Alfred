@@ -9,7 +9,9 @@ class MatchableNameTest extends TestCase {
 
    #[Test]
    public function shouldMatch() {
-      self::assertTrue($this->match("Charles Roth", "Chuck Roth"));
+      self::assertTrue($this->match("Charles Roth",       "Chuck Roth"));
+      self::assertTrue($this->match("Charles&nbsp;Roth",  "Chuck Roth"));
+      self::assertTrue($this->match("Charles&nbsp; Roth", "Chuck Roth"));
       self::assertTrue($this->match("larry tiejema", "lawrence stewart tiejema"));
       self::assertTrue($this->match("lisaa mattila", "mattila james lisa"));
       self::assertTrue($this->match("Robert D. Henschel, Jr.", "rob hentschel"));

@@ -8,6 +8,7 @@ class MatchableName {
 
    public function __construct(string $name) {
       $simplifiedName = $this->removePunctuation(strtolower($name));
+      $simplifiedName = Str::replaceAll($simplifiedName, "&nbsp;", " ");
       $tokens = Str::splitIntoTokens($simplifiedName, " ");
       $parts = [];
       foreach ($tokens as $token) {
