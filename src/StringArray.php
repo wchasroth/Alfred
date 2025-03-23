@@ -45,7 +45,7 @@ class StringArray {
       $lines->load($argv[$number]);
       if ($lines->hasMore()) return $lines;
 
-      fwrite(STDERR, "Cannot read file " . $argv[1] . "\n");
+      fwrite(STDERR, "Cannot read file " . $argv[$number] . "\n");
       exit(1);
    }
 
