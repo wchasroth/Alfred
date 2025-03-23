@@ -17,7 +17,6 @@ class StringArray {
    }
 
    public function load(string $filename): bool {
-
       if (empty($filename))   return false;
       set_error_handler(function() { /* ignore errors */ }); // Turn off the damn warnings!
       $result = file($filename, FILE_IGNORE_NEW_LINES);
@@ -28,6 +27,26 @@ class StringArray {
       $this->index = 0;
       $this->count = count($result);
       return true;
+   }
+
+   public static function makeFromFile(string $path): StringArray {
+      $sa = new StringArray();
+      $sa->load($path);
+      return $sa;
+   }
+
+   public static function makeFromCommandLineArgs_elseExit(array $argv, int $number, string $usageMessage): StringArray {
+      if (count($argv) <= $number) {
+         fwrite(STDERR, $usageMessage);
+         exit(1);
+      }
+
+      $lines = new StringArray();
+      $lines->load($argv[$number]);
+      if ($lines->hasMore()) return $lines;
+
+      fwrite(STDERR, "Cannot read file " . $argv[1] . "\n");
+      exit(1);
    }
 
    public function hasMore(): bool {
