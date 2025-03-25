@@ -6,11 +6,13 @@ class PdoRunResult {
     private string $error;
     private string $rawSql;
     private array  $rows;
+    private int    $insertId;
 
-    public function __construct(array $rows, string $error, string $rawSql) {
+    public function __construct(array $rows, string $error, string $rawSql, int $insertId = -1) {
         $this->error = $error;
         $this->rows = $rows;
         $this->rawSql = $rawSql;
+        $this->insertId = $insertId;
     }
 
     public function getError(): string {
@@ -31,6 +33,10 @@ class PdoRunResult {
 
     public function getRawSql(): string {
         return $this->rawSql;
+    }
+
+    public function getInsertId(): int {
+       return $this->insertId;
     }
 
     public function getSingleValue(string $key) {

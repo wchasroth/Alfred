@@ -81,7 +81,11 @@ class AlfredPDO extends PDO {
        $stm = $this->prepare($sql);
        $this->bindKeyValueArray($stm, $keyValueParams);
 
-       try                     { $stm->execute(); }
+       $lastId = -1;
+       try                     {
+          $stm->execute();
+          $lastId = PDO::lastInsertId();
+       }
        catch (PDOException $e) {
            return new PdoRunResult([], $e->getMessage(), $getRawSql ? $this->getRawSql($stm) : "");
        }
@@ -89,7 +93,7 @@ class AlfredPDO extends PDO {
        $rows  = ($this->isSelect($sql) ? $stm->fetchAll(PDO::FETCH_ASSOC) : []);
        $error = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
 
-       return new PdoRunResult($rows, $error, $getRawSql ? $this->getRawSql($stm) : "");
+       return new PdoRunResult($rows, $error, $getRawSql ? $this->getRawSql($stm) : "", $lastId);
    }
 
    private function isSelect(string $sql): bool {

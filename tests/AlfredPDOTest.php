@@ -49,6 +49,19 @@ class AlfredPDOTest extends TestCase {
    }
 
    #[Test]
+   public function shouldInsertAutoIncrementKey_andGetLastInsertId(): void {
+      if ($this->skipTests)  { self::assertNoOp();  return; }
+
+      $pdo = new AlfredPDO("mivoterdm", "root", "");
+      $pdo->run("DROP TABLE IF EXISTS UnitTest");
+      $pdo->run("CREATE TABLE UnitTest (id int NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), name varchar(20))");
+      $result = $pdo->run("INSERT INTO UnitTest (name) VALUES (:name)", [":name" => "Test"], true);
+      $pdo->run("DROP TABLE UnitTest");
+
+      self::assertEquals (1, $result->getInsertId());
+   }
+
+   #[Test]
    public function shouldInsertAndSelectFromTable_usingPdoRun() {
        if ($this->skipTests)  { self::assertNoOp();  return; }
 
@@ -58,6 +71,7 @@ class AlfredPDOTest extends TestCase {
 
        $result = $pdo->run("INSERT INTO UnitTest (id, name) VALUES (:id, :name)", [":id" => 1, ":name" => "Test"], true);
        self::assertTrue($result->succeeded());
+       self::assertEquals (0, $result->getInsertId());
        self::assertSame("INSERT INTO UnitTest (id, name) VALUES (1, 'Test')", $result->getRawSql());
 
        $result = $pdo->run("SELECT * FROM UnitTest");
