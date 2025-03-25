@@ -9,7 +9,7 @@ class TempFile {
 
    public function __construct(string $text) {
       $this->path = tempnam("", "");
-      file_put_contents($this->path, "Hello World\nGoodbye Moon\nGreetings, Mars\n");
+      file_put_contents($this->path, $text);
    }
 
    public function getPath(): string {
