@@ -16,14 +16,17 @@ class Csv {
          exit(1);
       }
 
-      $result = self::load($fp);
+      $result = self::loadTrimmed($fp);
       fclose($fp);
       return $result;
    }
 
-   public static function load($fp): array {
+   public static function loadTrimmed($fp): array {
       $result = [];
-      while ( ($data = fgetcsv($fp, 2000, ",")) !== false)   $result[] = $data;
+      while ( ($data = fgetcsv($fp, 2000, ",")) !== false) {
+         for ($i=0;   $i<count($data);  ++$i)    $data[$i] = trim($data[$i]);
+         $result[] = $data;
+      }
       return $result;
    }
 }

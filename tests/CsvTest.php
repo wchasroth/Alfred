@@ -11,7 +11,7 @@ class CsvTest extends TestCase {
 
    #[Test]
    public function shouldSimulateLoadingCsvFile_fromCommandLine(): void {
-      $temp = new TempFile("abc,def,\"ghi\"\n1,2,3\n");
+      $temp = new TempFile("abc, def,\"ghi \"\n1,2,3\n");
       $argv = ["program", $temp->getPath()];
       $csv = Csv::loadFromCommandLine($argv, 1, "Usage: program filename");
       self::assertEquals (2, count($csv));
