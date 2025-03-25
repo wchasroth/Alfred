@@ -11,6 +11,8 @@ class PartyNamesTest extends TestCase {
    public function shouldTranslateNameToInitial() {
       $pn = new PartyNames();
       self::assertEquals("D", $pn->getInitial("Democratic"));
+      self::assertEquals("N", $pn->getInitial("non-partisan"));
+      self::assertEquals("N", $pn->getInitial("non partisan"));
       self::assertEquals("",  $pn->getInitial("NoSuchParty"));
    }
 

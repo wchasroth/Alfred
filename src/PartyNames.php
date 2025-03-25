@@ -28,6 +28,7 @@ class PartyNames {
    }
 
    public function getInitial(string $name): string {
+      $name = Str::replaceAll($name, "-", " ");
       return $this->partyToInitial[trim(strtoupper($name))] ?? "";
    }
 
