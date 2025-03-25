@@ -371,6 +371,7 @@
       public function shouldSingleQuoteArgument_withOptionalSuffix() {
          self::assertEquals ("'abc'",   Str::singleQuoted("abc"));
          self::assertEquals ("'abc', ", Str::singleQuoted("abc", ", "));
+         self::assertEquals ("'O\'Malley'", Str::singleQuoted("O'Malley"));
       }
 
    }
