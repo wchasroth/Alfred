@@ -189,6 +189,10 @@ class Str {
       return '"' . $text . '"';
    }
 
+   public static function singleQuoted(string $text, string $suffix = ""): string {
+      return "'" . $text . "'" . $suffix;
+   }
+
    public static function jsonifyLast (string $name, $value): string {
       return self::jsonify($name, $value, false);
    }

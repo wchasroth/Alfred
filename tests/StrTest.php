@@ -366,4 +366,11 @@
          self::assertEquals ('"number": 37',      Str::jsonifyLast("number", 37));
       }
 
+      //---singleQuoted() ----------------------------------
+      #[Test]
+      public function shouldSingleQuoteArgument_withOptionalSuffix() {
+         self::assertEquals ("'abc'",   Str::singleQuoted("abc"));
+         self::assertEquals ("'abc', ", Str::singleQuoted("abc", ", "));
+      }
+
    }
