@@ -21,6 +21,9 @@ class PartyNames {
          "WRITE-IN"            => "W"
       ];
       $this->initialToParty = array_flip($this->partyToInitial);
+      $this->partyToInitial["NON-PARTISAN"] = "N";
+      $this->partyToInitial["NONPARTISAN"]  = "N";
+      $this->partyToInitial["WRITE IN"]     = "W";
    }
 
    public function getName(string $initial): string {
@@ -28,7 +31,6 @@ class PartyNames {
    }
 
    public function getInitial(string $name): string {
-      $name = Str::replaceAll($name, "-", " ");
       return $this->partyToInitial[trim(strtoupper($name))] ?? "";
    }
 

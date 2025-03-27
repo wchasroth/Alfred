@@ -13,6 +13,9 @@ class PartyNamesTest extends TestCase {
       self::assertEquals("D", $pn->getInitial("Democratic"));
       self::assertEquals("N", $pn->getInitial("non-partisan"));
       self::assertEquals("N", $pn->getInitial("non partisan"));
+      self::assertEquals("N", $pn->getInitial("nonpartisan"));
+      self::assertEquals("W", $pn->getInitial("write-in"));
+      self::assertEquals("W", $pn->getInitial("write in"));
       self::assertEquals("",  $pn->getInitial("NoSuchParty"));
    }
 
@@ -21,6 +24,7 @@ class PartyNamesTest extends TestCase {
       $pn = new PartyNames();
       self::assertEquals("DEMOCRATIC", $pn->getName("D"));
       self::assertEquals("REPUBLICAN", $pn->getName("r"));
+      self::assertEquals("WRITE-IN",   $pn->getName("W"));
       self::assertEquals("",           $pn->getName("Z"));
    }
 
