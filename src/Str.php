@@ -197,4 +197,8 @@ class Str {
       return self::jsonify($name, $value, false);
    }
 
+   public static function equalsIgnoreCase(string $text1, string $text2): bool {
+      return strcasecmp($text1, $text2) === 0;
+   }
+
 }

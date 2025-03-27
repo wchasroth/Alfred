@@ -374,4 +374,17 @@
          self::assertEquals ("'O\'Malley'", Str::singleQuoted("O'Malley"));
       }
 
+      //---equalsIgnoreCase() ----------------------------------
+      #[Test]
+      public function shouldEquateSameStrings_differentCase() {
+         self::assertTrue (Str::equalsIgnoreCase("abc", "abc"));
+         self::assertTrue (Str::equalsIgnoreCase("ABC", "abc"));
+      }
+
+      #[Test]
+      public function shouldFailGivenDifferentStrings() {
+         self::assertFalse (Str::equalsIgnoreCase("acb", "abc"));
+      }
+
+
    }
