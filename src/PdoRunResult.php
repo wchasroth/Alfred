@@ -31,6 +31,10 @@ class PdoRunResult {
         return $this->rows;
     }
 
+    public function getRowCount(): int {
+       return count($this->rows);
+    }
+
     public function getRawSql(): string {
         return $this->rawSql;
     }

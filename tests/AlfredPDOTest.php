@@ -55,6 +55,8 @@ class AlfredPDOTest extends TestCase {
       $pdo = new AlfredPDO("mivoterdm", "root", "");
       $pdo->run("DROP TABLE IF EXISTS UnitTest");
       $pdo->run("CREATE TABLE UnitTest (id int NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), name varchar(20))");
+      $noResult = $pdo->run("SELECT * FROM UnitTest");
+      self::assertEquals (0, $noResult->getRowCount());
       $result = $pdo->run("INSERT INTO UnitTest (name) VALUES (:name)", [":name" => "Test"], true);
       $pdo->run("DROP TABLE UnitTest");
 
@@ -78,6 +80,7 @@ class AlfredPDOTest extends TestCase {
        self::assertTrue($result->succeeded());
        self::assertCount(1, $result->getRows());
        self::assertEmpty($result->getRawSql());
+       self::assertEquals (1, $result->getRowCount());
        $row = $result->getRows()[0];
        self::assertSame(1,      $row['id']);
        self::assertSame("Test", $row['name']);
