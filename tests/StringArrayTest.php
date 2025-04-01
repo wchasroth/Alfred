@@ -42,6 +42,21 @@ class StringArrayTest extends TestCase {
    }
 
    #[Test]
+   public function shouldGetNextMatch_thenRewindOne_andFindAgain() {
+      $tempFile = new TempFile("Hello World\nGoodbye Moon\nGreetings, Mars\n");
+      $sa = StringArray::makeFromFile($tempFile->getPath());
+
+      self::assertEquals ("Goodbye Moon",    $sa->getNextMatch("bye"));
+      self::assertTrue   ($sa->hasMore());
+
+      $sa->move(-1);
+      self::assertEquals ("Goodbye Moon",    $sa->getNextMatch("bye"));
+      self::assertEquals ("",                $sa->getNextMatch("bye"));   // rewind found it again, but only once!
+
+      $tempFile->delete();
+   }
+
+   #[Test]
    public function shouldFindMatchBeforeEnder() {
       $tempFile = new TempFile("Hello World\nGoodbye Moon\nGreetings, Mars\n");
       $sa = StringArray::makeFromFile($tempFile->getPath());

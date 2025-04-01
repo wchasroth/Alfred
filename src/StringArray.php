@@ -53,6 +53,10 @@ class StringArray {
       return $this->index < $this->count;
    }
 
+   public function move(int $number): void {
+      $this->index += $number;
+   }
+
    public function getNext(): string {
       if (! $this->hasMore()) return "";
       return $this->lines[$this->index++];
