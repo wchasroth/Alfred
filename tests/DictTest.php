@@ -20,6 +20,13 @@
       }
 
       #[Test]
+      public function shouldGetValueForNumericKey() {
+         $dict = ["hi", "bye"];
+         self::assertSame("bye", Dict::value($dict, 1));
+         self::assertSame("",    Dict::value($dict, 17));
+      }
+
+      #[Test]
       public function shouldGetEmptyString_forNoKey_orNoDict() {
          $dict = array("hi" => "hello");
          self::assertSame("", Dict::value($dict,  "noSuchKey"));

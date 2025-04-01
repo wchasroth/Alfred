@@ -7,7 +7,7 @@ namespace CharlesRothDotNet\Alfred;
 
 class Dict {
    
-   public static function value(array $dict, string $key, string $defValue="", string $append = "") {
+   public static function value(array $dict, $key, string $defValue="", string $append = "") {
       if (empty($key))     return "";
       if ($dict === null)  return "";
       return isset($dict[$key]) ? $dict[$key] . $append : $defValue;
