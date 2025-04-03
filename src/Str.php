@@ -201,4 +201,52 @@ class Str {
       return strcasecmp($text1, $text2) === 0;
    }
 
+   public static function findEmailAddresses($text): array {
+      if (empty($text)) return [];
+      $result = [];
+      $words = Str::split($text, " ");
+      foreach ($words as $word) {
+         $word = trim($word, ",");
+         if (filter_var($word, FILTER_VALIDATE_EMAIL))  $result[] = $word;
+      }
+      return $result;
+   }
+
+   public static function removeEmailAddresses($text): string {
+      if (empty($text)) return "";
+      $result = [];
+      $words = Str::split($text, " ");
+      foreach ($words as $word) {
+         $email = trim($word, ",");
+         if (! filter_var($email, FILTER_VALIDATE_EMAIL))  $result[] = $word;
+      }
+      return Str::join($result, " ");
+   }
+
+   public static function findUrls($text): array {
+      if (empty($text)) return [];
+      $result = [];
+      $words = Str::split($text, " ");
+      foreach ($words as $word) {
+         if (self::isUrl($word))  $result[] = trim($word, ",");
+      }
+      return $result;
+   }
+
+   public static function removeUrls($text): string {
+      if (empty($text)) return "";
+      $result = [];
+      $words = Str::split($text, " ");
+      foreach ($words as $word) {
+         if (! self::isUrl($word))  $result[] = $word;
+      }
+      return Str::join($result, " ");
+   }
+
+   private static function isUrl(string $word): bool {
+      $word = trim($word, ",");
+      $url  = strtolower($word);
+      return (Str::startsWith($url, "http://")  ||  Str::startsWith($url, "https://"));
+   }
+
 }

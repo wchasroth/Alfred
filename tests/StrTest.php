@@ -386,5 +386,46 @@
          self::assertFalse (Str::equalsIgnoreCase("acb", "abc"));
       }
 
+      //---findEmailAddresses() ----------------------------------
+      #[Test]
+      public function shouldFindEmails() {
+         $text = "I'm wchasroth@gmail.com, hello!  Once croth@thedance.net  ";
+         self::assertEquals (["wchasroth@gmail.com", "croth@thedance.net"], Str::findEmailAddresses($text));
+      }
+
+      #[Test]
+      public function shouldNotFindAnyEmails() {
+         self::assertEquals (0, count(Str::findEmailAddresses("I'm wchasroth @gmail.com, hello!  Once croth@thedance")));
+         self::assertEquals (0, count(Str::findEmailAddresses("")));
+         self::assertEquals (0, count(Str::findEmailAddresses("website is https://thedance.net blah @thedance.net")));
+      }
+
+      //---removeEmailAddresses() ----------------------------------
+      #[Test]
+      public function shouldRemoveEmails() {
+         $text = "I'm wchasroth@gmail.com, hello!  Once croth@thedance.net  ";
+         self::assertEquals ("I'm hello!  Once  ", Str::removeEmailAddresses($text));
+      }
+
+      #[Test]
+      public function shouldNotRemoveAnyEmails() {
+         self::assertEquals ("I'm wchasroth @gmail.com, hello!  Once croth@thedance", Str::removeEmailAddresses("I'm wchasroth @gmail.com, hello!  Once croth@thedance"));
+      }
+
+      //---findUrls() ----------------------------------
+      #[Test]
+      public function shouldFindUrls() {
+         $text = "My website is https://CharlesRoth.net, but also http://thedance.net yeah!";
+         self::assertEquals (["https://CharlesRoth.net", "http://thedance.net"], Str::findUrls($text));
+      }
+
+      #[Test]
+      public function shouldNotFindAnyUrls() {
+         self::assertEquals (0, count(Str::findUrls("")));
+         self::assertEquals (0, count(Str::findUrls("I'm wchasroth @gmail.com, hello!  Once croth@thedance")));
+         self::assertEquals (0, count(Str::findEmailAddresses("website is https//thedance.net blah @thedance.net")));
+      }
+
+
 
    }
