@@ -35,6 +35,15 @@
          self::assertSame("", Dict::value((array) null, "hi"));
       }
 
+      #[Test]
+      public function shouldHandleNumericKeyZero() {
+         $dict = ["4/4", "something"];
+         self::assertEquals ("something", Dict::value($dict, 1));
+         self::assertEquals ("something", Dict::value($dict, 1));
+         self::assertEquals ("",          Dict::value($dict, 2));
+         self::assertEquals ("",          Dict::value($dict, ""));
+      }
+
        //--- getArray() ----------------------------------------
        #[Test]
        public function shouldExerciseGetArray() {
