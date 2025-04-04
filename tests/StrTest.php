@@ -426,6 +426,32 @@
          self::assertEquals (0, count(Str::findEmailAddresses("website is https//thedance.net blah @thedance.net")));
       }
 
+      //---findPhones() ----------------------------------
+      #[Test]
+      public function shouldFindPhones() {
+         $text = "well 586-713-4305 & We (248) 396-9571 blah";
+         self::assertEquals (["586-713-4305", "248-396-9571"], Str::findPhones($text));
+      }
+
+      #[Test]
+      public function shouldNotFindPhones() {
+         $text = "well 5x6-713-4305 & We (248] 396-9571 blah NOR  12 3 456-7890";
+         self::assertEquals (0, count(Str::findPhones($text)));
+      }
+
+      //---removePhones() ----------------------------------
+      #[Test]
+      public function shouldRemovePhones() {
+         $text = "well 586-713-4305 & We (248) 396-9571 blah";
+         self::assertEquals ("well & We blah", Str::removePhones($text));
+      }
+
+      #[Test]
+      public function shouldNotRemovePhones() {
+         $text = "well 5x6-713-4305 & We (248] 396-9571 blah NOR  12 3 456-7890";
+         self::assertEquals ($text, Str::removePhones($text));
+      }
+
 
 
    }

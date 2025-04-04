@@ -249,4 +249,28 @@ class Str {
       return (Str::startsWith($url, "http://")  ||  Str::startsWith($url, "https://"));
    }
 
+   private static string $pattern = "/[( ]{0,2}[0-9]{3}[) ]{0,2}[-]{0,1}[0-9]{3}-[0-9]{4}/";
+
+   public static function findPhones(string $text): array {
+      $matches = [];
+      $found = preg_match_all(self::$pattern, $text, $matches);
+      if ($found == 0)  return [];
+
+      $results = [];
+      foreach ($matches[0] as $match) {
+         $match = trim($match);
+         $match = Str::replaceAll($match, "(",  "");
+         $match = Str::replaceAll($match, ")",  "-");
+         $match = Str::replaceAll($match, " ",  "-");
+         $match = Str::replaceAll($match, "--", "-");
+         $results[] = $match;
+      }
+      return $results;
+   }
+
+   public static function removePhones(string $text): string {
+      return preg_replace(self::$pattern, "", $text);
+   }
+
+
 }
