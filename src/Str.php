@@ -253,6 +253,7 @@ class Str {
 
    public static function findPhones(string $text): array {
       $matches = [];
+      $text = Str::replaceAll($text, ",", " ");
       $found = preg_match_all(self::$pattern, $text, $matches);
       if ($found == 0)  return [];
 

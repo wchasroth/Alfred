@@ -429,7 +429,7 @@
       //---findPhones() ----------------------------------
       #[Test]
       public function shouldFindPhones() {
-         $text = "well 586-713-4305 & We (248) 396-9571 blah";
+         $text = "well,586-713-4305 & We (248) 396-9571 blah";
          self::assertEquals (["586-713-4305", "248-396-9571"], Str::findPhones($text));
       }
 
