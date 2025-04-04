@@ -102,7 +102,8 @@ class MichiganCounty {
       "VAN BUREN" =>  80,
       "WASHTENAW" =>  81,
       "WAYNE" =>  82,
-      "WEXFORD" =>  83
+      "WEXFORD" =>  83,
+      "VIRTUAL" => 999
    ];
 
    private static array $idToName = [

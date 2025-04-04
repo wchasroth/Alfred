@@ -15,7 +15,8 @@ class MichiganCountyTest extends TestCase {
       self::assertEquals (0,  MichiganCounty::getId("OuterSpace"));
       self::assertEquals (0,  MichiganCounty::getId(""));
 
-      self::assertEquals (75, MichiganCounty::getId("St Joseph"));
+      self::assertEquals ( 75, MichiganCounty::getId("St Joseph"));
+      self::assertEquals (999, MichiganCounty::getId("virtual"));
    }
 
    #[Test]
