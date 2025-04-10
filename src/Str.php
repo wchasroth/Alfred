@@ -207,6 +207,7 @@ class Str {
       $words = Str::split($text, " ");
       foreach ($words as $word) {
          $word = trim($word, ",");
+         $word = self::removeMailto($word);
          if (filter_var($word, FILTER_VALIDATE_EMAIL))  $result[] = $word;
       }
       return $result;
@@ -217,10 +218,16 @@ class Str {
       $result = [];
       $words = Str::split($text, " ");
       foreach ($words as $word) {
-         $email = trim($word, ",");
+         $email = self::removeMailto($word);
+         $email = trim($email, ",");
          if (! filter_var($email, FILTER_VALIDATE_EMAIL))  $result[] = $word;
       }
       return Str::join($result, " ");
+   }
+
+   private static function removeMailto(string $address): string {
+      if (! Str::startsWith($address, "mailto:"))  return $address;
+      return Str::substringAfter($address, "mailto:");
    }
 
    public static function findUrls($text): array {

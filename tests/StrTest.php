@@ -389,7 +389,7 @@
       //---findEmailAddresses() ----------------------------------
       #[Test]
       public function shouldFindEmails() {
-         $text = "I'm wchasroth@gmail.com, hello!  Once croth@thedance.net  ";
+         $text = "I'm wchasroth@gmail.com, hello!  Once mailto:croth@thedance.net  ";
          self::assertEquals (["wchasroth@gmail.com", "croth@thedance.net"], Str::findEmailAddresses($text));
       }
 
@@ -403,7 +403,7 @@
       //---removeEmailAddresses() ----------------------------------
       #[Test]
       public function shouldRemoveEmails() {
-         $text = "I'm wchasroth@gmail.com, hello!  Once croth@thedance.net  ";
+         $text = "I'm wchasroth@gmail.com, hello!  Once mailto:croth@thedance.net  ";
          self::assertEquals ("I'm hello!  Once  ", Str::removeEmailAddresses($text));
       }
 
