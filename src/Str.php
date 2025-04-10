@@ -228,7 +228,11 @@ class Str {
       $result = [];
       $words = Str::split($text, " ");
       foreach ($words as $word) {
-         if (self::isUrl($word))  $result[] = trim($word, ",");
+         $word = trim($word, ",");
+         if (self::isUrl($word))  {
+            if (! Str::startsWith($word, "http"))  $word = "https://" . $word;
+            $result[] = $word;
+         }
       }
       return $result;
    }
@@ -246,7 +250,7 @@ class Str {
    private static function isUrl(string $word): bool {
       $word = trim($word, ",");
       $url  = strtolower($word);
-      return (Str::startsWith($url, "http://")  ||  Str::startsWith($url, "https://"));
+      return (Str::startsWith($url, "http://")  ||  Str::startsWith($url, "https://")  ||  Str::startsWith($url, "www."));
    }
 
    private static string $pattern = "/[( ]{0,2}[0-9]{3}[) ]{0,2}[-]{0,1}[0-9]{3}-[0-9]{4}/";
