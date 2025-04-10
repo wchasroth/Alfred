@@ -16,4 +16,13 @@ class ArrayHelperTest extends TestCase {
       self::assertEquals ($expected, $result);
    }
 
+   #[Test]
+   public function shouldRemoveOnlyUrlsDuplicatedUpToQuerystring() {
+      $x = ["abc", "def?hello", "xyz", "def"];
+      self::assertEquals (["abc", "def", "xyz"], ArrayHelper::removeUrlsDuplicatedUpToQuerystring($x));
+
+      $x = ["xyz", "abc", "def?hello"];
+      self::assertEquals (["xyz", "abc", "def?hello"], ArrayHelper::removeUrlsDuplicatedUpToQuerystring($x));
+   }
+
 }

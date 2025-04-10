@@ -27,5 +27,23 @@ class ArrayHelper {
       return "[" . $result . "]";
    }
 
+   // Removes seemingly duplication URLs.  A duplicates B if B does not have a querystring, and A does,
+   // and everything before the querystring in A is the same as B.  (Yes, that's a mouthful!)
+   public static function removeUrlsDuplicatedUpToQuerystring(array $myarray): array {
+      $values = $myarray;
+      asort($values);
+      $prev = "";
+      $result = [];
+      $found = false;
+      foreach ($values as $value) {
+         if (Str::startsWith($value, "$prev?"))  $found = true;  // skip it, and marked at least one removed.
+         else {
+            $prev     = $value;
+            $result[] = $value;
+         }
+      }
+      return ($found ? $result : $myarray);
+   }
+
 
 }
