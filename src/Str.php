@@ -254,7 +254,7 @@ class Str {
       return Str::join($result, " ");
    }
 
-   private static $startsUrls = ["http://", "https://", "www.", "secure.everyaction.com", "bit.ly."];
+   private static $startsUrls = ["http://", "https://", "www.", "secure.everyaction.com", "bit.ly/"];
 
    private static function isUrl(string $word): bool {
       $word = trim($word, ",");
