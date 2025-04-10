@@ -257,7 +257,11 @@ class Str {
    private static function isUrl(string $word): bool {
       $word = trim($word, ",");
       $url  = strtolower($word);
-      return (Str::startsWith($url, "http://")  ||  Str::startsWith($url, "https://")  ||  Str::startsWith($url, "www."));
+      return (Str::startsWith($url, "http://")   ||
+              Str::startsWith($url, "https://")  ||
+              Str::startsWith($url, "www.")      ||
+              Str::startsWith($url, "secure.everyaction.com")
+      );
    }
 
    private static string $pattern = "/[( ]{0,2}[0-9]{3}[) ]{0,2}[-]{0,1}[0-9]{3}-[0-9]{4}/";

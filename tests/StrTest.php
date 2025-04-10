@@ -418,8 +418,8 @@
          $text = "My website is https://CharlesRoth.net, but also http://thedance.net yeah!";
          self::assertEquals (["https://CharlesRoth.net", "http://thedance.net"], Str::findUrls($text));
 
-         $www = "Instead, try www.charlesroth.net, that might work too.";
-         self::assertEquals (["https://www.charlesroth.net"], Str::findUrls($www));
+         $www = "Instead, try www.charlesroth.net, or secure.everyaction.com/me, those might work too.";
+         self::assertEquals (["https://www.charlesroth.net", "https://secure.everyaction.com/me"], Str::findUrls($www));
       }
 
       #[Test]
