@@ -389,7 +389,7 @@
       //---findEmailAddresses() ----------------------------------
       #[Test]
       public function shouldFindEmails() {
-         $text = "I'm wchasroth@gmail.com, hello!  Once mailto:croth@thedance.net  ";
+         $text = "I'm wchasroth@gmail.com, hello!  Once mailto:croth@thedance.net But also croth@thedance.net ";
          self::assertEquals (["wchasroth@gmail.com", "croth@thedance.net"], Str::findEmailAddresses($text));
       }
 

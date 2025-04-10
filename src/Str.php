@@ -210,7 +210,7 @@ class Str {
          $word = self::removeMailto($word);
          if (filter_var($word, FILTER_VALIDATE_EMAIL))  $result[] = $word;
       }
-      return $result;
+      return array_unique($result);
    }
 
    public static function removeEmailAddresses($text): string {
@@ -241,7 +241,7 @@ class Str {
             $result[] = $word;
          }
       }
-      return $result;
+      return array_unique($result);
    }
 
    public static function removeUrls($text): string {
@@ -277,7 +277,7 @@ class Str {
          $match = Str::replaceAll($match, "--", "-");
          $results[] = $match;
       }
-      return $results;
+      return array_unique($results);
    }
 
    public static function removePhones(string $text): string {
