@@ -421,7 +421,7 @@
          $www = "Instead, try www.charlesroth.net, or secure.everyaction.com/me, those might work too.";
          self::assertEquals (["https://www.charlesroth.net", "https://secure.everyaction.com/me"], Str::findUrls($www));
 
-         $bitly = "Hmm, even bit.ly/whatever, really?";
+         $bitly = "Hmm, even bit.ly/whatever. Really?";
          self::assertEquals (["https://bit.ly/whatever"], Str::findUrls($bitly));
       }
 
