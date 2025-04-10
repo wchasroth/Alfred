@@ -235,10 +235,10 @@ class Str {
       $result = [];
       $words = Str::split($text, " ");
       foreach ($words as $word) {
-         $word = trim($word, ",");
-         $word = trim($word, ".");
          if (self::isUrl($word))  {
             if (! Str::startsWith($word, "http"))  $word = "https://" . $word;
+            $word = trim($word, ",");
+            $word = trim($word, ".");
             $result[] = $word;
          }
       }
@@ -258,8 +258,8 @@ class Str {
    private static $startsUrls = ["http://", "https://", "www.", "secure.everyaction.com", "bit.ly/"];
 
    private static function isUrl(string $word): bool {
-      $word = trim($word, ",");
-      $word = trim($word, ".");
+//      $word = trim($word, ",");
+//      $word = trim($word, ".");
       $url  = strtolower($word);
       foreach (self::$startsUrls as $start) {
          if (Str::startsWith($url, $start)) return true;

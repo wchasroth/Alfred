@@ -430,7 +430,7 @@
          $text = "My website is https://CharlesRoth.net, but also http://thedance.net yeah!";
          self::assertEquals("My website is but also yeah!", Str::removeUrls($text));
 
-         $www = "Instead, try www.charlesroth.net, that might work too.";
+         $www = "Instead, try www.charlesroth.net, bit.ly/huh, that might work too.";
          self::assertEquals ("Instead, try that might work too.", Str::removeUrls($www));
       }
 
