@@ -254,14 +254,15 @@ class Str {
       return Str::join($result, " ");
    }
 
+   private static $startsUrls = ["http://", "https://", "www.", "secure.everyaction.com", "bit.ly."];
+
    private static function isUrl(string $word): bool {
       $word = trim($word, ",");
       $url  = strtolower($word);
-      return (Str::startsWith($url, "http://")   ||
-              Str::startsWith($url, "https://")  ||
-              Str::startsWith($url, "www.")      ||
-              Str::startsWith($url, "secure.everyaction.com")
-      );
+      foreach (self::$startsUrls as $start) {
+         if (Str::startsWith($url, $start)) return true;
+      }
+      return false;
    }
 
    private static string $pattern = "/[( ]{0,2}[0-9]{3}[) ]{0,2}[-]{0,1}[0-9]{3}-[0-9]{4}/";
