@@ -471,6 +471,15 @@
          self::assertEquals ($text, Str::removePhones($text));
       }
 
+      //---redactUnsafeTags() ----------------------------------
+      #[Test]
+      public function shouldRedactUnsafeHtmlTags() {
+         $text     = "Hello, <b>world</b>!  <p>But no <a href='#'>anchors</a>, please!</p>";
+         $expected = "Hello, <b>world</b>!  <p>But no             anchors    , please!</p>";
+         $actual   = Str::redactUnSafeTags($text, ["p", "b"]);
+         self::assertEquals ($expected, $actual);
+      }
+
 
 
    }

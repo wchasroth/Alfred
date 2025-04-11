@@ -8,6 +8,11 @@ use \PDO;
 use \PDOException;
 use \PDOStatement;
 
+// WARNING WARNING WARNING!
+// This should be rewritten to use composition instead of inheritance, with facade calls
+// for pass-through.  The current constructor fails badly if the DSN is wrong, which
+// was NOT the original intent.  Sigh!
+
 // Convenience class, extending PDO.
 //   Assumes MySQL, and defaults to localhost, and the constructor DOESN'T throw an exception, but
 //   rather has a failed/error status and info.
@@ -35,7 +40,7 @@ class AlfredPDO extends PDO {
             $dbpw   = $parts[2];
          }
          else {
-            $this->error = "Bad arguments: $dbname";
+            $this->error = "Bad arguments: $dbname";   // Bad, since base object is never constructed!
             return;
          }
       }

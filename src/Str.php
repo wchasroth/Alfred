@@ -291,5 +291,31 @@ class Str {
       return preg_replace(self::$pattern, "", $text);
    }
 
+   public static function redactUnSafeTags(string $text, array $safeTags): string {
+      $result = $text;
+      $lower  = strtolower($text);
+
+      $offset    = 0;
+      while ( ($next = strpos($result, "<", $offset)) !== false) {
+         if (self::isSafeTag(substr($lower, $next, 8), $safeTags))  $offset = $next + 1;
+         else {
+            $last = strpos($result, ">", $next);
+            $last = ($last ?: strlen($result) - 1);
+            for ($i=$next;  $i<=$last;   ++$i)  $result[$i] = ' ';
+            $offset = $last;
+         }
+      }
+      return $result;
+   }
+
+   private static function isSafeTag(string $text, array $safeTags): bool {
+      foreach ($safeTags as $safeTag) {
+         if (str_starts_with($text, "<"  . $safeTag . ">")  ||
+             str_starts_with($text, "<"  . $safeTag . "/>") ||
+             str_starts_with($text, "</" . $safeTag . ">"))  return true;
+      }
+      return false;
+   }
+
 
 }
