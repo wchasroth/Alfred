@@ -43,6 +43,16 @@ class MatchableNameTest extends TestCase {
    }
 
    #[Test]
+   public function shouldFindBestMatch_fromRealOfficialTableExample() {
+      $clerk = new MatchableName("Clerk and Register of Deeds");
+      $others = [
+         new MatchableName("County Clerk"),
+         new MatchableName("Clerk/Register of Deeds"),
+         new MatchableName("Register of Deeds")];
+      self::assertEquals(1, $clerk->findBestMatch($others));
+   }
+
+   #[Test]
    public function shouldFindBestMatch_givenExact() {
       $me = new MatchableName("William Charles Roth");
       $others = [
