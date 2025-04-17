@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace CharlesRothDotNet\Alfred;
 
 class MatchableName {
-   private array $canonicalNameParts;
+   private array  $canonicalNameParts;
+   public string $simplifiedName;
 
    public function __construct(string $name) {
-      $simplifiedName = $this->removePunctuation(strtolower($name));
-      $simplifiedName = Str::replaceAll($simplifiedName, "&nbsp;", " ");
-      $tokens = Str::splitIntoTokens($simplifiedName, " ");
+      $this->simplifiedName = $this->removePunctuation(strtolower($name));
+      $this->simplifiedName = Str::replaceAll($this->simplifiedName, "&nbsp;", " ");
+      $tokens = Str::splitIntoTokens($this->simplifiedName, " ");
       $parts = [];
       foreach ($tokens as $token) {
          if (strlen($token) > 1)   $parts[] = $this->canonicalName($token);
@@ -31,16 +32,31 @@ class MatchableName {
    }
 
    public function matches(MatchableName $other, int $number): bool {
+      return $this->countMatchingWords($other) >= $number;
+   }
+
+   private function countMatchingWords (MatchableName $other): int {
       $count = 0;
       foreach ($this->canonicalNameParts as $mine) {
          foreach ($other->canonicalNameParts as $theirs) {
-            if ($mine == $theirs    ||
-               (strlen($mine) >= 4  &&  levenshtein($mine, $theirs) < 2)) {
-               if (++$count >= $number) return true;
-            }
+            if ($mine == $theirs    ||    (strlen($mine) >= 4  &&  levenshtein($mine, $theirs) < 2))  ++$count;
          }
       }
-      return false;
+      return $count;
+   }
+
+   public function findBestMatch(array $others): int {
+      $bestCount = 0;
+      $bestIndex = 0;
+      for ($i=0;   $i < count($others);   $i++) {
+         if ($this->simplifiedName == $others[$i]->simplifiedName)  return $i;
+         $count = $this->countMatchingWords($others[$i]);
+         if ($count > $bestCount) {
+            $bestCount = $count;
+            $bestIndex = $i;
+         }
+      }
+      return $bestIndex;
    }
 
    public function getSimplifiedName(): string {

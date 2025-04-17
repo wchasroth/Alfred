@@ -31,6 +31,28 @@ class MatchableNameTest extends TestCase {
       self::assertEquals("bob henschel jr", $this->makeSimplifiedName("Robert D. Henschel, Jr."));
    }
 
+   #[Test]
+   public function shouldFindBestMatch() {
+      $me = new MatchableName("William Charles Roth");
+      $others = [
+         new MatchableName("Fred Smith"),
+         new MatchableName("Willi"),
+         new MatchableName("Charles Roth"),
+         new MatchableName("Charles")];
+      self::assertEquals(2, $me->findBestMatch($others));
+   }
+
+   #[Test]
+   public function shouldFindBestMatch_givenExact() {
+      $me = new MatchableName("William Charles Roth");
+      $others = [
+         new MatchableName("Fred Smith"),
+         new MatchableName("Willi"),
+         new MatchableName("William Charles Roth")];
+      self::assertEquals(2, $me->findBestMatch($others));
+   }
+
+
    private function makeSimplifiedName(string $name): string {
       $mn = new MatchableName($name);
       return $mn->getSimplifiedName();
