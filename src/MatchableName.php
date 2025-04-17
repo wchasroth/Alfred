@@ -51,7 +51,6 @@ class MatchableName {
       for ($i=0;   $i < count($others);   $i++) {
          if ($this->simplifiedName == $others[$i]->simplifiedName)  return $i;
          $count = $this->countMatchingWords($others[$i]);
-         echo $count . "   " . $others[$i]->simplifiedName . "\n";
          if ($count > $bestCount) {
             $bestCount = $count;
             $bestIndex = $i;
