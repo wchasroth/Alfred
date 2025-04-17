@@ -46,8 +46,8 @@ class MatchableName {
    }
 
    public function findBestMatch(array $others): int {
-      $bestCount = 0;
-      $bestIndex = 0;
+      $bestCount =  0;
+      $bestIndex = -1;
       for ($i=0;   $i < count($others);   $i++) {
          if ($this->simplifiedName == $others[$i]->simplifiedName)  return $i;
          $count = $this->countMatchingWords($others[$i]);
