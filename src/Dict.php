@@ -13,6 +13,12 @@ class Dict {
       return isset($dict[$key]) ? $dict[$key] . $append : $defValue;
    }
 
+   public static function intValue(array $dict, $key, int $defValue=0): int {
+      if ($key  !== 0  &&  empty($key))   return 0;   // allow a numeric key of 0 !
+      if ($dict === null)                 return 0;
+      return isset($dict[$key]) ? (int) $dict[$key] : $defValue;
+   }
+
    public static function getArray(array $dict, string $key): array {
        if ($dict === null)  return [];
        if (empty($key))     return [];

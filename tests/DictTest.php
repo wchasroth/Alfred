@@ -44,6 +44,21 @@
          self::assertEquals ("",          Dict::value($dict, ""));
       }
 
+       //--- intValue() ----------------------------------------
+      #[Test]
+      public function shouldGetDefaultIntValue_whenGivenNothing() {
+         self::assertEquals(0, Dict::intValue([], "a"));
+         self::assertEquals(9, Dict::intValue([], "a", 9));
+      }
+
+      #[Test]
+      public function shouldGetIntValue_fromDictionary() {
+         self::assertEquals(1, Dict::intValue(["a" => 1],    "a"));
+         self::assertEquals(9, Dict::intValue(["a" => "9"],  "a"));
+         self::assertEquals(9, Dict::intValue(["a" => "9z"], "a"));
+      }
+
+
        //--- getArray() ----------------------------------------
        #[Test]
        public function shouldExerciseGetArray() {
