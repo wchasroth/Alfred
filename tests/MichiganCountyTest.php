@@ -26,6 +26,7 @@ class MichiganCountyTest extends TestCase {
       self::assertEquals ("",          MichiganCounty::getName(84));
 
       self::assertEquals ("ST JOSEPH", MichiganCounty::getName(75));
+      self::assertEquals ("WEXFORD",   MichiganCounty::getName(83));
 
    }
 

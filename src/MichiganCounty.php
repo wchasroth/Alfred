@@ -189,6 +189,7 @@ class MichiganCounty {
       80 =>  "VAN BUREN" ,
       81 =>  "WASHTENAW" ,
       82 =>  "WAYNE" ,
+      83 =>  "WEXFORD"
    ];
 
 
