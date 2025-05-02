@@ -25,4 +25,15 @@ class ArrayHelperTest extends TestCase {
       self::assertEquals (["xyz", "abc", "def?hello"], ArrayHelper::removeUrlsDuplicatedUpToQuerystring($x));
    }
 
+   #[Test]
+   public function shouldExtractAndRemapArrayKeyValues() {
+      $input  = ["name" => "Charles Roth", "address1" => "2630 Lillian", "mail" => "wchasroth@gmail.com"];
+      $result = ArrayHelper::extractAndRemapArray($input, "name", "address1/address", "mail/email");
+      self::assertEquals (3, count($result));
+      self::assertEquals ("Charles Roth",        $result["name"]);
+      self::assertEquals ("2630 Lillian",        $result["address"]);
+      self::assertEquals ("wchasroth@gmail.com", $result["email"]);
+   }
+
+
 }

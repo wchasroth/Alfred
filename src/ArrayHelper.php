@@ -45,5 +45,16 @@ class ArrayHelper {
       return ($found ? $result : $myarray);
    }
 
-
+   // Given an array and a list of keys, extract a new array of those key/value pairs.
+   // Any key of the form "old/new" extracts the key 'old' but puts the value in key 'new'
+   // in the resulting array.
+   public static function extractAndRemapArray(array $source, string ...$keyPairs): array {
+      $result = [];
+      foreach ($keyPairs as $keyPair) {
+         $pairs = Str::split($keyPair, "/");
+         if (count($pairs) == 2)   $result[$pairs[1]] = $source[$pairs[0]];
+         else                      $result[$keyPair]  = $source[$keyPair];
+      }
+      return $result;
+   }
 }
