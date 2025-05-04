@@ -44,9 +44,13 @@ class CookieBoss {
     }
 
     private function makeSecureHash($value): string {
+      return hash("sha256", $this->prepareForSecureHash($value));
+   }
+
+   public function prepareForSecureHash(string $value): string {
       $date  = new DateTime("now", $this->tz);
       $today = $date->format('Y-m-d');
-      return hash("sha256", $value . $today . $this->securekey);
+      return $value . $today . $this->securekey;
    }
 
 }
