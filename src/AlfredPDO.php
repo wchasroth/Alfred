@@ -121,7 +121,7 @@ class AlfredPDO extends PDO {
       }
       catch (PDOException $e) {
          $stm->closeCursor();
-         return new PdoRunResult([], $e->getMessage(), ($getRawSql ? $this->getRawSql() : ""));
+         return new PdoRunResult([], $e->getMessage(), ($getRawSql ? $this->getRawSql($stm) : ""));
       }
 
       $rows  = ($operation == 'insert'  ?  $stm->fetchAll(PDO::FETCH_ASSOC)  :  []);
