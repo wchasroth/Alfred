@@ -15,10 +15,11 @@ namespace CharlesRothDotNet\Alfred;
  *    UPDATE        table SET   name='Charles', age=68, rating=9.5 WHERE id=17
  *    SELECT * FROM table WHERE name='Charles' AND age=68 AND rating=90.5
  *
- * This is absurd.  It gets worse when we use prepared statements (which are A Good Thing),
+ * This is absurd!  There's no good reason for the references to name, age, and rating to be
+ * done in different ways.  It gets worse when we use prepared statements (which are A Good Thing),
  * because we're duplicating (one more time!) the key names (e.g. "SET name=:name").
  *
- * SqlFields provides a one-stop-shop for simple queries that match this pattern.  E.g.
+ * SqlFields provides a one-stop-shop for simple(!) queries that match this pattern.  E.g.
  *
  *    $sqlFields = new SqlFields(['name' => 'Charles', 'age' => 68, 'rating' => 9.5);
  *    $insert = $sqlFields ("INSERT INTO");
@@ -38,8 +39,8 @@ class SqlFields {
       return $this->getFragmentWithSeparator(" AND ");
    }
 
-   public function makeSelect(string $prefix): string {
-      return $prefix . " " . $this->makeFragmentWithSeparator(" AND ");
+   public function makeSelect(string $prefix, string $suffix=""): string {
+      return "$prefix {$this->makeFragmentWithSeparator(" AND ")} $suffix";
    }
 
    public function getUpdateFragment(): string {

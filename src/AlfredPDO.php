@@ -2,8 +2,8 @@
 
 namespace CharlesRothDotNet\Alfred;
 
-use CharlesRothDotNet\Alfred\Str;
 use CharlesRothDotNet\Alfred\PdoRunResult;
+use CharlesRothDotNet\Alfred\Str;
 use \PDO;
 use \PDOException;
 use \PDOStatement;
@@ -101,6 +101,34 @@ class AlfredPDO extends PDO {
 
        $stm->closeCursor();
        return new PdoRunResult($rows, $error, $getRawSql ? $this->getRawSql($stm) : "", $lastId);
+   }
+
+   public function runSF(string $prefix, string $suffix, SqlFields $fields): PdoRunResult {
+      $operation = strtolower(Str::substringBefore(trim($prefix), " "));
+      $middle = match($operation) {
+         'insert' => $fields->makeInsert($prefix),
+         'update' => $fields->makeUpdate($prefix, $suffix),
+         'select' => $fields->makeSelect($prefix, $suffix)
+      };
+      $sql = "$prefix $middle $suffix";
+      $stm = $this->prepare($sql);
+      $this->bindKeyValueArray($stm, $fields->getKeyValuePairs());
+
+      $lastId = -1;
+      try                     {
+         $stm->execute();
+         $lastId = PDO::lastInsertId();
+      }
+      catch (PDOException $e) {
+         $stm->closeCursor();
+         return new PdoRunResult([], $e->getMessage(), $getRawSql ? $this->getRawSql($stm) : "");
+      }
+
+      $rows  = ($operation == 'insert'  ?  $stm->fetchAll(PDO::FETCH_ASSOC)  :  []);
+      $error = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
+
+      $stm->closeCursor();
+      return new PdoRunResult($rows, $error, "", $lastId);
    }
 
    private function isSelect(string $sql): bool {
