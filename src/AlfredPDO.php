@@ -103,7 +103,7 @@ class AlfredPDO extends PDO {
        return new PdoRunResult($rows, $error, $getRawSql ? $this->getRawSql($stm) : "", $lastId);
    }
 
-   public function runSF(string $prefix, string $suffix, SqlFields $fields): PdoRunResult {
+   public function runSF(string $prefix, string $suffix, SqlFields $fields, bool $getRawSql=false): PdoRunResult {
       $operation = strtolower(Str::substringBefore(trim($prefix), " "));
       $middle = match($operation) {
          'insert' => $fields->makeInsert($prefix),
@@ -121,14 +121,14 @@ class AlfredPDO extends PDO {
       }
       catch (PDOException $e) {
          $stm->closeCursor();
-         return new PdoRunResult([], $e->getMessage(), "");
+         return new PdoRunResult([], $e->getMessage(), ($getRawSql ? $this->getRawSql() : ""));
       }
 
       $rows  = ($operation == 'insert'  ?  $stm->fetchAll(PDO::FETCH_ASSOC)  :  []);
       $error = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
 
       $stm->closeCursor();
-      return new PdoRunResult($rows, $error, $this->getRawSql($stm), $lastId);
+      return new PdoRunResult($rows, $error, ($getRawSql ? $this->getRawSql($stm) : ""), $lastId);
    }
 
    private function isSelect(string $sql): bool {
