@@ -105,12 +105,11 @@ class AlfredPDO extends PDO {
 
    public function runSF(string $prefix, string $suffix, SqlFields $fields, bool $getRawSql=false): PdoRunResult {
       $operation = strtolower(Str::substringBefore(trim($prefix), " "));
-      $middle = match($operation) {
+      $sql = match($operation) {
          'insert' => $fields->makeInsert($prefix),
          'update' => $fields->makeUpdate($prefix, $suffix),
          'select' => $fields->makeSelect($prefix, $suffix)
       };
-      $sql = "$prefix $middle $suffix";
       $stm = $this->prepare($sql);
       $this->bindKeyValueArray($stm, $fields->getKeyValuePairs());
 
