@@ -22,13 +22,16 @@ namespace CharlesRothDotNet\Alfred;
  *
  *    $sqlFields = new SqlFields(['name' => 'Charles', 'age' => 68, 'rating' => 9.5);
  *    $insert = $sqlFields ("INSERT INTO");
- *    $pdo->
  */
 class SqlFields {
    private array $keyValuePairs;
 
    function __construct(array $keyValuePairs) {
       $this->keyValuePairs = $keyValuePairs;
+   }
+
+   public function getKeyValuePairs(): array {
+      return $this->keyValuePairs;
    }
 
    public function getSelectFragment(): string {
