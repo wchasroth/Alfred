@@ -17,7 +17,7 @@ class SqlFieldsTest extends TestCase {
    #[Test]
    public function shouldMakeSelect_givenFields() {
       $fields = new SqlFields(["abc" => 123, "def" => "xyz"]);
-      self::assertEquals ("SELECT * FROM table WHERE   abc = :abc AND def = :def ", $fields->makeSelect("SELECT * FROM table WHERE "));
+      self::assertEquals ("SELECT * FROM table WHERE   abc = :abc AND def = :def", $fields->makePreparedStatement("SELECT * FROM table WHERE "));
    }
 
    #[Test]
@@ -29,7 +29,7 @@ class SqlFieldsTest extends TestCase {
    #[Test]
    public function shouldMakeUpdate_givenFields() {
       $fields = new SqlFields(["abc" => 123, "def" => "xyz"]);
-      self::assertEquals ("UPDATE table SET  abc = :abc, def = :def  WHERE id=17", $fields->makeUpdate("UPDATE table SET", "WHERE id=17"));
+      self::assertEquals ("UPDATE table SET  abc = :abc, def = :def  WHERE id=17", $fields->makePreparedStatement("UPDATE table SET", "WHERE id=17"));
    }
 
    #[Test]
@@ -41,7 +41,7 @@ class SqlFieldsTest extends TestCase {
    #[Test]
    public function shouldMakeInsert_givenFields() {
       $fields = new SqlFields(["abc" => 123, "def" => "xyz"]);
-      self::assertEquals ("INSERT INTO table (abc, def) VALUES (:abc, :def) ", $fields->makeInsert("INSERT INTO table"));
+      self::assertEquals ("INSERT INTO table (abc, def) VALUES (:abc, :def)", $fields->makePreparedStatement("INSERT INTO table"));
    }
 
 }

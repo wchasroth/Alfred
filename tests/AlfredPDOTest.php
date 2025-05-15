@@ -14,6 +14,8 @@ require_once('nullstr.php');
 //---These have to be run manually on a MySQL database.  It assumes root access, which is bad!
 //   So they are not strictly speaking unit-tests, but are here to help during development.
 
+// TODO: Add tests for runSF()
+
 class AlfredPDOTest extends TestCase {
     private bool $skipTests = true;   // Set to false when manually testing against a real MySQL database.
 
@@ -110,7 +112,7 @@ class AlfredPDOTest extends TestCase {
    
       $sql = "SELECT tid, miv_title, ballot_order FROM title WHERE tid LIKE :tid AND ballot_order = :order";
       $stm = $pdo->prepare($sql);
-      $pdo->bindKeyValueArray($stm, [":tid"=>"mi:%", ":order"=>5000]);
+      $pdo->bindKeyValuePairsToStatementByType($stm, [":tid"=>"mi:%", ":order"=>5000]);
       $stm->execute();
       $expected = "SELECT tid, miv_title, ballot_order FROM title "
                 . "WHERE tid LIKE 'mi:%' AND ballot_order = 5000";

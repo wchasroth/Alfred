@@ -2,8 +2,6 @@
 
 namespace CharlesRothDotNet\Alfred;
 
-use CharlesRothDotNet\Alfred\PdoRunResult;
-use CharlesRothDotNet\Alfred\Str;
 use \PDO;
 use \PDOException;
 use \PDOStatement;
@@ -19,8 +17,9 @@ use \PDOStatement;
 //
 //   Also adds some useful utilities, e.g.
 //      run()               -- vastly simplifies ordinary SQL query execution  (see the tests for examples)
+//      runSF()             -- uses SqlFields to simplify construction and running of SQL prepared statements
 //      getRawSql()         -- see the actual SQL that a prepared statement generated, including filled-in values!
-//      bindKeyValueArray() -- bind multiple values with different types(!) in one call.
+//      bindKeyValuePairsToStatementByType() -- bind multiple values with different types(!) in one call.
 //
 // Copyright (C) 2024 Charles Roth, all rights reserved.
 // Released as open-source under the MIT license.
@@ -55,79 +54,60 @@ class AlfredPDO extends PDO {
       }
    }
 
-   function failed(): bool {
+   public function runSF(string $prefix, string $suffix, SqlFields $fields, bool $getRawSql=false): PdoRunResult {
+      $sql = $fields->makePreparedStatement($prefix, $suffix);
+      return $this->run($sql, $fields->getKeyValuePairs(), $getRawSql);
+   }
+
+   public function run(string $sql, array $keyValueParams = [], bool $getRawSql = false): PdoRunResult {
+      $stm = $this->prepare($sql);
+      $this->bindKeyValuePairsToStatementByType($stm, $keyValueParams);
+
+      $lastId = -1;
+      try {
+         $stm->execute();
+         $lastId = PDO::lastInsertId();
+      }
+      catch (PDOException $e) {
+         $stm->closeCursor();
+         return new PdoRunResult([], $e->getMessage(), $getRawSql ? $this->getRawSql($stm) : "");
+      }
+
+      $rows  = ($this->isSelect($sql) ? $stm->fetchAll(PDO::FETCH_ASSOC) : []);
+      $error = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
+
+      $stm->closeCursor();
+      return new PdoRunResult($rows, $error, $getRawSql ? $this->getRawSql($stm) : "", $lastId);
+   }
+
+   // Only visible for testing!  Do not use otherwise!
+   public function bindKeyValuePairsToStatementByType (PDOStatement &$stmt, array $keysToValues): void {
+      foreach ($keysToValues as $key => $value) {
+         $stmt->bindValue($key, $value, (is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
+      }
+   }
+
+
+   public function failed(): bool {
       return ! empty($this->error);
    }
 
-   function succeeded(): bool {
+   public function succeeded(): bool {
       return empty($this->error);
    }
 
-   function getError(): string {
+   public function getError(): string {
       return $this->error;
    }
 
-   function getRawSql (PDOStatement &$stmt): string {
+   // Only visible for testing!  Do not use otherwise!
+   public function getRawSql (PDOStatement &$stmt): string {
       ob_start();
       $stmt->debugDumpParams();
       $text = ob_get_clean();
       $text = Str::substringBetween ($text, "Sent SQL:", "\n");
       $text = Str::substringAfter   ($text, "] ");
       return $text;
-   }
-
-   function bindKeyValueArray (PDOStatement &$stmt, array $keysToValues): void {
-      foreach ($keysToValues as $key => $value) {
-         $stmt->bindValue($key, $value, (is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
-      }
-   }
-
-   function run(string $sql, array $keyValueParams = [], bool $getRawSql = false): PdoRunResult {
-       $stm = $this->prepare($sql);
-       $this->bindKeyValueArray($stm, $keyValueParams);
-
-       $lastId = -1;
-       try                     {
-          $stm->execute();
-          $lastId = PDO::lastInsertId();
-       }
-       catch (PDOException $e) {
-           $stm->closeCursor();
-           return new PdoRunResult([], $e->getMessage(), $getRawSql ? $this->getRawSql($stm) : "");
-       }
-
-       $rows  = ($this->isSelect($sql) ? $stm->fetchAll(PDO::FETCH_ASSOC) : []);
-       $error = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
-
-       $stm->closeCursor();
-       return new PdoRunResult($rows, $error, $getRawSql ? $this->getRawSql($stm) : "", $lastId);
-   }
-
-   public function runSF(string $prefix, string $suffix, SqlFields $fields, bool $getRawSql=false): PdoRunResult {
-      $operation = strtolower(Str::substringBefore(trim($prefix), " "));
-      $sql = match($operation) {
-         'insert' => $fields->makeInsert($prefix),
-         'update' => $fields->makeUpdate($prefix, $suffix),
-         'select' => $fields->makeSelect($prefix, $suffix)
-      };
-      $stm = $this->prepare($sql);
-      $this->bindKeyValueArray($stm, $fields->getKeyValuePairs());
-
-      $lastId = -1;
-      try                     {
-         $stm->execute();
-         $lastId = PDO::lastInsertId();
-      }
-      catch (PDOException $e) {
-         $stm->closeCursor();
-         return new PdoRunResult([], $e->getMessage(), ($getRawSql ? $this->getRawSql($stm) : ""));
-      }
-
-      $rows  = ($operation == 'insert'  ?  $stm->fetchAll(PDO::FETCH_ASSOC)  :  []);
-      $error = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
-
-      $stm->closeCursor();
-      return new PdoRunResult($rows, $error, ($getRawSql ? $this->getRawSql($stm) : ""), $lastId);
    }
 
    private function isSelect(string $sql): bool {
