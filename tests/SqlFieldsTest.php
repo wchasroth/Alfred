@@ -15,11 +15,9 @@ class SqlFieldsTest extends TestCase {
    }
 
    #[Test]
-   public function shouldMakeSelectFragment_givenFields() {
-      $keyValues = ["abc" => 123, "def" => "xyz"];
-      $fields = new SqlFields($keyValues);
-      self::assertEquals (" abc = :abc AND def = :def ", $fields->makeSelectFragment());
-      self::assertEquals ($keyValues, $fields->getKeyValuePairs());
+   public function shouldMakeSelect_givenFields() {
+      $fields = new SqlFields(["abc" => 123, "def" => "xyz"]);
+      self::assertEquals ("SELECT * FROM table WHERE   abc = :abc AND def = :def ", $fields->makeSelect("SELECT * FROM table WHERE "));
    }
 
    #[Test]
@@ -29,9 +27,9 @@ class SqlFieldsTest extends TestCase {
    }
 
    #[Test]
-   public function shouldMakeUpdateFragment_givenFields() {
+   public function shouldMakeUpdate_givenFields() {
       $fields = new SqlFields(["abc" => 123, "def" => "xyz"]);
-      self::assertEquals (" abc = :abc, def = :def ", $fields->makeUpdateFragment());
+      self::assertEquals ("UPDATE table SET  abc = :abc, def = :def  WHERE id=17", $fields->makeUpdate("UPDATE table SET", "WHERE id=17"));
    }
 
    #[Test]
@@ -41,9 +39,9 @@ class SqlFieldsTest extends TestCase {
    }
 
    #[Test]
-   public function shouldMakeInsertFragment_givenFields() {
+   public function shouldMakeInsert_givenFields() {
       $fields = new SqlFields(["abc" => 123, "def" => "xyz"]);
-      self::assertEquals (" (abc, def) VALUES (:abc, :def) ", $fields->makeInsertFragment());
+      self::assertEquals ("INSERT INTO table (abc, def) VALUES (:abc, :def) ", $fields->makeInsert("INSERT INTO table"));
    }
 
 }
