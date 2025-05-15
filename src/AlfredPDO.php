@@ -128,7 +128,7 @@ class AlfredPDO extends PDO {
       $error = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
 
       $stm->closeCursor();
-      return new PdoRunResult($rows, $error, "", $lastId);
+      return new PdoRunResult($rows, $error, $this->getRawSql($stm), $lastId);
    }
 
    private function isSelect(string $sql): bool {
