@@ -7,7 +7,7 @@ use \PDOException;
 use \PDOStatement;
 
 // WARNING WARNING WARNING!
-// This should be rewritten to use composition instead of inheritance, with facade calls
+// This should probably be rewritten to use composition instead of inheritance, with facade calls
 // for pass-through.  The current constructor fails badly if the DSN is wrong, which
 // was NOT the original intent.  Sigh!
 
@@ -20,6 +20,10 @@ use \PDOStatement;
 //      runSF()             -- uses SqlFields to simplify construction and running of SQL prepared statements
 //      getRawSql()         -- see the actual SQL that a prepared statement generated, including filled-in values!
 //      bindKeyValuePairsToStatementByType() -- bind multiple values with different types(!) in one call.
+//
+//   Note that run() and runSF() return a PdoRunResult object, which is a much object-oriented approach
+//   to dealing with the results (success/fail, error info, rows, last insert id) than the traditional
+//   ask-lots-of-questions-of-the-pdo approach.
 //
 // Copyright (C) 2024 Charles Roth, all rights reserved.
 // Released as open-source under the MIT license.
