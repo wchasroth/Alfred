@@ -73,8 +73,9 @@ class AlfredPDO extends PDO {
          $lastId = PDO::lastInsertId();
       }
       catch (PDOException $e) {
+         $result = new PdoRunResult([], $e->getMessage(), $getRawSql ? $this->getRawSql($stm) : "");
          $stm->closeCursor();
-         return new PdoRunResult([], $e->getMessage(), $getRawSql ? $this->getRawSql($stm) : "");
+         return $result;
       }
 
       $rows  = ($this->isSelect($sql) ? $stm->fetchAll(PDO::FETCH_ASSOC) : []);
