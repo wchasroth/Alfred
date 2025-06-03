@@ -62,6 +62,11 @@ class StringArray {
       return $this->lines[$this->index++];
    }
 
+   public function get(int $i): string {
+      if ($i < 0  || $i >= $this->count) return "";
+      return $this->lines[$i];
+   }
+
    public function getNextMatch(string $match): string {
       while ($this->hasMore()) {
          $text = $this->getNext();

@@ -42,6 +42,17 @@ class StringArrayTest extends TestCase {
    }
 
    #[Test]
+   public function shouldGetArbitraryLine() {
+      $tempFile = new TempFile("Hello World\nGoodbye Moon\nGreetings, Mars\n");
+      $sa = StringArray::makeFromFile($tempFile->getPath());
+
+      self::assertEquals ("Goodbye Moon",    $sa->get(1));
+      self::assertEquals ("",                $sa->get(3));
+
+      $tempFile->delete();
+   }
+
+   #[Test]
    public function shouldGetNextMatch_thenRewindOne_andFindAgain() {
       $tempFile = new TempFile("Hello World\nGoodbye Moon\nGreetings, Mars\n");
       $sa = StringArray::makeFromFile($tempFile->getPath());
