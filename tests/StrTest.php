@@ -215,6 +215,13 @@
          self::assertSame ("Hello, all these worlds!", Str::replaceAll("Hello, all these worlds!", NULLSTR, "a"));
       }
 
+      #[Test]
+      public function shouldReplaceOnlyFirstInstance() {
+         self::assertEquals (" Abcde alpha", Str::replaceFirst(" abcde alpha", "a", "A"));
+         self::assertEquals ("Man of the sea, on the ocean", Str::replaceFirst("Man of the ocean, on the ocean", "ocean", "sea"));
+         self::assertEquals ("Man of the ocean, on the sea", Str::replaceFirst("Man of the sea, on the sea", "sea", "ocean"));
+      }
+
       //---firstNonEmpty() ----------------------------------------
       #[Test]
       public function shouldFindFirstNonEmpty(): void {

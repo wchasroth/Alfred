@@ -99,6 +99,14 @@ class Str {
       if (empty($find))  return $text;
       return str_replace($find, $replace, $text);
    }
+
+   public static function replaceFirst (?string $text, ?string $find, string $replace) {
+      if (empty($text))    return "";
+      if (empty($find))    return $text;
+      $pos = strpos($text, $find);
+      if ($pos === false)  return $text;
+      return substr_replace($text, $replace, $pos, strlen($find));
+   }
    
    public static function firstNonEmpty(string ... $strings) {
        foreach ($strings as $str) {
