@@ -21,4 +21,20 @@ class CsvTest extends TestCase {
       $temp->delete();
    }
 
+   #[Test]
+   public function shouldSimulateLoadingTsvFile_fromCommandLine(): void {
+      $data = "abc\tdef\t\"ghi\t\"\n1\t2\t3\n";
+      echo "$data\n";
+      $temp = new TempFile($data);
+      $argv = ["program", $temp->getPath()];
+      $csv = Csv::loadFromCommandLine($argv, 1, "Usage: program filename", "\t");
+      self::assertEquals (2, count($csv));
+      self::assertEquals ("abc", $csv[0][0]);
+      self::assertEquals ("ghi", $csv[0][2]);
+
+      $temp->delete();
+   }
+
+
+
 }

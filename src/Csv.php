@@ -4,7 +4,8 @@ namespace CharlesRothDotNet\Alfred;
 
 class Csv {
 
-   public static function loadFromCommandLine(array $argv, int $num, string $usageMessage): array {
+   // Note: separator MUST be a double-quoted string for things like "\t".  Single quotes ('\t') DO NOT WORK!
+   public static function loadFromCommandLine(array $argv, int $num, string $usageMessage, string $separator=','): array {
       if (count($argv) <= $num) {
          fwrite(STDERR, $usageMessage);
          exit(1);
@@ -16,14 +17,14 @@ class Csv {
          exit(1);
       }
 
-      $result = self::loadTrimmed($fp);
+      $result = self::loadTrimmed($fp, $separator);
       fclose($fp);
       return $result;
    }
 
-   public static function loadTrimmed($fp): array {
+   public static function loadTrimmed($fp, string $separator): array {
       $result = [];
-      while ( ($data = fgetcsv($fp, 2000, ",")) !== false) {
+      while ( ($data = fgetcsv($fp, 2000, $separator)) !== false) {
          for ($i=0;   $i<count($data);  ++$i)    $data[$i] = trim($data[$i]);
          $result[] = $data;
       }
