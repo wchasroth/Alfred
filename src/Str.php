@@ -316,6 +316,10 @@ class Str {
       return $result;
    }
 
+   public static function removeNonAscii(string $text): string {
+      return preg_replace('/[^\x20-\x7E]/', '', $text);
+   }
+
    private static function isSafeTag(string $text, array $safeTags): bool {
       foreach ($safeTags as $safeTag) {
          if (str_starts_with($text, "<"  . $safeTag . ">")  ||

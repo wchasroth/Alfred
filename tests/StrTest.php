@@ -487,6 +487,11 @@
          self::assertEquals ($expected, $actual);
       }
 
-
+      //----------removeNonAscii() -------------------------------------------
+      #[Test]
+      public function shouldRemoveNonAscii() {
+         $text = "Adrian†";
+         self::assertEquals("Adrian", Str::removeNonAscii($text));
+      }
 
    }
