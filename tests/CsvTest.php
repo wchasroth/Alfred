@@ -35,6 +35,13 @@ class CsvTest extends TestCase {
       $temp->delete();
    }
 
+   #[Test]
+   public function shouldFail_whenNoSuchFile() {
+      $argv = ["program", "noSuchFile"];
+      $csv = Csv::loadFromCommandLine($argv, 1, "Usage: program filename", "\t", false);
+      self::assertEquals (0, count($csv));
+   }
+
 
 
 }
