@@ -7,7 +7,7 @@ class ArrayHelper {
 
    // Appends simple values in $appendValues to the end of the existing array in $target,
    // modifying $target.  Since PHP doesn't have a native way of doing it!
-   public static function append(array &$target, array &$appendValues): void {
+   public static function append(array &$target, array $appendValues): void {
       foreach($appendValues as $value)  $target[] = $value;
    }
 
