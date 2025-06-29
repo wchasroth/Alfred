@@ -35,5 +35,12 @@ class ArrayHelperTest extends TestCase {
       self::assertEquals ("wchasroth@gmail.com", $result["email"]);
    }
 
+   #[Test]
+   public function shouldAppendToExistingArray() {
+      $x = [1, 2];
+      $y = [3, 4];
+      ArrayHelper::append($x, $y);
+      self::assertEquals([1, 2, 3, 4], $x);
+   }
 
 }
