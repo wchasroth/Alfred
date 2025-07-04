@@ -267,6 +267,7 @@
       //---splitIntoTokens() ----------------------------------------
       #[Test]
       public function shouldSplitTokens(): void {
+         self::assertEquals (["Hello,", "World"], Str::splitIntoTokens(" Hello,   World "));
          self::assertEquals (["Hello,", "World"], Str::splitIntoTokens(" Hello,   World ",  " "));
          self::assertEquals (["Hello, World"],    Str::splitIntoTokens("Hello, World",  "x"));
       }

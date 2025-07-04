@@ -130,7 +130,7 @@ class Str {
     * as one delimiter.  And leading and trailing delimiters are skipped.
     * E.g. " Hello,   world!" splits into ["Hello,"world!"].
     */
-   public static function splitIntoTokens(?string $text, ?string $delimiter): array {
+   public static function splitIntoTokens(?string $text, ?string $delimiter=' '): array {
       if (empty($text))       return array();
       if (empty($delimiter))  return array($text);
 
