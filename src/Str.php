@@ -74,6 +74,13 @@ class Str {
       return false;
    }
 
+   public static function indexOf(?string $text, ?string $searchFor): int {
+      if (empty($text))      return -1;
+      if (empty($searchFor)) return -1;
+      $pos = strpos($text, $searchFor);
+      return ($pos === false ? -1 : $pos);
+   }
+
    public static function containsAll (?string $text, ?string ... $searchFors): bool {
       if (empty($text)) return false;
       foreach ($searchFors as $searchFor) {

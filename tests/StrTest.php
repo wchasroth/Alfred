@@ -495,4 +495,18 @@
          self::assertEquals("Adrian", Str::removeNonAscii($text));
       }
 
+      //----------indexOf() ---------------------------------------------
+      #[Test]
+      public function shouldFindIndexOfSubstringInString() {
+         self::assertEquals( 2, Str::indexOf("abcdef", "cd"));
+         self::assertEquals( 0, Str::indexOf("abcdef", "a"));
+         self::assertEquals( 0, Str::indexOf("abcabc", "a"));
+
+         self::assertEquals(-1, Str::indexOf("abcdef", "AB"));
+         self::assertEquals(-1, Str::indexOf("abcdef", "XX"));
+         self::assertEquals(-1, Str::indexOf("abcdef", "fg"));
+         self::assertEquals(-1, Str::indexOf("abcdef", ""));
+         self::assertEquals(-1, Str::indexOf("",       "fg"));
+      }
+
    }
