@@ -44,6 +44,12 @@ class SafeMap {
       return $this;
    }
 
+   public function addInt($key, int $value): SafeMap {
+      $old = $this->getInt($key);
+      $this->map[$key] = $old + $value;
+      return $this;
+   }
+
    public function getMap(string $key): SafeMap {
       if (! $this->exists($key)) {
          $newMap = new SafeMap();

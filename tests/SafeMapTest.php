@@ -37,6 +37,9 @@ class SafeMapTest extends TestCase {
       self::assertEquals(10, $map->getInt("x"));
       self::assertEquals(11, $map->getInt("y"));
       self::assertEquals(0, $map->getInt("z"));
+
+      $map->addInt("x", 20);
+      self::assertEquals(30, $map->getInt("x"));
    }
 
    #[Test]
