@@ -62,10 +62,9 @@ class SqlFields {
    public function makePreparedStatement(string $prefix, string $suffix=""): string {
       $operation = strtolower(Str::substringBefore(trim($prefix), " "));
       $sql = match($operation) {
-         'insert'           =>  $this->makeInsert($prefix),
-         'update'           => "$prefix {$this->makeFragmentWithSeparator(", ")} $suffix",
-         'select', 'delete' => "$prefix {$this->makeFragmentWithSeparator(" AND ")} $suffix",
-         default            => ""
+         'insert'                     =>  $this->makeInsert($prefix),
+         'update', 'select', 'delete' => "$prefix {$this->makeFragmentWithSeparator(" AND ")} $suffix",
+         default                      => ""
       };
       return trim($sql);
    }
