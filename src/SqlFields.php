@@ -46,7 +46,7 @@ class SqlFields {
    }
 
    public function getUpdateFragment(): string {
-      return $this->getFragmentWithSeparator(", ");
+      return $this->getFragmentWithSeparator(" AND ");
    }
 
    public function getInsertFragment(): string {
