@@ -293,6 +293,7 @@
       #[Test]
       public function shouldExerciseStartsWith(): void {
          self::assertTrue (Str::startsWith("#comment", "#"));
+         self::assertTrue (Str::startsWith("?comment", "#", "?"));
          self::assertFalse(Str::startsWith("comment",  "#"));
       }
 

@@ -158,9 +158,14 @@ class Str {
        return implode($separator, $values);
    }
 
-   public static function startsWith(?string $text, ?string $match): bool {
-      if (empty($text)  ||  empty($match))  return false;
-      return str_starts_with($text, $match);
+   public static function startsWith(?string $text, ?string ... $matchFors): bool {
+      if (empty($text))  return false;
+      foreach ($matchFors as $matchFor) {
+         if (! empty($matchFor)) {
+            if (str_starts_with($text, $matchFor)) return true;
+         }
+      }
+      return false;
    }
 
    public static function endsWith(?string $text, ?string $match): bool {
