@@ -104,6 +104,12 @@ class Str {
    public static function replaceAll (?string $text, ?string $find, string $replace) {
       if (empty($text))  return "";
       if (empty($find))  return $text;
+      $original = $text;
+      while (strpos($text, $find) !== false) {
+         $text = str_replace($find, $replace, $text);
+         if ($text == $original)  break;
+         $original = $text;
+      }
       return str_replace($find, $replace, $text);
    }
 

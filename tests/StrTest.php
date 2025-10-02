@@ -222,6 +222,13 @@
          self::assertEquals ("Man of the ocean, on the sea", Str::replaceFirst("Man of the sea, on the sea", "sea", "ocean"));
       }
 
+      #[Test]
+      public function shouldRecurseButNotInfinitely() {
+         self::assertEquals ("hello world",  Str::replaceAll("hello  world", "  ", " "));
+         self::assertEquals ("hello  world", Str::replaceAll("hello  world", "  ", "  "));
+         self::assertEquals (" of science ", Str::replaceAll(" school school of science ", " school ", " "));
+      }
+
       //---firstNonEmpty() ----------------------------------------
       #[Test]
       public function shouldFindFirstNonEmpty(): void {
