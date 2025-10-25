@@ -9,13 +9,15 @@ class MatchablePlace {
    private string $original;
    private array  $words;
 
-   private static array $punctuationChars = ["-", "_", ".", "%"];
+   private static array $spaceChars  = ["%26", "-", "_", "."];
+   private static array $removeChars = ["%27"];
 
    public function __construct(string $name, array $removeWords) {
       $this->original = $name;
       $simplified = strtolower($name);
-      foreach (self::$punctuationChars as $punctuation)   $simplified = Str::replaceAll($simplified, $punctuation, " ");
-      $tokens = Str::split($simplified, " ");
+      foreach (self::$spaceChars  as $space)    $simplified = Str::replaceAll($simplified, $space,  " ");
+      foreach (self::$removeChars as $remove)   $simplified = Str::replaceAll($simplified, $remove, "");
+      $tokens = Str::splitIntoTokens($simplified, " ");
       $this->words = [];
       foreach ($tokens as $token) {
          if (! in_array($token, $removeWords))  $this->words[] = $token;
