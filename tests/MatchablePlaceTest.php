@@ -23,6 +23,9 @@ class MatchablePlaceTest extends TestCase {
       foreach ($others as $other)   $places[] = new MatchablePlace($other, $remove);
       $mine = new MatchablePlace("Central Montcalm Public School", $remove);
       self::assertEquals (2, $mine->findBestMatch($places));
+
+      unset($places[2]);
+      self::assertEquals(1, $mine->findBestMatch($places));  // because of "central" and "public"
    }
 
 }

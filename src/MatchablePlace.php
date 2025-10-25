@@ -33,8 +33,8 @@ class MatchablePlace {
    public function findBestMatch(array $others): int {
       $bestCount =  0;
       $bestIndex = -1;
-      for ($i=0;   $i < count($others);   $i++) {
-         $count = $this->countMatchingWords($others[$i]);
+      foreach ($others as $i => $other) {
+         $count = $this->countMatchingWords($other);
          if ($count > $bestCount) {
             $bestCount = $count;
             $bestIndex = $i;
