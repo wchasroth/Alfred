@@ -9,7 +9,7 @@ class MatchablePlace {
    private string $original;
    private array  $words;
 
-   private static array $spaceChars  = ["%26", "-", "_", "."];
+   private static array $spaceChars  = ["%26", "-", "_", ".", ","];
    private static array $removeChars = ["%27"];
 
    public function __construct(string $name, array $removeWords) {
