@@ -57,7 +57,7 @@ class UrlChecker {
         return Str::split($response, "\n");
     }
 
-    private static function makeCurlHandleFor($url) {
+    private static function makeCurlHandleFor($url, bool $includeHeaders = true) {
         $header = [
             'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -72,7 +72,7 @@ class UrlChecker {
         curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($handle, CURLOPT_COOKIESESSION, false);
-        curl_setopt($handle, CURLOPT_HEADER, true);
+        curl_setopt($handle, CURLOPT_HEADER, $includeHeaders);
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
         return $handle;
     }
@@ -101,5 +101,12 @@ class UrlChecker {
         curl_close($handle);
         return $response;
     }
+
+   public static function getBodyFromUrl(string $url): string {
+      $handle = UrlChecker::makeCurlHandleFor($url, false);
+      $response = curl_exec($handle);
+      curl_close($handle);
+      return $response;
+   }
 
 }
