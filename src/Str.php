@@ -338,6 +338,23 @@ class Str {
       return preg_replace('/[^\x20-\x7E]/', '', $text);
    }
 
+   public static function removeDuplicateWords(string $text): string {
+      $words  = Str::splitIntoTokens($text, " ");
+      $result = [];
+      $wordCount = count($words);
+      for ($i=0;   $i<$wordCount;  ++$i) {
+         if (! self::foundDuplicate($words, $i, $words[$i]))  $result[] = $words[$i];
+      }
+      return Str::join($result, " ");
+   }
+
+   private static function foundDuplicate (array $words, int $limit, string $dup): bool {
+      for ($i=0;   $i<$limit;  ++$i) {
+         if ($dup == $words[$i])  return true;
+      }
+      return false;
+   }
+
    private static function isSafeTag(string $text, array $safeTags): bool {
       foreach ($safeTags as $safeTag) {
          if (str_starts_with($text, "<"  . $safeTag . ">")  ||

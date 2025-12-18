@@ -503,6 +503,14 @@
          self::assertEquals("Adrian", Str::removeNonAscii($text));
       }
 
+      //----------removeDuplicateWords() ---------------------------
+      #[Test]
+      public function shouldRemoveDuplicateWords() {
+         self::assertEquals("goodbye cruel world word", Str::removeDuplicateWords("goodbye cruel world word"));
+         self::assertEquals("'tis goodbye, indeed", Str::removeDuplicateWords("'tis goodbye, 'tis indeed"));
+         self::assertEquals("almena", Str::removeDuplicateWords("almena  almena almena"));
+      }
+
       //----------indexOf() ---------------------------------------------
       #[Test]
       public function shouldFindIndexOfSubstringInString() {
