@@ -14,7 +14,7 @@ class DomUtils {
       }
 
       foreach($obj->childNodes as $child) {
-         array_push($result, ... getChildrenAtLevel($child, $level - 1));
+         array_push($result, ... DomUtils::getChildrenAtLevel($child, $level - 1));
       }
       return $result;
    }
