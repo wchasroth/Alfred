@@ -22,7 +22,7 @@ class DomUtils {
    public static function getTextByXpath(\DOMXPath $xpath, $node, string $query): string {
       $nodes = $xpath->evaluate($query, $node); // DOMNodeList
       $result = "";
-      foreach ($nodes as $node)  $result .= DomUtils::clean($node->textContent);
+      foreach ($nodes as $node)  $result .= DomUtils::cleanDomNodeText($node->textContent);
       return $result;
    }
 
