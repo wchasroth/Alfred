@@ -72,7 +72,7 @@ class MatchableName {
       return Dict::value(self::$map, $name, $name);
    }
 
-   private static array $punctuation = [",", "-", ".", '"', "/", "\n"];
+   private static array $punctuation = [",", "-", ".", '"', "/", "(", ")", "\n"];
 
    private static array $map = [
       "albert"      => "al",
