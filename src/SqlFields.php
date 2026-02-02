@@ -49,6 +49,10 @@ class SqlFields {
       return $this->getFragmentWithSeparator(" AND ");
    }
 
+   public function getSetFragment(): string {
+      return $this->getFragmentWithSeparator(", ");
+   }
+
    public function getInsertFragment(): string {
       $names  = [];
       $values = [];
