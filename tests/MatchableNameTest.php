@@ -40,7 +40,19 @@ class MatchableNameTest extends TestCase {
          new MatchableName("Willi"),
          new MatchableName("Charles Roth"),
          new MatchableName("Charles")];
-      self::assertEquals(2, $me->findBestMatch($others));
+      self::assertEquals(2,  $me->findBestMatch($others));
+      self::assertEquals(2,  $me->findBestMatch($others, 2));
+      self::assertEquals(-1, $me->findBestMatch($others, 3));
+   }
+
+   #[Test]
+   public function shouldRequireBestMatch_hasAtLeast2Words() {
+      $me = new MatchableName("William Charles Roth");
+      $others = [
+         new MatchableName("Fred Smith"),
+         new MatchableName("Willi"),
+         new MatchableName("Charles")];
+      self::assertEquals(-1, $me->findBestMatch($others, 2));
    }
 
    #[Test]
