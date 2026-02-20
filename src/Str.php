@@ -211,11 +211,11 @@ class Str {
       return self::quoted($name) . ": " . $value . ($comma ? ", " : "");
    }
 
-   public static function quoted(string $text): string {
-      return '"' . $text . '"';
+   public static function quoted(?string $text): string {
+      return '"' . ($text ?? "") . '"';
    }
 
-   public static function singleQuoted(string $text, string $suffix = ""): string {
+   public static function singleQuoted(?string $text, string $suffix = ""): string {
       return "'" . addslashes($text ?? "") . "'" . $suffix;
    }
 
