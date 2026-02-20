@@ -216,7 +216,7 @@ class Str {
    }
 
    public static function singleQuoted(string $text, string $suffix = ""): string {
-      return "'" . addslashes($text) . "'" . $suffix;
+      return "'" . addslashes($text ?? "") . "'" . $suffix;
    }
 
    public static function jsonifyLast (string $name, $value): string {
