@@ -25,6 +25,18 @@ class CsvFileTest extends TestCase {
    }
 
    #[Test]
+   public function should() {
+      $tempFile = tempnam("", "");
+      file_put_contents($tempFile, "a,b,c\n1,2,3\n");
+
+      $csv = new CsvFile();
+      self::assertEquals('7,"roth,charles"', $csv->makeOutputRow(["7", "roth,charles"]));
+
+      $csv->extractFlags(["-t"]);
+      self::assertEquals("7\troth,charles",  $csv->makeOutputRow(["7", "roth,charles"]));
+   }
+
+   #[Test]
    public function shouldFail_givenNonExistentFile() {
       $csv = new CsvFile();
       self::assertFalse($csv->loadfile("nonexistent.csv"));

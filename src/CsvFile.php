@@ -74,4 +74,14 @@ class CsvFile {
       }
       return $result;
    }
+
+   public function makeOutputRow(array $row): string {
+      $output = [];
+      foreach ($row as $field) {
+         $output[] = (! $this->outputTsv  &&  Str::contains($field, ','))
+            ? '"' . $field . '"'
+            :       $field;
+      }
+      return Str::join($output, $this->outputTsv ? "\t" : ",");
+   }
 }
