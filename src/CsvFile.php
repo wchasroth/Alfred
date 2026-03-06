@@ -8,6 +8,7 @@ class CsvFile {
    private bool   $isTsv = false;
    private array  $rows;
    private array  $keys;
+   private bool   $outputTsv = false;
 
    function __construct() {
    }
@@ -56,4 +57,17 @@ class CsvFile {
       return ! $this->isTsv;
    }
 
+   public function outputAsTsv() {
+      return $this->outputTsv;
+   }
+
+   public function extractFlags (array $argv): array {
+      $result = [];
+      foreach ($argv as $arg) {
+         if      ($arg === "-t")  $this->outputTsv = true;
+         else if ($arg === "-c")  $this->outputTsv = false;
+         else $result[] = $arg;
+      }
+      return $result;
+   }
 }

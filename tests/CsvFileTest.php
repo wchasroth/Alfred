@@ -28,4 +28,14 @@ class CsvFileTest extends TestCase {
       self::assertFalse($csv->loadfile("nonexistent.csv"));
    }
 
+   #[Test]
+   public function shouldExtractFlagArguments() {
+      $csv = new CsvFile();
+      self::assertFalse($csv->outputAsTsv());
+
+      $argv = $csv->extractFlags(["CvsFileTest", "-t", "input", "output"]);
+      self::assertTrue($csv->outputAsTsv());
+      self::assertEquals(["CvsFileTest", "input", "output"], $argv);
+   }
+
 }
