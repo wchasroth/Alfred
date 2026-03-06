@@ -20,6 +20,8 @@ class CsvFileTest extends TestCase {
       self::assertEquals(2, $csv->getRowCount());
       self::assertEquals("b", $csv->getRow(0)['b']);
       self::assertEquals("2", $csv->getRow(1)['b']);
+
+      self::assertEquals(["a", "b", "c"], $csv->getKeys());
    }
 
    #[Test]

@@ -44,6 +44,10 @@ class CsvFile {
       return $this->rows[$i];
    }
 
+   public function getKeys(): array {
+      return $this->keys;
+   }
+
    public function exitWithError(): void {
       fwrite(STDERR, $this->errorMessage . "\n");
       exit(1);
