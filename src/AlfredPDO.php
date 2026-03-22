@@ -105,6 +105,12 @@ class AlfredPDO extends PDO {
       return $this->error;
    }
 
+   public function getArrayOf(string $key): array {
+      $result = [];
+      foreach ($this->getRows() AS $row) $result[] = $row[$key];
+      return $result;
+   }
+
    // Only visible for testing!  Do not use otherwise!
    public function getRawSql (PDOStatement &$stmt): string {
       ob_start();
