@@ -47,4 +47,10 @@ class PdoRunResult {
         if (sizeof($this->rows) === 0)  return "";
         return $this->rows[0][$key];
     }
+
+   public function getArrayOf(string $key): array {
+      $result = [];
+      foreach ($this->rows AS $row) $result[] = $row[$key];
+      return $result;
+   }
 }
