@@ -96,7 +96,8 @@ class AlfredPDO extends PDO {
    public function bindKeyValuePairsToStatementByType (PDOStatement &$stmt, array $keysToValues): void {
       foreach ($keysToValues as $key => $value) {
 //       echo "bind: $key => $value " . is_int($value) . "\n";
-         $stmt->bindValue($key, $value, (is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
+         if (is_int($value)) $stmt->bindValue($key,          $value, PDO::PARAM_INT);
+         else                $stmt->bindValue($key, (string) $value, PDO::PARAM_STR);
       }
 //    $stmt->debugDumpParams();
    }
