@@ -21,13 +21,6 @@ class AlfredPDOTest extends TestCase {
     private bool $skipTests = true;   // Set to false when manually testing against a real MySQL database.
 
    #[Test]
-   public function should() {
-      $pdo = new AlfredPDO("mivoterdm", "root", "");
-      $sqlFields = new SqlFields(["district" => '6']);
-      $pdo->testme("INSERT INTO v4seats ", "", $sqlFields);
-   }
-
-   #[Test]
    public function shouldDropAndCreateTestTable_usingPdoRun() {
        if ($this->skipTests)  { self::assertNoOp();  return; }   // So that PHPUnit doesn't complain, sigh!
 

@@ -51,8 +51,8 @@ class AlfredPDO extends PDO {
       $this->error = "";
       $dsn = "mysql:host=$dbhost;dbname=$dbname;port=$dbport;charset=utf8";
       try {
-//       parent::__construct($dsn, $dbuser, $dbpw, [PDO::ATTR_EMULATE_PREPARES => true]);
-         parent::__construct($dsn, $dbuser, $dbpw, [PDO::ATTR_EMULATE_PREPARES => false]);
+         parent::__construct($dsn, $dbuser, $dbpw, [PDO::ATTR_EMULATE_PREPARES => true]);
+//       parent::__construct($dsn, $dbuser, $dbpw, [PDO::ATTR_EMULATE_PREPARES => false]);
       }
       catch (PDOException $e) {
          $this->error = "DSN: $dsn, user=$dbuser, dbpw=$dbpw, error = " . $e->getMessage();
@@ -62,12 +62,6 @@ class AlfredPDO extends PDO {
    public function runSF(string $prefix, string $suffix, SqlFields $fields, bool $getRawSql=false): PdoRunResult {
       $sql = $fields->makePreparedStatement($prefix, $suffix);
       return $this->run($sql, $fields->getKeyValuePairs(), $getRawSql);
-   }
-
-   public function testme(string $prefix, string $suffix, SqlFields $fields): void {
-      $sql = $fields->makePreparedStatement($prefix, $suffix);
-      $stm = $this->prepare($sql);
-      $this->bindKeyValuePairsToStatementByType($stm, $fields->getKeyValuePairs());
    }
 
    public function run(string $sql, array $keyValueParams = [], bool $getRawSql = false): PdoRunResult {
@@ -95,14 +89,11 @@ class AlfredPDO extends PDO {
    // Only visible for testing!  Do not use otherwise!
    public function bindKeyValuePairsToStatementByType (PDOStatement &$stmt, array $keysToValues): void {
       foreach ($keysToValues as $key => $value) {
-//       echo "bind: $key => $value " . is_int($value) . "\n";
          if      (is_int($value))      $stmt->bindValue($key,        $value,  PDO::PARAM_INT);
          else if (ctype_digit($value)) $stmt->bindValue($key, intvaL($value), PDO::PARAM_INT);  // bizarre: work around PDO bug!
          else                          $stmt->bindValue($key,        $value,  PDO::PARAM_STR);
       }
-//    $stmt->debugDumpParams();
    }
-
 
    public function failed(): bool {
       return ! empty($this->error);
