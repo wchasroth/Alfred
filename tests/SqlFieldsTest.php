@@ -34,8 +34,8 @@ class SqlFieldsTest extends TestCase {
 
    #[Test]
    public function shouldGetInsertFragment_givenFields() {
-      $fields = new SqlFields(["abc" => 123, "def" => "xyz"]);
-      self::assertEquals (" (abc, def) VALUES (123, 'xyz') ", $fields->getInsertFragment());
+      $fields = new SqlFields(["abc" => 123, "def" => "xyz", "ghi" => "6"]);
+      self::assertEquals (" (abc, def, ghi) VALUES (123, 'xyz', '6') ", $fields->getInsertFragment());
    }
 
    #[Test]

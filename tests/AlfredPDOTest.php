@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 
 use CharlesRothDotNet\Alfred\AlfredPDO;
 use CharlesRothDotNet\Alfred\PdoRunResult;
+use CharlesRothDotNet\Alfred\SqlFields;
 
 require_once('nullstr.php');
 
@@ -18,6 +19,13 @@ require_once('nullstr.php');
 
 class AlfredPDOTest extends TestCase {
     private bool $skipTests = true;   // Set to false when manually testing against a real MySQL database.
+
+   #[Test]
+   public function should() {
+      $pdo = new AlfredPDO("mivoterdm", "root", "");
+      $sqlFields = new SqlFields(["district" => '6']);
+      $pdo->testme("INSERT INTO v4seats ", "", $sqlFields);
+   }
 
    #[Test]
    public function shouldDropAndCreateTestTable_usingPdoRun() {

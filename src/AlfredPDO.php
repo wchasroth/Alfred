@@ -51,7 +51,8 @@ class AlfredPDO extends PDO {
       $this->error = "";
       $dsn = "mysql:host=$dbhost;dbname=$dbname;port=$dbport;charset=utf8";
       try {
-         parent::__construct($dsn, $dbuser, $dbpw, [PDO::ATTR_EMULATE_PREPARES => true]);
+//       parent::__construct($dsn, $dbuser, $dbpw, [PDO::ATTR_EMULATE_PREPARES => true]);
+         parent::__construct($dsn, $dbuser, $dbpw, [PDO::ATTR_EMULATE_PREPARES => false]);
       }
       catch (PDOException $e) {
          $this->error = "DSN: $dsn, user=$dbuser, dbpw=$dbpw, error = " . $e->getMessage();
@@ -61,6 +62,12 @@ class AlfredPDO extends PDO {
    public function runSF(string $prefix, string $suffix, SqlFields $fields, bool $getRawSql=false): PdoRunResult {
       $sql = $fields->makePreparedStatement($prefix, $suffix);
       return $this->run($sql, $fields->getKeyValuePairs(), $getRawSql);
+   }
+
+   public function testme(string $prefix, string $suffix, SqlFields $fields): void {
+      $sql = $fields->makePreparedStatement($prefix, $suffix);
+      $stm = $this->prepare($sql);
+      $this->bindKeyValuePairsToStatementByType($stm, $fields->getKeyValuePairs());
    }
 
    public function run(string $sql, array $keyValueParams = [], bool $getRawSql = false): PdoRunResult {
@@ -88,8 +95,10 @@ class AlfredPDO extends PDO {
    // Only visible for testing!  Do not use otherwise!
    public function bindKeyValuePairsToStatementByType (PDOStatement &$stmt, array $keysToValues): void {
       foreach ($keysToValues as $key => $value) {
+         echo "bind: $key => $value " . is_int($value) . "\n";
          $stmt->bindValue($key, $value, (is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
       }
+//    $stmt->debugDumpParams();
    }
 
 
@@ -108,7 +117,7 @@ class AlfredPDO extends PDO {
    // Only visible for testing!  Do not use otherwise!
    public function getRawSql (PDOStatement &$stmt): string {
       ob_start();
-      $stmt->debugDumpParams();
+//    $stmt->debugDumpParams();
       $text = ob_get_clean();
       $text = Str::substringBetween ($text, "Sent SQL:", "\n");
       $text = Str::substringAfter   ($text, "] ");
