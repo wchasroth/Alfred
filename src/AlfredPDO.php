@@ -96,8 +96,9 @@ class AlfredPDO extends PDO {
    public function bindKeyValuePairsToStatementByType (PDOStatement &$stmt, array $keysToValues): void {
       foreach ($keysToValues as $key => $value) {
 //       echo "bind: $key => $value " . is_int($value) . "\n";
-         if (is_int($value)) $stmt->bindValue($key,          $value, PDO::PARAM_INT);
-         else                $stmt->bindValue($key, (string) $value, PDO::PARAM_STR);
+         if      (is_int($value))      $stmt->bindValue($key,        $value,  PDO::PARAM_INT);
+         else if (ctype_digit($value)) $stmt->bindValue($key, intvaL($value), PDO::PARAM_INT);  // bizarre: work around PDO bug!
+         else                          $stmt->bindValue($key,        $value,  PDO::PARAM_STR);
       }
 //    $stmt->debugDumpParams();
    }
