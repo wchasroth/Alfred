@@ -37,6 +37,7 @@
       public function shouldExtractSubstringBefore(): void {
          self::assertSame ("ab",  Str::substringBefore("abcdefc", "c"));
          self::assertSame ("abc", Str::substringBefore("abcdefc", "de"));
+         self::assertSame ("abc", Str::substringBefore("abc0efc", "0"));
       }
 
       #[Test]
@@ -58,6 +59,7 @@
       public function shouldExtractSubstringBeforeLast(): void {
          self::assertSame ("abcdef",  Str::substringBeforeLast("abcdefcx",   "c"));
          self::assertSame ("abcdefx", Str::substringBeforeLast("abcdefxdey", "de"));
+         self::assertSame ("abcd",    Str::substringBeforeLast("abcd0",      "0"));
       }
 
       #[Test]
@@ -388,6 +390,7 @@
          self::assertEquals ("'abc'",   Str::singleQuoted("abc"));
          self::assertEquals ("'abc', ", Str::singleQuoted("abc", ", "));
          self::assertEquals ("'O\'Malley'", Str::singleQuoted("O'Malley"));
+         self::assertEquals ("'6'", Str::singleQuoted("6"));
       }
 
       //---equalsIgnoreCase() ----------------------------------
