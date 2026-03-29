@@ -11,6 +11,18 @@
 
    class StrTest extends TestCase {
 
+      //---isReallyEmpty()
+      #[Test]
+      public function shouldExerciseIsReallyEmpty() {
+         self::assertTrue(Str::isReallyEmpty(null));
+         self::assertTrue(Str::isReallyEmpty(""));
+
+         self::assertFalse(Str::isReallyEmpty("x"));
+         self::assertFalse(Str::isReallyEmpty("0"));
+         self::assertFalse(Str::isReallyEmpty( 0 ));
+         self::assertFalse(Str::isReallyEmpty( 1 ));
+      }
+
       //---substringAfter() ----------------------------------------
       #[Test]
       public function shouldExtractSubstringAfter(): void {

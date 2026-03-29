@@ -19,9 +19,9 @@ class Str {
       return substr($text, 0, $pos);
    }
 
-   public static function isReallyEmpty(?string $text): bool {
+   public static function isReallyEmpty(string|int|null $text): bool {
       if (is_null($text)) return true;
-      return (strlen($text) == 0);
+      return (strlen(strval($text)) == 0);
    }
 
    public static function substringBeforeLast (string $text, ?string $delimiter): string {
