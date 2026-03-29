@@ -19,22 +19,27 @@ class Str {
       return substr($text, 0, $pos);
    }
 
+   public static function isReallyEmpty(?string $text): bool {
+      if (is_null($text)) return true;
+      return (strlen($text) == 0);
+   }
+
    public static function substringBeforeLast (string $text, ?string $delimiter): string {
-      if (empty($delimiter))  return "";
+      if (Str::isReallyEmpty($delimiter))  return "";
       $pos = strrpos($text, $delimiter);
       if ($pos === false)  return $text;
       return substr($text, 0, $pos);
    }
 
    public static function substringAfterLast (string $text, ?string $delimiter): string {
-       if (empty($delimiter))  return "";
+       if (Str::isReallyEmpty($delimiter))  return "";
        $pos = strrpos($text, $delimiter);
        if ($pos === false)  return "";
        return substr($text, $pos+strlen($delimiter));
    }
    
    public static function substringBetween (?string $text, ?string $open, ?string $close): string {
-      if (empty($text) || empty($open) || empty($close))   return "";
+      if (Str::isReallyEmpty($text) || Str::isReallyEmpty($open) || Str::isReallyEmpty($close))   return "";
       $pos1 = strpos($text, $open);
       if ($pos1 === false)                                 return "";
       $pos2 = strpos($text, $close, $pos1 + strlen($open));
@@ -44,7 +49,7 @@ class Str {
    }
 
    public static function substringsBetween (?string $text, ?string $open, ?string $close): array {
-      if (empty($text) || empty($open) || empty($close))   return [];
+      if (Str::isReallyEmpty($text) || Str::isReallyEmpty($open) || Str::isReallyEmpty($close))   return [];
 
       $results = [];
       $start = 0;
@@ -65,9 +70,9 @@ class Str {
    // "HTTP/1.1 "     pos1 = 0
    
    public static function contains (?string $text, ?string ... $searchFors): bool {
-      if (empty($text)) return false;
+      if (Str::isReallyEmpty($text)) return false;
       foreach ($searchFors as $searchFor) {
-         if (! empty($searchFor)) {
+         if (! Str::isReallyEmpty($searchFor)) {
              if (strpos($text, $searchFor) !== false)  return true;
          }
       }
@@ -75,16 +80,16 @@ class Str {
    }
 
    public static function indexOf(?string $text, ?string $searchFor): int {
-      if (empty($text))      return -1;
-      if (empty($searchFor)) return -1;
+      if (Str::isReallyEmpty($text))      return -1;
+      if (Str::isReallyEmpty($searchFor)) return -1;
       $pos = strpos($text, $searchFor);
       return ($pos === false ? -1 : $pos);
    }
 
    public static function containsAll (?string $text, ?string ... $searchFors): bool {
-      if (empty($text)) return false;
+      if (Str::isReallyEmpty($text)) return false;
       foreach ($searchFors as $searchFor) {
-         if (! empty($searchFor)) {
+         if (! Str::isReallyEmpty($searchFor)) {
             if (strpos($text, $searchFor) === false)  return false;
          }
       }
@@ -92,9 +97,9 @@ class Str {
    }
 
     public static function hasAnyOf (?string $text, ?array $searchFors): bool {
-        if (empty($text)) return false;
+        if (Str::isReallyEmpty($text)) return false;
         foreach ($searchFors as $searchFor) {
-            if (! empty($searchFor)) {
+            if (! Str::isReallyEmpty($searchFor)) {
                 if (strpos($text, $searchFor))  return true;
             }
         }
@@ -102,8 +107,8 @@ class Str {
     }
 
    public static function replaceAll (?string $text, ?string $find, string $replace) {
-      if (empty($text))  return "";
-      if (empty($find))  return $text;
+      if (Str::isReallyEmpty($text))  return "";
+      if (Str::isReallyEmpty($find))  return $text;
       $original = $text;
       while (strpos($text, $find) !== false) {
          $text = str_replace($find, $replace, $text);
@@ -114,8 +119,8 @@ class Str {
    }
 
    public static function replaceFirst (?string $text, ?string $find, string $replace) {
-      if (empty($text))    return "";
-      if (empty($find))    return $text;
+      if (Str::isReallyEmpty($text))    return "";
+      if (Str::isReallyEmpty($find))    return $text;
       $pos = strpos($text, $find);
       if ($pos === false)  return $text;
       return substr_replace($text, $replace, $pos, strlen($find));
@@ -123,7 +128,7 @@ class Str {
    
    public static function firstNonEmpty(string ... $strings) {
        foreach ($strings as $str) {
-           if (!empty($str))  return $str;
+           if (!Str::isReallyEmpty($str))  return $str;
        }
        return "";
    }
@@ -133,8 +138,8 @@ class Str {
    }
 
    public static function split(?string $text, ?string $delimiter): array {
-       if (empty($text))       return array();
-       if (empty($delimiter))  return array($text);
+       if (Str::isReallyEmpty($text))       return array();
+       if (Str::isReallyEmpty($delimiter))  return array($text);
        return explode($delimiter, $text);
    }
 
@@ -144,8 +149,8 @@ class Str {
     * E.g. " Hello,   world!" splits into ["Hello,"world!"].
     */
    public static function splitIntoTokens(?string $text, ?string $delimiter=' '): array {
-      if (empty($text))       return array();
-      if (empty($delimiter))  return array($text);
+      if (Str::isReallyEmpty($text))       return array();
+      if (Str::isReallyEmpty($delimiter))  return array($text);
 
       $token = strtok($text, $delimiter);
       if ($token === false)  return [];
@@ -165,9 +170,9 @@ class Str {
    }
 
    public static function startsWith(?string $text, ?string ... $matchFors): bool {
-      if (empty($text))  return false;
+      if (Str::isReallyEmpty($text))  return false;
       foreach ($matchFors as $matchFor) {
-         if (! empty($matchFor)) {
+         if (! Str::isReallyEmpty($matchFor)) {
             if (str_starts_with($text, $matchFor)) return true;
          }
       }
@@ -175,12 +180,12 @@ class Str {
    }
 
    public static function endsWith(?string $text, ?string $match): bool {
-      if (empty($text)  ||  empty($match))  return false;
+      if (Str::isReallyEmpty($text)  ||  Str::isReallyEmpty($match))  return false;
       return str_ends_with($text, $match);
    }
 
    public static function removeCommas(?string $text) {
-      if (empty($text))  return "";
+      if (Str::isReallyEmpty($text))  return "";
       return str_replace(",", "", $text);
    }
 
@@ -190,7 +195,7 @@ class Str {
    ];
 
    public static function ordinalValue(string $word): int {
-      if (empty($word))  return 0;
+      if (Str::isReallyEmpty($word))  return 0;
       $word  = trim ($word);
       $value = (int) $word;
       if ($value > 0)    return $value;
@@ -198,7 +203,7 @@ class Str {
    }
 
    public static function reorderName(string $name): string {
-      if (empty($name))                 return "";
+      if (Str::isReallyEmpty($name))                 return "";
       foreach (["JR.", "Jr.", "jr."] as $jr)  $name = Str::replaceAll($name, ", $jr", " $jr");
       if (! Str::contains($name, ","))  return $name;
       $first = trim(Str::substringAfter ($name, ","));
@@ -228,7 +233,7 @@ class Str {
    }
 
    public static function findEmailAddresses($text): array {
-      if (empty($text)) return [];
+      if (Str::isReallyEmpty($text)) return [];
       $result = [];
       $words = Str::split($text, " ");
       foreach ($words as $word) {
@@ -240,7 +245,7 @@ class Str {
    }
 
    public static function removeEmailAddresses($text): string {
-      if (empty($text)) return "";
+      if (Str::isReallyEmpty($text)) return "";
       $result = [];
       $words = Str::split($text, " ");
       foreach ($words as $word) {
@@ -257,7 +262,7 @@ class Str {
    }
 
    public static function findUrls($text): array {
-      if (empty($text)) return [];
+      if (Str::isReallyEmpty($text)) return [];
       $result = [];
       $words = Str::split($text, " ");
       foreach ($words as $word) {
@@ -272,7 +277,7 @@ class Str {
    }
 
    public static function removeUrls($text): string {
-      if (empty($text)) return "";
+      if (Str::isReallyEmpty($text)) return "";
       $result = [];
       $words = Str::split($text, " ");
       foreach ($words as $word) {
