@@ -23,6 +23,7 @@ class CsvFile {
       rewind($fp);
 
       $this->keys = fgetcsv($fp, 0, $separator);
+      if (ord($this->keys[0]) > 127)  $this->keys[0] = substr($this->keys[0], 1);  // remove byte-order-mark indicator if present.
       if (Str::startsWith($this->keys[0], "#"))  $this->keys[0] = Str::substringAfter($this->keys[0], "#");
       rewind($fp);
 
