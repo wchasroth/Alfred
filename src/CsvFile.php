@@ -26,11 +26,13 @@ class CsvFile {
       if (Str::startsWith($this->keys[0], "#"))  $this->keys[0] = Str::substringAfter($this->keys[0], "#");
       rewind($fp);
 
+      $counter = 0;
       $this->rows = [];
       while ( ($fields = fgetcsv($fp, 0, $separator)) !== false) {
+         ++$counter;
+         if ($debug) fwrite(STDERR, "$counter\n");
          $row = [];
          for ($i=0;   $i<count($fields);  ++$i) {
-            if ($debug) fwrite (STDERR, "$i\n");
             $row[$this->keys[$i]] = trim($fields[$i]);
          }
          $this->rows[] = $row;
