@@ -13,7 +13,7 @@ class CsvFile {
    function __construct() {
    }
 
-   public function loadfile(string $filename): bool {
+   public function loadfile(string $filename, bool $debug=false): bool {
       $fp = fopen($filename, "r");
       if ($fp    === false)  { $this->errorMessage = "Cannot find file $filename";     return false; }
       $line1 = fgets($fp);
@@ -30,6 +30,7 @@ class CsvFile {
       while ( ($fields = fgetcsv($fp, 0, $separator)) !== false) {
          $row = [];
          for ($i=0;   $i<count($fields);  ++$i) {
+            if ($debug) fwrite (STDERR, "$i\n");
             $row[$this->keys[$i]] = trim($fields[$i]);
          }
          $this->rows[] = $row;
