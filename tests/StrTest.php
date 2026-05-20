@@ -540,4 +540,10 @@
          self::assertEquals(-1, Str::indexOf("",       "fg"));
       }
 
+      #[Test]
+      public function shouldConvertUpperToMixed() {
+         self::assertEquals ("Debbie Dingell", Str::ucwords("DEBBIE DINGELL"));
+         self::assertEquals ("MR Wizard",      Str::ucwords("MR Wizard"));
+      }
+
    }

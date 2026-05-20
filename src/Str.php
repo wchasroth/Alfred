@@ -353,6 +353,11 @@ class Str {
       return Str::join($result, " ");
    }
 
+   public static function ucwords (string $text): string {
+      if (strtoupper($text) === $text) $text = ucwords(strtolower($text));
+      return $text;
+   }
+
    private static function foundDuplicate (array $words, int $limit, string $dup): bool {
       for ($i=0;   $i<$limit;  ++$i) {
          if ($dup == $words[$i])  return true;
