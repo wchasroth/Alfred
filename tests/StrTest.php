@@ -542,8 +542,8 @@
 
       #[Test]
       public function shouldConvertUpperToMixed() {
-         self::assertEquals ("Debbie Dingell", Str::ucwords("DEBBIE DINGELL"));
-         self::assertEquals ("MR Wizard",      Str::ucwords("MR Wizard"));
+         self::assertEquals ("Debbie Dingell", Str::nameCase("DEBBIE DINGELL"));
+         self::assertEquals ("MR Wizard",      Str::nameCase("MR Wizard"));
       }
 
    }

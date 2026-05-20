@@ -353,7 +353,7 @@ class Str {
       return Str::join($result, " ");
    }
 
-   public static function ucwords (string $text): string {
+   public static function nameCase (string $text): string {
       if (strtoupper($text) === $text) $text = ucwords(strtolower($text));
       return $text;
    }
