@@ -6,12 +6,14 @@ class PdoRunResult {
     private string $error;
     private string $rawSql;
     private array  $rows;
+    private int    $rowCount;
     private int    $insertId;
 
-    public function __construct(array $rows, string $error, string $rawSql, int $insertId = -1) {
-        $this->error = $error;
-        $this->rows = $rows;
-        $this->rawSql = $rawSql;
+    public function __construct(array $rows, int $rowCount, string $error, string $rawSql, int $insertId = -1) {
+        $this->error    = $error;
+        $this->rows     = $rows;
+        $this->rowCount = $rowCount;
+        $this->rawSql   = $rawSql;
         $this->insertId = $insertId;
     }
 
@@ -32,7 +34,7 @@ class PdoRunResult {
     }
 
     public function getRowCount(): int {
-       return count($this->rows);
+       return $this->rowCount;
     }
 
     public function getRawSql(): string {
