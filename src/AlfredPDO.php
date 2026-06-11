@@ -84,7 +84,7 @@ class AlfredPDO extends PDO {
       $error    = (sizeof($rows) == 0  ?  Str::replaceAll($stm->errorCode(), "00000", "") : "");
 
       $stm->closeCursor();
-      return new PdoRunResult($rows, $error, $getRawSql ? $this->getRawSql($stm) : "", $lastId);
+      return new PdoRunResult($rows, $rowCount, $error, $getRawSql ? $this->getRawSql($stm) : "", $lastId);
    }
 
    // Only visible for testing!  Do not use otherwise!
