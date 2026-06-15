@@ -100,6 +100,7 @@ class MichiganCounties {
    }
 
    public function getNumber(string $name): int {
+      $name = Str::replaceAll($name, '-', ' ');
       return $this->name2number[strtolower($name)] ?? 0;
    }
 
