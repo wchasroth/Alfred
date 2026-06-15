@@ -93,6 +93,10 @@ class MichiganCounties {
 
    function __construct() {
       $this->name2number = array_flip($this->number2name);
+      $this->name2number['st-clair']   = 74;
+      $this->name2number['st. clair']  = 74;
+      $this->name2number['st-joseph']  = 75;
+      $this->name2number['st. joseph'] = 75;
    }
 
    public function getNumber(string $name): int {
