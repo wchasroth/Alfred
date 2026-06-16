@@ -353,6 +353,12 @@ class Str {
       return Str::join($result, " ");
    }
 
+   public static function removeWords(string $text, array $words): string {
+      $text = " " . $text . " ";
+      foreach($words as $word)  $text = Str::replaceAll($text, $word, ' ');
+      return trim($text);
+   }
+
    public static function nameCase (string $text): string {
       if (strtoupper($text) === $text) $text = ucwords(strtolower($text));
       return $text;
