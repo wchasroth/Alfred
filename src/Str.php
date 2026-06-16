@@ -355,7 +355,7 @@ class Str {
 
    public static function removeWords(string $text, array $words): string {
       $text = " " . $text . " ";
-      foreach($words as $word)  $text = Str::replaceAll($text, $word, ' ');
+      foreach($words as $word)  $text = Str::replaceAll($text, " $word ", ' ');
       return trim($text);
    }
 
