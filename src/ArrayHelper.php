@@ -63,4 +63,10 @@ class ArrayHelper {
       }
       return $result;
    }
+
+   public static function showKeyValuePairs(array $arr): string {
+      $result = [];
+      foreach ($arr as $key => $value)   $result[] = "$key: $value";
+      return Str::join($result, ", ");
+   }
 }
