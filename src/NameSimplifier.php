@@ -28,7 +28,6 @@ class NameSimplifier {
    public static function makeFilenameFrom (string $name): string {
       $badChars = str_split("` ~!@#$%^&*()_+=-[]{}|;:'?,<>\\\"");
       $name = str_replace($badChars, ' ', $name);
-      echo "name1=$name\n";
       $name = self::simplify ($name, false);
       $name = Str::replaceAll($name, ' ', '_');
       return $name;
