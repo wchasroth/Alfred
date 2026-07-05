@@ -23,6 +23,7 @@ class NameSimplifierTest extends TestCase {
    public function shouldMakeFilenameSafeNames() {
       self::assertEquals ("george_o_reilly", NameSimplifier::makeFilenameFrom("George O'Reilly"));
       self::assertEquals ("samantha_sam_jones", NameSimplifier::makeFilenameFrom("Samantha \"Sam\" Jones"));
+      self::assertEquals ("bluelantern.png", NameSimplifier::makeFilenameFrom("bluelantern.png"));
    }
 
 }
