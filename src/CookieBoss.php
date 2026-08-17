@@ -40,7 +40,14 @@ class CookieBoss {
     public function set(string $name, string $value, int $expiryDays): void {
         $expiryTime = time() + 86400 * $expiryDays;
         if ($this->isLocal)  setcookie($name, $value, $expiryTime);
-        else                 setcookie($name, $value, $expiryTime, $this->path, $this->domain);
+        else                 setcookie($name, $value,
+           ['expires'  => $expiryTime,
+            'path'     => $this->path,
+            'domain'   => $this->domain,
+            'secure'   => true,
+            'httponly' => true,
+            'samesite' => 'Lax'
+           ]);
     }
 
     private function makeSecureHash($value): string {
