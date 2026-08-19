@@ -24,6 +24,7 @@ class CsvFile {
 
       $this->keys = fgetcsv($fp, 0, $separator);
       $this->keys[0] = $this->stripLeadingBadChars($this->keys[0]); // byte-order mark, '#', etc.
+      $keyCount = count($this->keys);
       rewind($fp);
 
       $counter = 0;
@@ -32,7 +33,7 @@ class CsvFile {
          ++$counter;
          if ($debug) fwrite(STDERR, "$counter\n");
          $row = [];
-         for ($i=0;   $i<count($fields);  ++$i) {
+         for ($i=0;   $i<count($fields)  &&  $i < $keyCount;  ++$i) {
             $row[$this->keys[$i]] = trim($fields[$i] ?? '');
          }
          $this->rows[] = $row;
