@@ -33,7 +33,7 @@ class CsvFile {
          if ($debug) fwrite(STDERR, "$counter\n");
          $row = [];
          for ($i=0;   $i<count($fields);  ++$i) {
-            $row[$this->keys[$i]] = trim($fields[$i]);
+            $row[$this->keys[$i]] = trim($fields[$i] ?? '');
          }
          $this->rows[] = $row;
       }
