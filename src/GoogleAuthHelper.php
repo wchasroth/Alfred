@@ -29,6 +29,7 @@ class GoogleAuthHelper {
    private string $googleUserInfoUrl;
    private string $clientRedirectToUrl;
    private string $clientId;
+   private bool   $highSecurity = false;
 
    // These are the default values for talking to the real Google Auth service.
    // They can be overridden in the constructor, with values supplied inside/for unit-tests.
@@ -46,6 +47,10 @@ class GoogleAuthHelper {
       $this->googleLoginUrlBase   = $googleLoginUrlBase;
       $this->googleAccessTokenUrl = $googleAccessTokenUrl;
       $this->googleUserInfoUrl    = $googleUserInfoUrl;
+   }
+
+   public function setHighSecurity() {
+      $this->highSecurity = true;
    }
 
    public function makeGoogleLoginUrl(): string {
@@ -78,7 +83,8 @@ class GoogleAuthHelper {
       curl_setopt($ch, CURLOPT_URL, $this->googleAccessTokenUrl);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       curl_setopt($ch, CURLOPT_POST, 1);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->highSecurity);
+      if ($this->highSecurity) curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
       $logger->log("about to exec");
       $data = json_decode(curl_exec($ch), true);
