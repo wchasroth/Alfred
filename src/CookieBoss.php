@@ -47,8 +47,8 @@ class CookieBoss {
             'domain'   => $this->domain,
             'secure'   => true,
             'httponly' => true,  // prevents even my own javascript from writing a cookie!
-//          'samesite' => 'Lax'  // should probably be Strict
-            'samesite' => 'Strict'
+            'samesite' => 'Lax'  // should probably be Strict
+//          'samesite' => 'Strict'
            ]);
     }
 
