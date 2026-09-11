@@ -78,7 +78,7 @@ class GoogleAuthHelper {
    // --- Everything below here is private, or should be treated as private (e.g. called only by unit-tests).
    function fetchAccessToken(string $client_secret, string $code, $logger) {
       $curlPost = "client_id=$this->clientId&redirect_uri=$this->clientRedirectToUrl&client_secret=$client_secret&code=$code&grant_type=authorization_code";
-      $logger->log("curlPost=" . $curlPost);
+#     $logger->log("curlPost=" . $curlPost);
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $this->googleAccessTokenUrl);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -86,12 +86,12 @@ class GoogleAuthHelper {
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->highSecurity);
       if ($this->highSecurity) curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
-      $logger->log("about to exec");
+#     $logger->log("about to exec");
       $data = json_decode(curl_exec($ch), true);
-      $logger->log("after exec");
-      $logger->log("data: " . print_r($data, true));
+#     $logger->log("after exec");
+#     $logger->log("data: " . print_r($data, true));
       $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      $logger->log("http code=" . $http_code);
+#     $logger->log("http code=" . $http_code);
       return ($http_code == 200 ? $data : ['access_token' => 'Error : Failed to receive access token']);
    }
 
