@@ -27,7 +27,8 @@ class CookieBoss {
     }
 
     public function clear(string $name): void {
-        setCookie($name, "", -1);
+//      setCookie($name, "", -1);
+        setCookie($name, "", ['path' => $this->path, 'domain' => $this->domain, 'expires' => time() - 1000]);
     }
 
     public function getValueFromHashedCookie(string $name): string {
@@ -46,7 +47,8 @@ class CookieBoss {
             'domain'   => $this->domain,
             'secure'   => true,
             'httponly' => true,  // prevents even my own javascript from writing a cookie!
-            'samesite' => 'Lax'  // should probably be Strict
+//          'samesite' => 'Lax'  // should probably be Strict
+            'samesite' => 'Strict'
            ]);
     }
 
