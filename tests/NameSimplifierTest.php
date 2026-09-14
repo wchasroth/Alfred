@@ -24,6 +24,8 @@ class NameSimplifierTest extends TestCase {
       self::assertEquals ("george_o_reilly", NameSimplifier::makeFilenameFrom("George O'Reilly"));
       self::assertEquals ("samantha_sam_jones", NameSimplifier::makeFilenameFrom("Samantha \"Sam\" Jones"));
       self::assertEquals ("bluelantern.png", NameSimplifier::makeFilenameFrom("bluelantern.png"));
+      self::assertEquals ("redlantern.png",  NameSimplifier::makeFilenameFrom("red/lantern.png"));
+      self::assertEquals ("twolines.png",    NameSimplifier::makeFilenameFrom("two\nlines.png"));
    }
 
 }

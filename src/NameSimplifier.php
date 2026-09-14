@@ -9,7 +9,7 @@ class NameSimplifier {
 
    public static function simplify (string $name, bool $sort=true, bool $removeDots=true): string {
       $name = strtolower($name);
-      $name = preg_replace('/[,()]/', '', $name);
+      $name = Str::removeAll ($name, [",", "(", ")", "/", "\n", "\r"]);
       $name = Str::replaceAll($name, '-', ' ');
 
       $words = Str::splitIntoTokens($name, ' ');
