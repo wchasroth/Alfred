@@ -72,7 +72,7 @@ class AlfredPDO extends PDO {
       $lastId = -1;
       try {
          $stm->execute();
-         $lastId = PDO::lastInsertId();
+         $lastId = intval(PDO::lastInsertId());
       }
       catch (PDOException $e) {
          $result = new PdoRunResult([], 0, $e->getMessage(), $getRawSql ? $this->getRawSql($stm) : "");
