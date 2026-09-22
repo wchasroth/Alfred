@@ -30,7 +30,7 @@ class AlfredHTMLPurifier {
    public function purify(string $html): string {
       $clean = Str::replaceAll($html, "&nbsp;", "|NBSP;");
       $clean = $this->purifier->purify($clean);
-      $clean = Str::replaceAll($clean, "|NBSP:", "&nbsp;");
+      $clean = Str::replaceAll($clean, "|NBSP;", "&nbsp;");
       return $clean;
    }
 

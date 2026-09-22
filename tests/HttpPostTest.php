@@ -48,6 +48,13 @@
       }
 
       #[Test]
+      public function shouldGetDefaultFormNumber_givenWeirdlyEmptyString(): void {
+         self::assertSame (0, HttpPost::number(''));
+         self::assertSame (0, HttpPost::number(' '));
+         self::assertSame (0, HttpPost::number("''"));
+      }
+
+      #[Test]
       public function shouldGetZero_fromNoOrNonexistentKey(): void {
          unset($_POST['key']);
          self::assertEquals (0, HttpPost::number(NULLSTR));

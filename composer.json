@@ -8,6 +8,7 @@
    "require" : {
       "php" : ">=8.2",
       "smarty/smarty": "^5.4",
+        "ezyang/htmlpurifier": "^4.19",
       "ext-curl":      "*"
    },
    "support" : {
