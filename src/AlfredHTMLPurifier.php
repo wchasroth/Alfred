@@ -24,6 +24,7 @@ class AlfredHTMLPurifier {
       $config->set('AutoFormat.RemoveEmpty', false);
       $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', false);
       $config->set('Attr.EnableID', true);
+      if (PHP_OS_FAMILY === 'Linux')  $config->set('Cache.SerializerPath', '/tmp');  // Evil!
       $this->purifier = new HTMLPurifier($config);
    }
 
