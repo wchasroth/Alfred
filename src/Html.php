@@ -24,7 +24,8 @@ class Html {
         $state  = 0;
         foreach (str_split($text) as $char) {
             if ($state == 0) {
-                if ($char == '<')  $state = 1;
+                if      ($char === '<')  $state = 1;
+                else if ($char === '>')  ;
                 else $result[] = $char;
             }
             else {

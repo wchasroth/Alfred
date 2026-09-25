@@ -21,5 +21,6 @@ class HtmlTest extends TestCase {
     #[Test]
     public function shouldExerciseRemoveHtmlTags(): void {
         self::assertSame("Hello, world!", Html::removeHtmlTags("<b>Hello</b>, <span class='x'>world<i>!</i></span>"));
+        self::assertSame("a\"",           Html::removeHtmlTags("a\"><img src=x onerror=alert(document.domain)>"));
     }
 }
